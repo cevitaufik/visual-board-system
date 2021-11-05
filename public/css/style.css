@@ -1,6 +1,9 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+* {
+  color: #dadada;
+}
 :root {
   scroll-behavior: smooth;
 }
@@ -8,7 +11,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   background: #101113;
-  color: #444444;
+  color: #dadada;
 }
 
 a {
@@ -122,6 +125,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Dropdown menus */
 .dropdown-menu {
   border-radius: 4px;
+  background-color: #212224;
   padding: 10px 0;
   -webkit-animation-name: dropdown-animate;
   animation-name: dropdown-animate;
@@ -141,9 +145,10 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-size: 15px;
   padding: 10px 25px;
+  background-color: #212224;
 }
 .dropdown-menu .dropdown-footer a {
-  color: #444444;
+  color: #dadada;
   text-decoration: underline;
 }
 .dropdown-menu .dropdown-footer a:hover {
@@ -174,7 +179,7 @@ h1, h2, h3, h4, h5, h6 {
     content: "";
     width: 13px;
     height: 13px;
-    background: #fff;
+    background: #212224;
     position: absolute;
     top: -7px;
     right: 20px;
@@ -248,6 +253,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
   overflow: hidden;
+  background-color: #212224;
 }
 
 .card-header, .card-footer {
@@ -462,12 +468,14 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   padding: 15px 10px;
   transition: 0.3s;
+  background-color: #212224;
 }
 .header-nav .notifications .notification-item svg {
   margin: 0 20px 0 10px;
   font-size: 24px;
 }
 .header-nav .notifications .notification-item h4 {
+  color: #dadada;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 5px;
@@ -513,9 +521,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 18px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #444444;
+  color: #dadada;
 }
 .header-nav .profile .dropdown-header span {
+  color: #dadada;
   font-size: 14px;
 }
 .header-nav .profile .dropdown-item {
@@ -815,6 +824,9 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Profie Page
 --------------------------------------------------------------*/
+.profile {
+  background-color: #212224;
+}
 .profile .profile-card img {
   max-width: 120px;
 }
@@ -1022,5 +1034,4 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
-  color: #012970;
 }
