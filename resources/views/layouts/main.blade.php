@@ -19,13 +19,14 @@
 
   <!-- Template Main CSS File -->
   <link href="/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/mycss.css">
 
 </head>
 
 <body>
 
   <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+  <header id="header" class="header fixed-top d-flex align-items-center">    
 
     <div class="d-flex align-items-center justify-content-between">
       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-list toggle-sidebar-btn"
@@ -56,7 +57,7 @@
                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
             </svg>
           </a>
-        </li><!-- End Search Icon-->
+        </li><!-- End Search Icon-->       
 
         <li class="nav-item dropdown">
 
@@ -227,32 +228,32 @@
 
           </ul><!-- End Messages Dropdown Items -->
 
-        </li><!-- End Messages Nav -->
-
+        </li><!-- End Messages Nav -->        
+        
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{ auth()->user()->name }}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow border profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6 class="text-capitalize">{{ auth()->user()->name }}</h6>
+              <span class="text-capitalize">{{ auth()->user()->position }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="/user/{{ auth()->user()->username }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
                   viewBox="0 0 16 16">
                   <path
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                 </svg>
-                <span>My Profile</span>
+                <span>Profile</span>
               </a>
             </li>
             <li>
@@ -291,7 +292,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="/logout">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                   <path fill-rule="evenodd"
@@ -299,21 +300,21 @@
                   <path fill-rule="evenodd"
                     d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
                 </svg>
-                <span>Sign Out</span>
+                <span>Logout</span>
               </a>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
+        </li><!-- End Profile Nav -->        
 
       </ul>
     </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+  </header><!-- End Header -->  
   <main id="main" class="main">
 
     @yield('main')
-    
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

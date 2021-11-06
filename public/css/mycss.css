@@ -1,0 +1,26 @@
+.my-bg-main {
+  background-color: #101113;
+}
+.my-bg-element {
+ background-color: #212224;
+}
+
+.my-shadow {
+  box-shadow: 0px 0px 30px -9px rgba(0,0,0,0.75);
+}
+
+.my-hover:hover {
+  color: #101113;
+}
+
+.post-hero-container-img {
+  height: 400px;
+}
+
+.post-hero-img {
+  max-width: 100%;
+}
+
+.my-text-white {
+  color: #dadada;
+}
