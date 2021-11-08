@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Unique;
 
 class UserController extends Controller
 {
@@ -16,6 +17,11 @@ class UserController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->position != 'superadmin') {
+            $route = '/user/' . auth()->user()->username;
+            return redirect($route);
+        }
+
         return view('users.index', [
             'users' => User::all()
         ]);
@@ -28,6 +34,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        if(auth()->user()->position != 'superadmin') {
+            $route = '/user/' . auth()->user()->username;
+            return redirect($route);
+        }
+
         return view('users.create');
     }
 
@@ -39,13 +50,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'name' => ['required', 'max:255'],
             'username' => ['required', 'min:4', 'max:255', 'unique:users'],
             'email' => ['required', 'email:dns', 'unique:users'],
-            'password' => ['required', 'min:5', 'max:255'],
+            'password' => ['required', 'min:5', 'max:255', 'confirmed'],
             'position' => ['required'],
-        ]);
+        ];
+
+        if (isset($request->phone)) {
+            $rules['phone'] = ['min:9', 'unique:users'];
+        }
+
+        $validatedData = $request->validate($rules);
+
+        if (isset($request->status)) {
+            $validatedData['status'] = $request->status;
+        }
 
         $validatedData['password'] = Hash::make($validatedData['password']);
         $validatedData['access'] = $request['access'];
@@ -75,6 +96,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if(auth()->user()->position != 'superadmin') {
+            $route = '/user/' . auth()->user()->username;
+            return redirect($route);
+        }
+        
         return view('users.edit', [
             'user' => $user
         ]);
@@ -88,7 +114,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
-    {        
+    {
+        // ddd(Hash::check('password', auth()->user()->password));
         $rules = [
             'name' => ['required', 'max:255'],
             'position' => ['required'],
@@ -103,7 +130,11 @@ class UserController extends Controller
         }
 
         if (isset($request->password)) {
-            $rules['password'] = ['required', 'min:5', 'max:255'];            
+            $rules['password'] = ['required', 'min:5', 'max:255', 'confirmed'];
+        }
+
+        if (isset($request->phone) && ($request->phone != $user->phone)) {
+            $rules['phone'] = ['regex:/(08)[0-9]/', 'min:9', 'unique:users'];
         }
 
         $validatedData = $request->validate($rules);
@@ -111,13 +142,26 @@ class UserController extends Controller
         
         (isset($request['status'])) ? $validatedData['status'] = $request['status'] : $validatedData['status'] = 0;
 
+        if (isset($request['address'])) {
+            $validatedData['address'] = $request['address'];
+        }
+
+        if (isset($request['about'])) {
+            $validatedData['about'] = $request['about'];
+        }
+
         if (isset($request->password)) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         }
 
         User::where('id', $user->id)->update($validatedData);
 
-        return redirect('/user')->with('success', 'Data berhasil diperbarui');;
+        if (auth()->user()->position != 'superadmin') {
+            $route = '/user/' . auth()->user()->username;
+            return redirect($route)->with('success', 'Data berhasil diperbarui');
+        } else {
+            return redirect('/user')->with('success', 'Data berhasil diperbarui');
+        }        
     }
 
     /**
@@ -167,12 +211,16 @@ class UserController extends Controller
             'name' => ['required', 'max:255'],
             'username' => ['required', 'min:4', 'max:255', 'unique:users'],
             'email' => ['required', 'email:dns', 'unique:users'],
-            'password' => ['required', 'min:5', 'max:255']
+            'password' => ['required', 'min:5', 'max:255', 'confirmed']
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
         User::create($validatedData);
 
         return redirect('/login')->with('success', 'Registrasi berhasil');
+    }
+
+    public function updatePassword() {
+        return 'updatePassword';
     }
 }

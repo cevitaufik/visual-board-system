@@ -4,6 +4,13 @@
 
 <h1 class="fw-bold">Profile</h1>
 
+@if (session()->has('success'))    
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <p class="m-0 p-0">{{ session('success') }}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <section class="">
   <div class="row">
     <div class="col-xl-4">
@@ -53,8 +60,8 @@
           <div class="tab-content pt-2">
 
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
-              <h5 class="card-title">About</h5>
-              <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+              <h5 class="card-title">Tentang</h5>
+              <p class="small fst-italic">{{ $user->about }}</p>
 
               <h5 class="card-title">Profile Details</h5>
 
@@ -75,7 +82,7 @@
 
               <div class="row mb-2">
                 <div class="col-lg-3 col-md-4 label">Nomor telpon</div>
-                <div class="col-lg-9 col-md-8">081221111123</div>
+                <div class="col-lg-9 col-md-8">{{ $user->phone }}</div>
               </div>
 
               <div class="row mb-2">
@@ -85,7 +92,7 @@
 
               <div class="row mb-2">
                 <div class="col-lg-3 col-md-4 label">Alamat</div>
-                <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                <div class="col-lg-9 col-md-8">{{ $user->address }}</div>
               </div>
 
               <div class="row mb-2">
@@ -99,7 +106,9 @@
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
               <!-- Profile Edit Form -->
-              <form>
+              <form action="/user/{{ $user->username }}" method="POST">
+                @method('PUT')
+                @csrf
                 <div class="row mb-3">
                   <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Poto profile</label>
                   <div class="col-md-8 col-lg-9">
@@ -124,50 +133,85 @@
                 <div class="row mb-3">
                   <label for="name" class="col-md-4 col-lg-3 col-form-label">Nama lengkap</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="name" type="text" class="form-control" id="name" value="{{ $user->name }}">
-                  </div>
+                    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ old('name', $user->name) }}">
+                    @error('name')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                   <div class="col-md-8 col-lg-9">
-                    <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                  </div>
+                    <textarea name="about" class="form-control @error('about') is-invalid @enderror" id="about" style="height: 100px">{{ old('about', $user->about) }}</textarea>
+                    @error('about')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="username" type="text" class="form-control" id="username" value="{{ $user->username }}">
-                  </div>
+                    <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username" value="{{ old('username', $user->username) }}">
+                    @error('username')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="position" class="col-md-4 col-lg-3 col-form-label">Position</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="position" type="text" class="form-control" id="position" value="{{ $user->position }}">
-                  </div>
+                    <input name="position" type="text" class="form-control " id="position" value="{{ $user->position }}" readonly>
+                    @error('position')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="phone" class="col-md-4 col-lg-3 col-form-label">Nomor telpon</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="phone" type="text" class="form-control" id="phone" value="081221111123">
-                  </div>
+                    <input name="phone" type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" value="{{ old('phone', $user->phone) }}">
+                    @error('phone')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="email" type="text" class="form-control" id="email" value="{{ $user->email }}">
-                  </div>
+                    <input name="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email', $user->email) }}">
+                    @error('email')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="address" class="col-md-4 col-lg-3 col-form-label">Alamat</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="address" type="text" class="form-control" id="address" value="A108 Adam Street, New York, NY 535022">
-                  </div>
+                    <input name="address" type="text" class="form-control @error('address') is-invalid @enderror" id="address" value="{{ old('address', $user->address) }}">
+                    @error('address')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>                  
                 </div>               
 
                 <div class="text-center">

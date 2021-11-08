@@ -38,18 +38,41 @@
         </div>
         @enderror
       </div>
+
       <div class="col-md-6">
-        <label for="password" class="form-label">Password baru</label>
-        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-          name="password">
-        @error('password')
+        <label for="phone" class="form-label">Nomor telpon</label>
+        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
+        @error('phone')
         <div class="invalid-feedback">
           {{ $message }}
         </div>
         @enderror
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-6">
+        <label for="password" class="form-label">Password baru</label>        
+        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+          name="password">        
+        @error('password')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>        
+        @enderror
+        <small class="text-muted">Kosongkan jika tidak ingin mengganti password</small>
+      </div>
+
+      <div class="col-md-6">
+        <label for="password_confirmation" class="form-label">Ketik ulang password baru</label>
+        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation"
+          name="password_confirmation">
+        @error('password_confirmation')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+        @enderror
+      </div>
+
+      <div class="col-md-6">
         <label for="position" class="form-label">Posisi</label>
         <select id="position" class="form-select" name="position">
           <option class="text-black" @if (old('position', $user->position)=='operator' ) selected @endif value="operator">Operator
@@ -65,8 +88,8 @@
         </select>
       </div>
 
-      <div>
-        <p class="mb-0">Status</p>
+      <div class="col-md-6">
+        <p class="mb-2">Status</p>
         <div class="form-check form-switch">        
           <input class="form-check-input" type="checkbox" role="switch" id="status" name="status" value="1" 
           @if (old('status', $user->status))

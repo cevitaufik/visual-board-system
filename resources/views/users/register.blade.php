@@ -70,7 +70,7 @@
 
                   <div class="col-12">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('name') }}" required>
+                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email') }}" required>
                     @error('email')
                       <div class="invalid-feedback">
                         {{ $message }}
@@ -82,6 +82,16 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" required>
                     @error('password')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>
+
+                  <div class="col-12">
+                    <label for="password_confirmation" class="form-label">Ketik ulang password</label>
+                    <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" required>
+                    @error('password_confirmation')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>

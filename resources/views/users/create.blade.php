@@ -27,6 +27,7 @@
         </div>
         @enderror
       </div>
+
       <div class="col-md-6">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
@@ -37,16 +38,48 @@
         </div>
         @enderror
       </div>
+
+      <div class="col-md-6">
+        <label for="phone" class="form-label">Nomor telpon</label>
+        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone"
+          value="{{ old('phone') }}">
+        @error('phone')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+        @enderror
+      </div>
+
       <div class="col-md-6">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-          name="password">
+        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
         @error('password')
         <div class="invalid-feedback">
           {{ $message }}
         </div>
         @enderror
       </div>
+      <div class="col-md-6">
+        <label for="password_confirmation" class="form-label">Ketik ulang password</label>
+        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation">
+        @error('password_confirmation')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+        @enderror
+      </div>
+
+      <div>
+        <p class="mb-0">Status</p>
+        <div class="form-check form-switch">        
+          <input class="form-check-input" type="checkbox" role="switch" id="status" name="status" value="1" 
+          @if (old('status'))
+            checked
+          @endif>
+          <label class="form-check-label" for="status">Aktif</label>
+        </div>
+      </div>
+
       <div class="col-md-4">
         <label for="position" class="form-label">Posisi</label>
         <select id="position" class="form-select" name="position">
