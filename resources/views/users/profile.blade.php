@@ -11,6 +11,13 @@
     </div>
 @endif
 
+@if (session()->has('failed'))
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <p class="m-0 p-0">{{ session('failed') }}</p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 <section class="">
   <div class="row">
     <div class="col-xl-4">
@@ -224,26 +231,42 @@
             @if (auth()->user()->username == $user->username)
             <div class="tab-pane fade pt-3" id="profile-change-password">
               <!-- Change Password Form -->
-              <form>
-
+              <form action="/user/{{ $user->username }}/update-password" method="POST">
+                @method('PUT')
+                @csrf
                 <div class="row mb-3">
                   <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password lama</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="password" type="password" class="form-control" id="currentPassword">
+                    <input name="currentPassword" type="password" class="form-control @error('currentPassword') is-invalid @enderror" id="currentPassword" required>
+                    @error('currentPassword')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Password baru</label>
+                  <label for="password" class="col-md-4 col-lg-3 col-form-label">Password baru</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="newpassword" type="password" class="form-control" id="newPassword">
+                    <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" id="password" id="password" required>
+                    @error('password')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Masukan ulang password baru</label>
+                  <label for="password_confirmation" class="col-md-4 col-lg-3 col-form-label">Masukan ulang password baru</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                    <input name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" required>
+                    @error('password_confirmation')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
                   </div>
                 </div>
 

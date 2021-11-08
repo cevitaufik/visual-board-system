@@ -115,7 +115,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // ddd(Hash::check('password', auth()->user()->password));
         $rules = [
             'name' => ['required', 'max:255'],
             'position' => ['required'],
@@ -220,7 +219,19 @@ class UserController extends Controller
         return redirect('/login')->with('success', 'Registrasi berhasil');
     }
 
-    public function updatePassword() {
-        return 'updatePassword';
+    public function updatePassword(Request $request, User $user) {
+        $route = '/user/' . auth()->user()->username;
+        if (Hash::check($request->currentPassword, auth()->user()->password)) {
+            $validatedData = $request->validate([
+                'password' => ['required', 'min:5', 'max:255', 'confirmed']
+            ]);
+            $validatedData['password'] = Hash::make($validatedData['password']);        
+
+            User::where('id', $user->id)->update($validatedData);
+
+            return redirect($route)->with('success', 'Password berhasil diperbarui');
+        } else {
+            return redirect($route)->with('failed', 'Password gagal diperbarui');
+        }        
     }
 }

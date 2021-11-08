@@ -30,7 +30,7 @@ Route::get('/user/superadmin', function(){
     ]);
 });
 
-Route::post('/user/{user:username}/updatepassword', [UserController::class, 'updatePassword'])->middleware('auth');
+Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword'])->middleware('auth');
 Route::resource('user', UserController::class)->scoped(['user' => 'username'])->middleware('auth');
 
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
