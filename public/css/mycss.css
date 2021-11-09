@@ -24,3 +24,7 @@
 .my-text-white {
   color: #dadada;
 }
+
+.my-cursor {
+  cursor: pointer;
+}

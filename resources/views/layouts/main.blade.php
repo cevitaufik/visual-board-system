@@ -34,7 +34,7 @@
         <path fill-rule="evenodd"
           d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
       </svg>
-      <a href="/" class="logo d-flex align-items-center">
+      <a href="/{{ auth()->user()->position }}" class="logo d-flex align-items-center">
         <span class="d-none d-lg-block">&nbsp;Visual board system</span>
       </a>
     </div><!-- End Logo -->

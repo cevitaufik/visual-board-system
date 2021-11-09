@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\EngineeringController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SuperadminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +42,8 @@ Route::post('/login', [UserController::class, 'authenticate']);
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
 Route::post('/register', [UserController::class, 'userRegister']);
 Route::get('/logout', [UserController::class, 'logout']);
+
+Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
+
+Route::get('/superadmin', [SuperadminController::class, 'index'])->middleware('auth');
+Route::resource('/engineering', EngineeringController::class)->middleware('auth');

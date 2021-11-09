@@ -10,7 +10,7 @@
   <div class="row">
 
     <!-- Left side columns -->
-    <div class="col-lg-8">
+    <div class="col-lg-9">
       <div class="row">
 
         <!-- Recent Sales -->
@@ -33,58 +33,104 @@
                 <li><a class="dropdown-item" href="#">This Year</a></li>
               </ul>
             </div>
-
             <div class="card-body">
-              <h5 class="card-title">Recent Sales</h5>
-
+              <h5 class="card-title">Daftar pekerjaan</h5>
+              
+              @if (!count($orders))
+                <h3>Belum ada pekerjaan</h3>
+              @else
               <table class="table datatable my-text-white">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Cust.</th>
+                    <th scope="col">Nomor SO</th>
+                    <th scope="col">Deskripsi</th>
+                    <th scope="col">Kode tool</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Posisi</th>
+                    <th scope="col">Nomor drawing</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row"><a href="#">#2457</a></th>
-                    <td>Brandon Jacob</td>
-                    <td><a href="#">At praesentium minu</a></td>
-                    <td>$64</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2147</a></th>
-                    <td>Bridie Kessler</td>
-                    <td><a href="#">Blanditiis dolor omnis similique</a></td>
-                    <td>$47</td>
-                    <td><span class="badge bg-warning">Pending</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2049</a></th>
-                    <td>Ashleigh Langosh</td>
-                    <td><a href="#">At recusandae consectetur</a></td>
-                    <td>$147</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Angus Grady</td>
-                    <td><a href="#">Ut voluptatem id earum et</a></td>
-                    <td>$67</td>
-                    <td><span class="badge bg-danger">Rejected</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Raheem Lehner</td>
-                    <td><a href="#">Sunt similique distinctio</a></td>
-                    <td>$165</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
+                  @foreach ($orders as $order)
+                    <tr class="my-cursor" data-bs-toggle="modal" data-bs-target="#m{{ $order->shop_order }}">
+                      <th scope="row">{{ $loop->iteration }}</th>
+                      <td>{{ $order->cust_code }}</td>
+                      <td>{{ $order->shop_order }}</td>
+
+                      <td>
+                        @if (strlen($order->description) > 20)
+                          {{ substr($order->description, 0, 20) . '...'; }}
+                        @else
+                          {{ $order->description; }}
+                        @endif
+                      </td>
+
+                      <td>{{ $order->tool_code }}</td>
+                      <td>{{ $order->quantity }}</td>
+                      <td>{{ $order->current_process }}</td>
+                      <td>{{ $order->dwg_number }}</td>
+                    </tr>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="m{{ $order->shop_order }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-xl">
+                        <div class="modal-content my-bg-element">
+                          
+                          <div class="modal-body">
+                            <div class="float-end">
+                              <button type="button" class="btn-close float-end fw-bold my-text-white bg-danger lh-lg" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="row">
+                              <div class="col-3">
+                                <small>Shop order:</small>
+                                <h6>{{ $order->shop_order }}</h6>
+                                <small>Qty:</small>
+                                <h6>{{ $order->quantity }}</h6>
+                              </div>
+                              <div class="col-3">
+                                <small>Tanggal order:</small>
+                                <h6>{{ date('d F Y', strtotime($order->created_at)) }}</h6>                                
+                                <small>Target kirim:</small>
+                                <h6>{{ date('d F Y', strtotime($order->due_date)) }}</h6>
+                              </div>
+                              <div class="col-3">
+                                <small>Tipe pekerjaan:</small>
+                                <h6>{{ $order->job_type }}</h6>                                
+                                <small>Nomor drawing:</small>
+                                <h6>{{ $order->dwg_number }}</h6>
+                              </div>
+                              <div class="col-3">
+                                <small>Cust:</small>
+                                <h6>{{ $order->cust_code }}</h6>                                
+                                <small>Nomor PO:</small>
+                                <h6>{{ $order->po_number }}</h6>
+                              </div>
+                            </div>
+
+                            <div>
+                              <p>Deskripsi : {{ $order->description }}</p>
+                              <p>Catatan : {{ $order->order_note }}</p>
+                            </div>
+
+                            <div>
+                              <p>Dibuat ole: </p>
+                              <p>Diedit oleh: </p>
+                              <p>Tanggal edit:</p>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
                 </tbody>
               </table>
+              @endif
 
             </div>
 
@@ -95,7 +141,7 @@
     </div><!-- End Left side columns -->
 
     <!-- Right side columns -->
-    <div class="col-lg-4">
+    <div class="col-lg-3">
 
       <!-- Recent Activity -->
       <div class="card">

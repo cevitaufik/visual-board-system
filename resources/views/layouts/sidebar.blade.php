@@ -52,7 +52,7 @@
       <ul id="marketing-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="#" class="nav-link">
-            <span>Menu 1</span>
+            <span>Registrasi shop order</span>
           </a>
         </li>
       </ul>
