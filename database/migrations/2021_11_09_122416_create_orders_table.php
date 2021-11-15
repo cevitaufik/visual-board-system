@@ -19,12 +19,13 @@ class CreateOrdersTable extends Migration
             $table->integer('shop_order')->unique();
             $table->string('cust_code');
             $table->string('description')->nullable();
-            $table->string('orde_note')->nullable();
+            $table->string('note')->nullable();
             $table->string('tool_code')->nullable();
             $table->integer('quantity');
             $table->string('dwg_number')->nullable();
             $table->string('job_type')->nullable();
             $table->date('due_date')->nullable();
+            $table->string('updated_by')->nullable();
             $table->string('current_process')->nullable();
             $table->timestamps();
         });

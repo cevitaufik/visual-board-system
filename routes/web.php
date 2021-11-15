@@ -19,7 +19,8 @@ use App\Http\Controllers\SuperadminController;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    $route = auth()->user()->position;
+    return redirect('/' . $route);
 })->middleware('auth');
 
 Route::get('/user/superadmin', function(){

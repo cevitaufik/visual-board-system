@@ -7,7 +7,8 @@ use App\Models\Order;
 
 class SuperadminController extends Controller
 {
-    public function index() {
+    public function index()
+    {
 
         if (auth()->user()->position != 'superadmin') {
             abort(403);
@@ -19,5 +20,9 @@ class SuperadminController extends Controller
             ->latest()
             ->get(),
         ]);
+
+        // return view('dashboard', [
+        //     'orders' => Order::all()
+        // ]);
     }
 }

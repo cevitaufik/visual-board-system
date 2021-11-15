@@ -21,6 +21,9 @@
   <link href="/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/mycss.css">
 
+  <!-- Jquery -->
+  <script src="/js/jquery.js"></script>
+
 </head>
 
 <body>

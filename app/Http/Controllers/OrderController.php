@@ -14,12 +14,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('dashboard', [
-            'orders' => Order::where('current_process', '<>', 'close')
-            ->orWhere('current_process', '=', null)
-            ->latest()
-            ->get(),
-        ]);
+        //
     }
 
     /**
@@ -51,8 +46,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        ddd($order);
-        return $order->description;
+        return view('orders.detail', [
+            'order' => $order
+        ]);
     }
 
     /**
@@ -75,7 +71,33 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $rules = [
+            // 'shop_order' => ['required'],
+            'quantity' => ['required'],
+            'job_type' => ['required'],
+            'po_number' => ['required'],
+            'due_date' => ['required'],
+            'description' => ['required'],
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        if (isset($request->dwg_number)) {
+            $validatedData['dwg_number'] = $request['dwg_number'];
+        }
+
+        if (isset($request->tool_code)) {
+            $validatedData['tool_code'] = $request['tool_code'];
+        }
+
+        if (isset($request->note)) {
+            $validatedData['note'] = $request['note'];
+        }
+
+        $validatedData['updated_by'] = auth()->user()->username;
+
+        Order::where('shop_order', $order->shop_order)->update($validatedData);
+
     }
 
     /**

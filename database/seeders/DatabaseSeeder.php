@@ -87,7 +87,8 @@ class DatabaseSeeder extends Seeder
             'quantity' => 5,
             'dwg_number' => 'ABC-211101-R0',
             'job_type' => 'NEW',
-            'due_date' => '2021-11-30'
+            'due_date' => '2021-11-30',
+            'note' => 'catatan',
         ]);
 
         Order::create([
@@ -100,7 +101,8 @@ class DatabaseSeeder extends Seeder
             'dwg_number' => 'ABD-211101-R0',
             'current_process' => 'prod',
             'job_type' => 'NEW',
-            'due_date' => '2021-11-30'
+            'due_date' => '2021-11-30',
+            'note' => 'catatan',
         ]);
 
         Order::create([
@@ -113,7 +115,8 @@ class DatabaseSeeder extends Seeder
             'dwg_number' => 'XYZ-201101-R1',
             'current_process' => 'eng',
             'job_type' => 'REG',
-            'due_date' => '2021-11-30'
+            'due_date' => '2021-11-30',
+            'note' => 'catatan'
         ]);
 
         Order::create([
@@ -126,7 +129,8 @@ class DatabaseSeeder extends Seeder
             'dwg_number' => 'XYZ-201101-R1',
             'current_process' => 'close',
             'job_type' => 'REG',
-            'due_date' => '2021-11-30'
+            'due_date' => '2021-11-30',
+            'note' => 'catatan',
         ]);
     }
 }
