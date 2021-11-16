@@ -53,10 +53,9 @@
                     <th scope="col">Nomor drawing</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-data">
                   @foreach ($orders as $order)
-                  <tr class="my-cursor row-data" data-id="{{ $order->shop_order }}"
-                    data-bs-target="#m{{ $order->shop_order }}">
+                  <tr class="my-cursor row-data" data-id="{{ $order->shop_order }}">
                     <td scope="row">{{ $loop->iteration }}</td>
                     <td>{{ $order->cust_code }}</td>
                     <td>{{ $order->shop_order }}</td>
@@ -81,20 +80,16 @@
               @endif
 
               <!-- Modal -->
-              <div class="modal fade order-detail" id="m{{ $order->shop_order }}" tabindex="-1"
+              <div class="modal fade order-detail" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                  <div class="modal-content my-bg-element">
-                    <form action="" id="order-detail">
-                      @csrf
-                      <div class="modal-body">
-
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="button" class="btn btn-primary" id="update">Perbarui</button>
-                      </div>
-                    </form>
+                <div class="modal-dialog modal-xl position-relative">
+                  <div class="modal-content my-bg-element p-1">
+                    <div class="modal-body p-0 m-0">
+                      <iframe src="/{{ auth()->user()->position }}" title="Iframe Example" class="w-100 d-inline-block" id="modal-content"></iframe>
+                    </div>
+                    <div class="position-absolute bottom-0 my-right-110">
+                      <button type="button" class="btn btn-secondary m-2" id="close">Tutup</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,24 +181,47 @@
     </div><!-- End Right side columns -->
 
   </div>
-  <script>
-    $('.row-data').on('click', function() {
-      let id = $(this).data('id');
-
-      $.ajax({
-        url: `/order/${id}`,
-        method: 'GET',
-        success: function(data) {
-          $('.order-detail').find('.modal-body').html(data)
-          $('.order-detail').modal('show')
-        },
-        error: function(error) {
-          console.log(error);
-        }
+  <script>    
+    function getTable() {
+      $.get(`/{{ auth()->user()->position }}/table`, {}, function(data) {
+        $('#table-data').html(data)
       })
+    }
+
+    $('#close').on('click', function() {
+      $('.order-detail').modal('hide')
+      getTable()
     })
 
-    $('#update').on('click', function() {
+    // function getDetail(id) {
+    //   $.ajax({
+    //     url: `/order/${id}`,
+    //     method: 'GET',
+    //     success: function(data) {
+    //       $('.order-detail').find('.modal-body').html(data)
+    //       $('.order-detail').modal('show')
+    //     },
+    //     error: function(error) {
+    //       console.log(error);
+    //     }
+    //   })
+    // }
+
+    // $('#table-data').on('click', 'tr', function() {
+      // let id = $(this).data('id');
+
+      // getDetail(id)
+    //   $('.order-detail').modal('show')
+    // })
+
+    $('#table-data').on('click', 'tr', function() {
+      let id = $(this).data('id');
+
+      $('#modal-content').attr('src', `/order/${id}`)
+      $('.order-detail').modal('show')
+    })
+
+    $('#update3').on('click', function() {
       let id = $('#order-detail').find('#shop_order').val()
       let formData = $('#order-detail').serialize()
 
@@ -213,11 +231,12 @@
         data: formData,
         success: function(data){
           $('.order-detail').modal('hide');
-          window.location.assign('/');
+          getTable();
         },
         error: function(error){
-          alert('error ' + error.responseText)
-        }
+          alert('error ' + error.responseText);
+          console.log(error);
+        }        
       })
     })
   </script>

@@ -47,4 +47,7 @@ Route::get('/logout', [UserController::class, 'logout']);
 Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
 
 Route::get('/superadmin', [SuperadminController::class, 'index'])->middleware('auth');
+Route::get('/superadmin/table', [SuperadminController::class, 'table'])->middleware('auth');
+
+Route::get('/engineering/table', [EngineeringController::class, 'table'])->middleware('auth');
 Route::resource('/engineering', EngineeringController::class)->middleware('auth');

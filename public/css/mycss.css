@@ -28,3 +28,11 @@
 .my-cursor {
   cursor: pointer;
 }
+
+#modal-content {
+  height: 550px;
+}
+
+.my-right-110 {
+  right: 110px;
+}

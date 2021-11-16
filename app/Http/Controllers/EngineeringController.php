@@ -29,6 +29,15 @@ class EngineeringController extends Controller
         }
     }
 
+    public function table() {
+        return view('layouts.dashboard-table', [
+            'orders' => Order::where('current_process', '=', 'eng')
+            ->orWhere('current_process', '=', null)
+            ->latest()
+            ->get(),
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

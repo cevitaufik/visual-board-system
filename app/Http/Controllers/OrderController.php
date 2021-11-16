@@ -82,22 +82,15 @@ class OrderController extends Controller
 
         $validatedData = $request->validate($rules);
 
-        if (isset($request->dwg_number)) {
-            $validatedData['dwg_number'] = $request['dwg_number'];
-        }
-
-        if (isset($request->tool_code)) {
-            $validatedData['tool_code'] = $request['tool_code'];
-        }
-
-        if (isset($request->note)) {
-            $validatedData['note'] = $request['note'];
-        }
+        $validatedData['tool_code'] = $request['tool_code'];
+        $validatedData['note'] = $request['note'];
+        $validatedData['dwg_number'] = $request['dwg_number'];
 
         $validatedData['updated_by'] = auth()->user()->username;
 
         Order::where('shop_order', $order->shop_order)->update($validatedData);
 
+        return redirect()->back();
     }
 
     /**

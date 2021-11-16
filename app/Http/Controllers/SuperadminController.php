@@ -25,4 +25,13 @@ class SuperadminController extends Controller
         //     'orders' => Order::all()
         // ]);
     }
+
+    public function table() {
+        return view('layouts.dashboard-table', [
+            'orders' => Order::where('current_process', '<>', 'close')
+            ->orWhere('current_process', '=', null)
+            ->latest()
+            ->get(),
+        ]);
+    }
 }
