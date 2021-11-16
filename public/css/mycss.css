@@ -36,3 +36,7 @@
 .my-right-110 {
   right: 110px;
 }
+tbody tr:hover {
+   background-color: #dadada;
+   color: #101113;
+ }
