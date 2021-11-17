@@ -31,7 +31,7 @@
 
             <div class="d-flex justify-content-center py-4">
               <div class="logo d-flex align-items-center w-auto">
-                <span class="d-none d-lg-block">Visual board system</span>
+                <span class="d-block">Visual board system</span>
               </div>
             </div><!-- End Logo -->
 
