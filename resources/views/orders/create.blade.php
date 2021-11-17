@@ -1,38 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.main')
+@section('main')
+@include('layouts.sidebar')
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<div class="pagetitle">
+  <h1>Registrasi pekerjaan</h1>
+</div>
 
-  <!-- Vendor CSS Files -->
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+@if (session()->has('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <p class="m-0 p-0">{{ session('success') }}</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 
-  <!-- Template Main CSS File -->
-  <link href="/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/mycss.css">
-</head>
+<div class="row justify-content-center">
+  <div class="my-bg-element p-4 rounded">
 
-<body class="my-bg-element">
-  <main class="container-fluid p-3">
-    <form action="/order/{{ $order->shop_order }}" id="order-detail" method="POST">
-      @method('put')
+    <form action="/order" method="POST">
       @csrf
 
-      <div class="row">
-        <h3 class="col">{{ $order->cust_code }}</h3>
-      </div>
-
       <div class="row mb-3">
-        <div class="col-lg-8">
+        <div class="">
           <div class="row px-2">
             <div class="col-md-3 p-1">
-              <label for="shop_order" class="d-block">Shop order</label>
-              <input type="text" name="shop_order" id="shop_order"
-                class="form-control @error('shop_order') is-invalid @enderror"
-                value="{{ old('shop_order', $order->shop_order) }}" disabled>
-              @error('shop_order')
+              <label for="cust_code" class="d-block">Kode customer</label>
+              <input type="text" name="cust_code" id="cust_code"
+                class="form-control @error('cust_code') is-invalid @enderror" value="{{ old('cust_code') }}">
+              @error('cust_code')
               <div class="invalid-feedback">
                 {{ $message }}
               </div>
@@ -41,8 +35,8 @@
 
             <div class="col-md-3 p-1">
               <label for="quantity" class="d-block">Quantity</label>
-              <input type="text" name="quantity" class="form-control @error('quantity') is-invalid @enderror"
-                value="{{ old('quantity', $order->quantity) }}">
+              <input type="number" name="quantity" class="form-control @error('quantity') is-invalid @enderror"
+                value="{{ old('quantity') }}">
               @error('quantity')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -53,7 +47,7 @@
             <div class="col md-3 p-1">
               <label for="job_type" class="d-block">Tipe pekerjaan</label>
               <input type="text" name="job_type" class="form-control @error('job_type') is-invalid @enderror"
-                value="{{ old('job_type', $order->job_type) }}">
+                value="{{ old('job_type') }}">
               @error('job_type')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -64,7 +58,7 @@
             <div class="col md-3 p-1">
               <label for="po_number" class="d-block">Nomor PO</label>
               <input type="text" name="po_number" class="form-control @error('po_number') is-invalid @enderror"
-                value="{{ old('po_number', $order->po_number) }}">
+                value="{{ old('po_number') }}">
               @error('po_number')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -75,14 +69,9 @@
 
           <div class="row px-2">
             <div class="col-md-3 p-1">
-              <small>Tanggal order</small>
-              <h6>{{ date('d F Y', strtotime($order->created_at)) }}</h6>
-            </div>
-
-            <div class="col-md-3 p-1">
               <label for="due_date" class="d-block">Target kirim</label>
               <input type="date" name="due_date" class="form-control @error('due_date') is-invalid @enderror"
-                value="{{ old('due_date', $order->due_date) }}">
+                value="{{ old('due_date') }}">
               @error('due_date')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -93,7 +82,7 @@
             <div class="col-md-3 p-1">
               <label for="dwg_number" class="d-block">Nomor drawing</label>
               <input type="text" name="dwg_number" class="form-control @error('dwg_number') is-invalid @enderror"
-                value="{{ old('dwg_number', $order->dwg_number) }}">
+                value="{{ old('dwg_number') }}">
               @error('dwg_number')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -104,7 +93,7 @@
             <div class="col-md-3 p-1">
               <label for="tool_code" class="d-block">Kode tool</label>
               <input type="text" name="tool_code" class="form-control @error('tool_code') is-invalid @enderror"
-                value="{{ old('tool_code', $order->tool_code) }}">
+                value="{{ old('tool_code') }}">
               @error('tool_code')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -116,7 +105,7 @@
           <div class="col-12 py-2">
             <label for="description" class="d-block">Deskripsi</label>
             <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
-              value="{{ old('description', $order->description) }}">
+              value="{{ old('description') }}">
             @error('description')
             <div class="invalid-feedback">
               {{ $message }}
@@ -127,7 +116,7 @@
           <div class="col-12">
             <label for="note" class="d-block">Catatan</label>
             <textarea name="note" style="height: 100px"
-              class="form-control @error('note') is-invalid @enderror">{{ old('note', $order->note) }}</textarea>
+              class="form-control @error('note') is-invalid @enderror">{{ old('note') }}</textarea>
             @error('note')
             <div class="invalid-feedback">
               {{ $message }}
@@ -135,50 +124,15 @@
             @enderror
           </div>
 
-          <div class="row">
-            <div class="col-md-3 p-1">
-              <small>Terakhir diperbarui oleh</small>
-              <h6>{{ $order->updated_by }}</h6>
-            </div>
-
-            <div class="col-md-3 p-1">
-              <small>Terakhir diperbarui</small>
-              <h6>{{ date('d F Y', strtotime($order->updated_at)) }}</h6>
-            </div>
-
-            <div class="col-md-3 p-1">
-              <small>Dibuat oleh</small>
-              <h6></h6>
-            </div>
-
-            <div class="col-md-3 pt-2">
-              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDwg"
-                aria-expanded="false" aria-controls="collapseDwg" @if (!isset($order->dwg_number))
-                disabled
-                @endif>
-                Drawing
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-lg-4 bg-success rounded">
-          <h1>flow proses</h1>
         </div>
       </div>
 
-      <div class="ratio ratio-16x9 collapse" id="collapseDwg">
-        <object data="/pdf/data.pdf" type="application/pdf" title="pdf" allowfullscreen>pdf</object>
+      <div class="w-100">
+        <button type="submit" class="btn btn-primary px-5 ms-auto d-block">Buat</button>
       </div>
-
-      <div class="position-fixed bottom-0 end-0 m-3">
-        <button type="submit" class="btn btn-primary">Perbarui</button>
-      </div>      
     </form>
-  </main>
 
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-</body>
+  </div>
+</div>
 
-</html>
+@endsection

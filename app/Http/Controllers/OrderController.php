@@ -24,7 +24,11 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {
+            return view('orders.create');            
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -35,7 +39,57 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {
+
+            $rules = [
+                'cust_code' => ['required', 'max:3'],
+                'quantity' => ['required', 'min:1', 'integer'],
+                'job_type' => ['required', 'min:2', 'max:255'],
+                'po_number' => ['required', 'min:2', 'max:255'],
+                'due_date' => ['required', 'date', 'after_or_equal:'.today()],
+                'description' => ['required', 'min:2', 'max:255'],
+            ];
+    
+            $validatedData = $request->validate($rules);
+    
+            $validatedData['cust_code'] = strtoupper($validatedData['cust_code']);
+    
+            if (isset($request->dwg_number)) {
+                $validatedData['dwg_number'] = $request->dwg_number;
+                $validatedData['dwg_number'] = strtoupper($validatedData['dwg_number']);
+            }
+    
+            if(isset($request->tool_code)) {
+                $validatedData['tool_code'] = $request->tool_code;
+                $validatedData['tool_code'] = strtoupper($validatedData['tool_code']);
+            }
+            
+            if(isset($request->note)) {
+                $validatedData['note'] = $request->note;
+            }
+    
+            // membuat nomor shop order 21 11 09 002
+            // kode tanggal
+            $code = date('ymd');
+    
+            // ambil nomor SO terakhir
+            $lastSO = Order::latest()->first();
+            $lastSO = $lastSO->shop_order;
+    
+            // buat nomor SO
+            if(substr($lastSO, 0, 6) == $code) {
+                $validatedData['shop_order'] = $lastSO + 1;
+            } else {
+                $validatedData['shop_order'] = $lastSO . 001;
+            }
+    
+            Order::create($validatedData);
+    
+            return redirect()->back()->with('success', 'Pekerjaan berhasil diregistrasi');
+            
+        } else {
+            abort(403);
+        }
     }
 
     /**

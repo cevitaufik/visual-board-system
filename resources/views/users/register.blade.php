@@ -59,7 +59,7 @@
                   <div class="col-12">
                     <label for="username" class="form-label">Username</label>
                     <div class="input-group has-validation">
-                      <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="username" value="{{ old('name') }}" required>
+                      <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="username" value="{{ old('username') }}" required>
                       @error('username')
                         <div class="invalid-feedback">
                           {{ $message }}

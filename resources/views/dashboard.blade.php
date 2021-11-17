@@ -39,56 +39,62 @@
               @if (!count($orders))
               <h3>Belum ada pekerjaan</h3>
               @else
-              <table class="table datatable my-text-white">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Cust.</th>
-                    <th scope="col">Nomor SO</th>
-                    <th scope="col">Tipe pekerjaan</th>
-                    <th scope="col">Deskripsi</th>
-                    <th scope="col">Kode tool</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Posisi</th>
-                    <th scope="col">Nomor drawing</th>
-                  </tr>
-                </thead>
-                <tbody id="table-data">
-                  @foreach ($orders as $order)
-                  <tr class="my-cursor row-data" data-id="{{ $order->shop_order }}">
-                    <td scope="row">{{ $loop->iteration }}</td>
-                    <td>{{ $order->cust_code }}</td>
-                    <td>{{ $order->shop_order }}</td>
-                    <td>{{ $order->job_type }}</td>
+              <div class="overflow-auto">
+                <table class="table datatable my-text-white">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Cust.</th>
+                      <th scope="col">Nomor SO</th>
+                      <th scope="col">Tipe pekerjaan</th>
+                      <th scope="col">Deskripsi</th>
+                      <th scope="col">Kode tool</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Posisi</th>
+                      <th scope="col">Nomor drawing</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-data">
+                    @foreach ($orders as $order)
+                    <tr class="my-cursor row-data" data-id="{{ $order->shop_order }}">
+                      <td scope="row">{{ $loop->iteration }}</td>
+                      <td>{{ $order->cust_code }}</td>
+                      <td>{{ $order->shop_order }}</td>
+                      <td>{{ $order->job_type }}</td>
 
-                    <td>
-                      @if (strlen($order->description) > 20)
-                      {{ substr($order->description, 0, 20) . '...'; }}
-                      @else
-                      {{ $order->description; }}
-                      @endif
-                    </td>
+                      <td>
+                        @if (strlen($order->description) > 20)
+                        {{ substr($order->description, 0, 20) . '...'; }}
+                        @else
+                        {{ $order->description; }}
+                        @endif
+                      </td>
 
-                    <td>{{ $order->tool_code }}</td>
-                    <td>{{ $order->quantity }}</td>
-                    <td>{{ $order->current_process }}</td>
-                    <td>{{ $order->dwg_number }}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
+                      <td>{{ $order->tool_code }}</td>
+                      <td>{{ $order->quantity }}</td>
+                      <td>{{ $order->current_process }}</td>
+                      <td>{{ $order->dwg_number }}</td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
               @endif
 
               <!-- Modal -->
-              <div class="modal fade order-detail" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl position-relative">
+              <div class="modal fade order-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen-xxl-down position-relative">
                   <div class="modal-content my-bg-element p-1">
-                    <div class="modal-body p-0 m-0">
-                      <iframe src="/{{ auth()->user()->position }}" title="Iframe Example" class="w-100 d-inline-block" id="modal-content"></iframe>
+                    <div class="modal-body p-3 m-0">
+                      <iframe src="/{{ auth()->user()->position }}" title="Detail order" class="w-100 d-inline-block"></iframe>
                     </div>
-                    <div class="position-absolute bottom-0 my-right-110">
-                      <button type="button" class="btn btn-secondary m-2" id="close">Tutup</button>
+                    <div class="position-absolute top-0 end-0 mt-2 me-3">
+                      <button type="button" class="btn btn-danger btn-sm" id="close" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tutup">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                      </svg>
+                    </button>
                     </div>
                   </div>
                 </div>
@@ -181,7 +187,7 @@
     </div><!-- End Right side columns -->
 
   </div>
-  <script>    
+  <script>
     function getTable() {
       $.get(`/{{ auth()->user()->position }}/table`, {}, function(data) {
         $('#table-data').html(data)
@@ -193,31 +199,10 @@
       getTable()
     })
 
-    // function getDetail(id) {
-    //   $.ajax({
-    //     url: `/order/${id}`,
-    //     method: 'GET',
-    //     success: function(data) {
-    //       $('.order-detail').find('.modal-body').html(data)
-    //       $('.order-detail').modal('show')
-    //     },
-    //     error: function(error) {
-    //       console.log(error);
-    //     }
-    //   })
-    // }
-
-    // $('#table-data').on('click', 'tr', function() {
-      // let id = $(this).data('id');
-
-      // getDetail(id)
-    //   $('.order-detail').modal('show')
-    // })
-
     $('#table-data').on('click', 'tr', function() {
       let id = $(this).data('id');
 
-      $('#modal-content').attr('src', `/order/${id}`)
+      $('iframe').attr('src', `/order/${id}`)
       $('.order-detail').modal('show')
     })
 
@@ -239,6 +224,9 @@
         }        
       })
     })
+
+    const height = $(window).height() * 0.92;
+    $('iframe').css('height', height +'px');
   </script>
 </section>
 

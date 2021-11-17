@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EngineeringController;
+use App\Http\Controllers\MarketingController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -51,3 +52,6 @@ Route::get('/superadmin/table', [SuperadminController::class, 'table'])->middlew
 
 Route::get('/engineering/table', [EngineeringController::class, 'table'])->middleware('auth');
 Route::resource('/engineering', EngineeringController::class)->middleware('auth');
+
+Route::get('/marketing/table', [MarketingController::class, 'table'])->middleware('auth');
+Route::resource('/marketing', MarketingController::class)->middleware('auth');

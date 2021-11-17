@@ -12,7 +12,7 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
-    @if (auth()->user()->position == 'superadmin')        
+    @if (auth()->user()->position == 'superadmin')
        
     {{-- superadmin --}}
     <li class="nav-item">
@@ -36,6 +36,7 @@
     </li>
     @endif
 
+    @if (auth()->user()->position == 'superadmin' || auth()->user()->position == 'marketing')
     {{-- mkt --}}
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#marketing-nav" data-bs-toggle="collapse" href="#">
@@ -51,12 +52,13 @@
       </a>
       <ul id="marketing-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="#" class="nav-link">
+          <a href="/order/create" class="nav-link">
             <span>Registrasi shop order</span>
           </a>
         </li>
       </ul>
     </li>
+    @endif
 
     {{-- shopmanager --}}
     <li class="nav-item">
