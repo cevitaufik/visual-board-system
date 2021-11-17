@@ -80,7 +80,7 @@ class OrderController extends Controller
             if(substr($lastSO, 0, 6) == $code) {
                 $validatedData['shop_order'] = $lastSO + 1;
             } else {
-                $validatedData['shop_order'] = $lastSO . 001;
+                $validatedData['shop_order'] = $code . '001';
             }
     
             Order::create($validatedData);
