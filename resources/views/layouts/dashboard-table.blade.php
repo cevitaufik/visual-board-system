@@ -3,7 +3,7 @@
   <td scope="row">{{ $loop->iteration }}</td>
   <td>{{ $order->cust_code }}</td>
   <td>{{ $order->shop_order }}</td>
-  <td>{{ $order->job_type }}</td>
+  <td>{{ $order->jobType->code }}</td>
 
   <td>
     @if (strlen($order->description) > 20)

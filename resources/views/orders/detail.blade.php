@@ -52,13 +52,15 @@
 
             <div class="col md-3 p-1">
               <label for="job_type" class="d-block">Tipe pekerjaan</label>
-              <input type="text" name="job_type" class="form-control @error('job_type') is-invalid @enderror"
-                value="{{ old('job_type', $order->job_type) }}">
-              @error('job_type')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
+              <select id="job_type_id" name="job_type_id" class="form-select">
+                @foreach ($jobTypes as $jobType)
+                  @if (old('job_type_id', $order->jobType->id) == $jobType->id)
+                    <option value="{{ $jobType->id }}" selected>{{ $jobType->code . ' - ' . $jobType->description }}</option>
+                  @else
+                    <option value="{{ $jobType->id }}">{{ $jobType->code . ' - ' . $jobType->description }}</option>
+                  @endif
+                @endforeach
+              </select>
             </div>
 
             <div class="col md-3 p-1">

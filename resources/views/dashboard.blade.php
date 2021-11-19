@@ -60,7 +60,7 @@
                       <td scope="row">{{ $loop->iteration }}</td>
                       <td>{{ $order->cust_code }}</td>
                       <td>{{ $order->shop_order }}</td>
-                      <td>{{ $order->job_type }}</td>
+                      <td>{{ $order->jobType->code }}</td>
 
                       <td>
                         @if (strlen($order->description) > 20)
@@ -83,7 +83,7 @@
 
               <!-- Modal -->
               <div class="modal fade order-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-fullscreen-xxl-down position-relative">
+                <div class="modal-dialog modal-fullscreen position-relative">
                   <div class="modal-content my-bg-element p-1">
                     <div class="modal-body p-3 m-0">
                       <iframe src="/{{ auth()->user()->position }}" title="Detail order" class="w-100 d-inline-block"></iframe>

@@ -32,6 +32,11 @@
             <span>Pengguna</span>
           </a>
         </li>
+        <li>
+          <a href="/job-type" class="nav-link">
+            <span>Tipe pekerjaan</span>
+          </a>
+        </li>
       </ul>
     </li>
     @endif

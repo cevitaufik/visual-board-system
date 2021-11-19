@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\JobType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +24,8 @@ class CreateOrdersTable extends Migration
             $table->string('tool_code')->nullable();
             $table->integer('quantity');
             $table->string('dwg_number')->nullable();
-            $table->string('job_type')->nullable();
+            // $table->foreignId('job_type')->nullable()->references('code')->on('job_types');
+            $table->foreignId('job_type_id')->nullable();
             $table->date('due_date')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('current_process')->nullable();

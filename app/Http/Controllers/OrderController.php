@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobType;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -24,8 +25,10 @@ class OrderController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {
-            return view('orders.create');            
+        if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {            
+            return view('orders.create', [
+                'jobTypes' => JobType::all(),
+            ]);            
         } else {
             abort(403);
         }
@@ -44,7 +47,7 @@ class OrderController extends Controller
             $rules = [
                 'cust_code' => ['required', 'max:3'],
                 'quantity' => ['required', 'min:1', 'integer'],
-                'job_type' => ['required', 'min:2', 'max:255'],
+                'job_type_id' => ['required', 'min:2', 'max:255'],
                 'po_number' => ['required', 'min:2', 'max:255'],
                 'due_date' => ['required', 'date', 'after_or_equal:'.today()],
                 'description' => ['required', 'min:2', 'max:255'],
@@ -101,7 +104,8 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return view('orders.detail', [
-            'order' => $order
+            'order' => $order,
+            'jobTypes' => JobType::all(),
         ]);
     }
 
@@ -128,7 +132,7 @@ class OrderController extends Controller
         $rules = [
             // 'shop_order' => ['required'],
             'quantity' => ['required'],
-            'job_type' => ['required'],
+            'job_type_id' => ['required'],
             'po_number' => ['required'],
             'due_date' => ['required'],
             'description' => ['required'],

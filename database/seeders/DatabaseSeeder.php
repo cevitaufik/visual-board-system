@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\JobType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -86,7 +87,7 @@ class DatabaseSeeder extends Seeder
             'tool_code' => 'TOOL-1',
             'quantity' => 5,
             'dwg_number' => 'ABC-211101-R0',
-            'job_type' => 'NEW',
+            'job_type_id' => 1,
             'due_date' => '2021-11-30',
             'note' => 'catatan',
         ]);
@@ -100,7 +101,7 @@ class DatabaseSeeder extends Seeder
             'quantity' => 5,
             'dwg_number' => 'ABD-211101-R0',
             'current_process' => 'prod',
-            'job_type' => 'NEW',
+            'job_type_id' => 2,
             'due_date' => '2021-11-30',
             'note' => 'catatan',
         ]);
@@ -114,7 +115,7 @@ class DatabaseSeeder extends Seeder
             'quantity' => 5,
             'dwg_number' => 'XYZ-201101-R1',
             'current_process' => 'eng',
-            'job_type' => 'REG',
+            'job_type_id' => 2,
             'due_date' => '2021-11-30',
             'note' => 'catatan'
         ]);
@@ -128,9 +129,34 @@ class DatabaseSeeder extends Seeder
             'quantity' => 5,
             'dwg_number' => 'XYZ-201101-R1',
             'current_process' => 'close',
-            'job_type' => 'REG',
+            'job_type_id' => 2,
             'due_date' => '2021-11-30',
             'note' => 'catatan',
+        ]);
+
+        JobType::create([
+            'code' => 'NEW',
+            'description' => 'Buat baru',
+        ]);
+
+        JobType::create([
+            'code' => 'REG',
+            'description' => 'Regrinding',
+        ]);
+
+        JobType::create([
+            'code' => 'RET',
+            'description' => 'Retyping',
+        ]);
+
+        JobType::create([
+            'code' => 'REP',
+            'description' => 'Repair',
+        ]);
+
+        JobType::create([
+            'code' => 'MOD',
+            'description' => 'Modifikasi',
         ]);
     }
 }

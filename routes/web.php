@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\EngineeringController;
+use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\MarketingController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SuperadminController;
+use App\Models\JobType;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,8 @@ Route::post('/register', [UserController::class, 'userRegister']);
 Route::get('/logout', [UserController::class, 'logout']);
 
 Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
+
+Route::resource('/job-type', JobTypeController::class)->middleware('auth');
 
 Route::get('/superadmin', [SuperadminController::class, 'index'])->middleware('auth');
 Route::get('/superadmin/table', [SuperadminController::class, 'table'])->middleware('auth');
