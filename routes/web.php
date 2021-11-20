@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SuperadminController;
-use App\Models\JobType;
 
 /*
 |--------------------------------------------------------------------------

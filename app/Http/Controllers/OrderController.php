@@ -47,7 +47,7 @@ class OrderController extends Controller
             $rules = [
                 'cust_code' => ['required', 'max:3'],
                 'quantity' => ['required', 'min:1', 'integer'],
-                'job_type_id' => ['required', 'min:2', 'max:255'],
+                'job_type_id' => ['required'],
                 'po_number' => ['required', 'min:2', 'max:255'],
                 'due_date' => ['required', 'date', 'after_or_equal:'.today()],
                 'description' => ['required', 'min:2', 'max:255'],
@@ -148,7 +148,7 @@ class OrderController extends Controller
 
         Order::where('shop_order', $order->shop_order)->update($validatedData);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
 
     /**

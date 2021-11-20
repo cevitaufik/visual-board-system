@@ -45,6 +45,8 @@ class JobTypeController extends Controller
         $validatedData = $request->validate($rules);
 
         JobType::create($validatedData);
+
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -89,7 +91,7 @@ class JobTypeController extends Controller
         $validatedData = $request->validate($rules);
 
         JobType::where('id', $jobType->id)->update($validatedData);
-
+        return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
 
     /**

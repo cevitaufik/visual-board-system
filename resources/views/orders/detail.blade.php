@@ -24,6 +24,13 @@
         <h3 class="col">{{ $order->cust_code }}</h3>
       </div>
 
+      @if (session()->has('success'))    
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <p class="m-0 p-0">{{ session('success') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      @endif
+
       <div class="row mb-3">
         <div class="col-lg-8">
           <div class="row px-2">
@@ -175,7 +182,7 @@
       </div>
 
       <div class="position-fixed bottom-0 end-0 m-3">
-        <button type="submit" class="btn btn-primary">Perbarui</button>
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin?')">Perbarui</button>
       </div>      
     </form>
   </main>

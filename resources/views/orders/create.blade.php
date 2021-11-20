@@ -45,10 +45,10 @@
             </div>
 
             <div class="col md-3 p-1">
-              <label for="job_type">Tipe pekerjaan</label>
-              <select id="job_type" name="job_type" class="form-select">
+              <label for="job_type_id">Tipe pekerjaan</label>
+              <select id="job_type_id" name="job_type_id" class="form-select">
                 @foreach ($jobTypes as $jobType)
-                  @if (old('job_type') == $jobType->code)
+                  @if (old('job_type_id') == $jobType->code)
                     <option value="{{ $jobType->id }}" selected>{{ $jobType->code . ' - ' . $jobType->description }}</option>
                   @else
                     <option value="{{ $jobType->id }}">{{ $jobType->code . ' - ' . $jobType->description }}</option>

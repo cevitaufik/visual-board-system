@@ -59,28 +59,44 @@
   <div class="modal" id="modal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content my-bg-element">
-        <div class="modal-header">
-          <h5 class="modal-title">Tambah tipe pekerjaan</h5>
-        </div>
-        <div class="modal-body">
-          <form method="post" id="new-job-type">
+
+        <form method="post" id="new-job-type" action="/job-type">
+
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah tipe pekerjaan</h5>
+          </div>
+
+          <div class="modal-body">            
             @csrf
             <div class="row g-3">
               <div class="col">
                 <label for="description" class="mb-1">Deskripsi</label>
-                <input type="text" class="form-control" id="description" name="description">
+                <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ old('description') }}">
+                @error('description')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                @enderror
               </div>
+
               <div class="col">
                 <label for="code" class="mb-1">Kode</label>
-                <input type="text" id="code" class="form-control" name="code">
+                <input type="text" id="code" class="form-control @error('code') is-invalid @enderror" name="code" value="{{ old('code') }}">
+                @error('code')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                @enderror
               </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary" id="add">Tambah</button>
-        </div>
+            </div>            
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary" id="btn">Tambah</button>
+          </div>
+
+        </form>
       </div>
     </div>
   </div>
@@ -90,51 +106,32 @@
   function detailJobType(id) {
     $('#description').val($('#desc' + id).text())
     $('#code').val($('#code' + id).text())
-    $('modal-title').text('Perbarui tipe pekerjaan')
-    $('#add').text('Perbarui')
-
+    $('.modal-title').text('Perbarui tipe pekerjaan')
+    $('#btn').text('Perbarui')
+    $('#new-job-type').attr('action', `/job-type/${id}`)
+    $('form').append('@method("PUT")')
     $('.modal').modal('show')
-
-    $('#add').on('click', function(){
-
-    const data = $('#new-job-type').serialize();
-
-    $.ajax({
-      url: `/job-type/${id}`,
-      method: 'PUT',
-      data: data,
-      success: function() {
-        window.location.href = '/job-type'
-      },
-      error: function(error) {
-        alert(error.responseText)
-      }
-    })
-    })
   }
+
+  let err = '{{ session()->has('errors') }}'
+  console.log(err);
+
+  $( document ).ready(function() {
+    function openModal() {
+      $('.modal').modal('show')      
+    }
+
+    if (err) {
+      openModal()
+    }
+  });
+
   // mengambil semua kode pekerjaan pada element
   $('#description').on('change', function() {
     const input = $('#description').val()
                   .toUpperCase()
                   .slice(0, 3);
-
-    // tempat penyimpanan kode
-    // const codes = [];
-
-    // mengekstrak kode kedalam array codes
-    // $('.job-type-code').each(function(code){
-    //   codes.push($(this).text())
-    // })
-
-    // melakukan pengecekan apakah input sudah ada di dalam array codes
-    // if(!codes.includes(input.slice(0, 3))) {
-    //   return $('#code').val(input.slice(0, 3))
-    // } else {
-      
-    //   const head = input.slice(0, 2)
-    //   let body = input.slice(3, 2)
-    // }
-    
+  
     $('#code').val(input)
   })
 
