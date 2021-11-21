@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\ToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +59,6 @@ Route::resource('/engineering', EngineeringController::class)->middleware('auth'
 
 Route::get('/marketing/table', [MarketingController::class, 'table'])->middleware('auth');
 Route::resource('/marketing', MarketingController::class)->middleware('auth');
+
+Route::get('tool/table', [ToolController::class, 'table'])->middleware('auth');
+Route::resource('tool', ToolController::class)->scoped(['tool' => 'drawing'])->middleware('auth');

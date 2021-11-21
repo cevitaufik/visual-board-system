@@ -45,13 +45,13 @@
             </div>
 
             <div class="col md-3 p-1">
-              <label for="job_type_id">Tipe pekerjaan</label>
-              <select id="job_type_id" name="job_type_id" class="form-select">
+              <label for="job_type_code">Tipe pekerjaan</label>
+              <select id="job_type_code" name="job_type_code" class="form-select">
                 @foreach ($jobTypes as $jobType)
-                  @if (old('job_type_id') == $jobType->code)
-                    <option value="{{ $jobType->id }}" selected>{{ $jobType->code . ' - ' . $jobType->description }}</option>
+                  @if (old('job_type_code') == $jobType->code)
+                    <option value="{{ $jobType->code }}" selected>{{ $jobType->code . ' - ' . $jobType->description }}</option>
                   @else
-                    <option value="{{ $jobType->id }}">{{ $jobType->code . ' - ' . $jobType->description }}</option>
+                    <option value="{{ $jobType->code }}">{{ $jobType->code . ' - ' . $jobType->description }}</option>
                   @endif
                 @endforeach
               </select>
@@ -82,10 +82,10 @@
             </div>
 
             <div class="col-md-3 p-1">
-              <label for="dwg_number" class="d-block">Nomor drawing</label>
-              <input type="text" name="dwg_number" class="form-control @error('dwg_number') is-invalid @enderror"
-                value="{{ old('dwg_number') }}">
-              @error('dwg_number')
+              <label for="no_drawing" class="d-block">Nomor drawing</label>
+              <input type="text" name="no_drawing" class="form-control @error('no_drawing') is-invalid @enderror"
+                value="{{ old('no_drawing') }}">
+              @error('no_drawing')
               <div class="invalid-feedback">
                 {{ $message }}
               </div>

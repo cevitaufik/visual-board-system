@@ -120,8 +120,8 @@
       </a>
       <ul id="engineering-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="#" class="nav-link">
-            <span>Menu 1</span>
+          <a href="/tool" class="nav-link">
+            <span>Produk</span>
           </a>
         </li>
       </ul>

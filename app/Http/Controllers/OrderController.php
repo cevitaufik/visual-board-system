@@ -47,7 +47,7 @@ class OrderController extends Controller
             $rules = [
                 'cust_code' => ['required', 'max:3'],
                 'quantity' => ['required', 'min:1', 'integer'],
-                'job_type_id' => ['required'],
+                'job_type_code' => ['required'],
                 'po_number' => ['required', 'min:2', 'max:255'],
                 'due_date' => ['required', 'date', 'after_or_equal:'.today()],
                 'description' => ['required', 'min:2', 'max:255'],
@@ -57,9 +57,9 @@ class OrderController extends Controller
     
             $validatedData['cust_code'] = strtoupper($validatedData['cust_code']);
     
-            if (isset($request->dwg_number)) {
-                $validatedData['dwg_number'] = $request->dwg_number;
-                $validatedData['dwg_number'] = strtoupper($validatedData['dwg_number']);
+            if (isset($request->no_drawing)) {
+                $validatedData['no_drawing'] = $request->no_drawing;
+                $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']);
             }
     
             if(isset($request->tool_code)) {
@@ -132,7 +132,7 @@ class OrderController extends Controller
         $rules = [
             // 'shop_order' => ['required'],
             'quantity' => ['required'],
-            'job_type_id' => ['required'],
+            'job_type_code' => ['required'],
             'po_number' => ['required'],
             'due_date' => ['required'],
             'description' => ['required'],
@@ -142,7 +142,7 @@ class OrderController extends Controller
 
         $validatedData['tool_code'] = $request['tool_code'];
         $validatedData['note'] = $request['note'];
-        $validatedData['dwg_number'] = $request['dwg_number'];
+        $validatedData['no_drawing'] = $request['no_drawing'];
 
         $validatedData['updated_by'] = auth()->user()->username;
 

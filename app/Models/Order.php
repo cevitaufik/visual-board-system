@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $with = ['jobType'];
+    protected $with = ['tool'];
 
     // untuk menghubungkan dua kelas
     // buat function yang namanya sama dengan kelas yang akan dihubungkan
@@ -19,6 +19,13 @@ class Order extends Model
     // 2. $order = Order::first()
     // 3. $order->jobType // menanggil function yang telah dibuat
     public function jobType() {
-        return $this->belongsTo(JobType::class);
+
+        // memasukan kolom code pada tabel job_types sebagai acuan
+        // foreign key kolom job_type_code pada tabel order
+        return $this->hasOne(JobType::class, 'code', 'job_type_code');
+    }
+
+    public function tool() {
+        return $this->hasOne(Tool::class, 'drawing', 'no_drawing');
     }
 }

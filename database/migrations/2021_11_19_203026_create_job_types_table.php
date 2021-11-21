@@ -13,12 +13,12 @@ class CreateJobTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('job_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->string('description');
-            $table->timestamps();
-        });
+        // Schema::create('job_types', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('code')->unique();
+        //     $table->string('description');
+        //     $table->timestamps();
+        // });
     }
 
     /**
@@ -28,6 +28,6 @@ class CreateJobTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('job_types');
+        // Schema::dropIfExists('job_types');
     }
 }

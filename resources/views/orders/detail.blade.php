@@ -59,12 +59,12 @@
 
             <div class="col md-3 p-1">
               <label for="job_type" class="d-block">Tipe pekerjaan</label>
-              <select id="job_type_id" name="job_type_id" class="form-select">
+              <select id="job_type_code" name="job_type_code" class="form-select">
                 @foreach ($jobTypes as $jobType)
-                  @if (old('job_type_id', $order->jobType->id) == $jobType->id)
-                    <option value="{{ $jobType->id }}" selected>{{ $jobType->code . ' - ' . $jobType->description }}</option>
+                  @if (old('job_type_code', $order->job_type_code) == $jobType->code)
+                    <option value="{{ $jobType->code }}" selected>{{ $jobType->code . ' - ' . $jobType->description }}</option>
                   @else
-                    <option value="{{ $jobType->id }}">{{ $jobType->code . ' - ' . $jobType->description }}</option>
+                    <option value="{{ $jobType->code }}">{{ $jobType->code . ' - ' . $jobType->description }}</option>
                   @endif
                 @endforeach
               </select>
@@ -100,10 +100,10 @@
             </div>
 
             <div class="col-md-3 p-1">
-              <label for="dwg_number" class="d-block">Nomor drawing</label>
-              <input type="text" name="dwg_number" class="form-control @error('dwg_number') is-invalid @enderror"
-                value="{{ old('dwg_number', $order->dwg_number) }}">
-              @error('dwg_number')
+              <label for="no_drawing" class="d-block">Nomor drawing</label>
+              <input type="text" name="no_drawing" class="form-control @error('no_drawing') is-invalid @enderror"
+                value="{{ old('no_drawing', $order->no_drawing) }}">
+              @error('no_drawing')
               <div class="invalid-feedback">
                 {{ $message }}
               </div>
@@ -158,14 +158,25 @@
             <div class="col-md-3 p-1">
               <small>Dibuat oleh</small>
               <h6></h6>
+            </div>            
+          </div>
+
+          <div class="row">
+            <div class="col-md-3 pt-2">
+              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dwgProd"
+                aria-expanded="false" aria-controls="dwgProd" @if (!isset($order->tool->dwg_production))
+                disabled
+                @endif>
+                Dwg produksi
+              </button>
             </div>
 
             <div class="col-md-3 pt-2">
-              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDwg"
-                aria-expanded="false" aria-controls="collapseDwg" @if (!isset($order->dwg_number))
+              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dwgCust"
+                aria-expanded="false" aria-controls="dwgCust" @if (!isset($order->tool->dwg_customer))
                 disabled
                 @endif>
-                Drawing
+                Dwg customer
               </button>
             </div>
           </div>
@@ -177,9 +188,17 @@
         </div>
       </div>
 
-      <div class="ratio ratio-16x9 collapse" id="collapseDwg">
-        <object data="/pdf/data.pdf" type="application/pdf" title="pdf" allowfullscreen>pdf</object>
-      </div>
+      @if (isset($order->tool->dwg_production))
+        <div class="ratio ratio-16x9 collapse mb-3" id="dwgProd">
+          <object data="{{ asset('storage/'. $order->tool->dwg_production) }}" type="application/pdf" title="Drawing produksi" allowfullscreen>Perangkat tidak mendukung</object>
+        </div>
+      @endif
+
+      @if (isset($order->tool->dwg_customer))
+        <div class="ratio ratio-16x9 collapse" id="dwgCust">
+          <object data="{{ asset('storage/'. $order->tool->dwg_customer) }}" type="application/pdf" title="Drawing produksi" allowfullscreen>Perangkat tidak mendukung</object>
+        </div>
+      @endif
 
       <div class="position-fixed bottom-0 end-0 m-3">
         <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin?')">Perbarui</button>
