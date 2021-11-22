@@ -32,6 +32,18 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
         });
 
+        Schema::create('flow_processes', function (Blueprint $table) {
+            $table->id();
+            $table->string('no_drawing');
+            $table->integer('op_number');
+            $table->string('work_center');
+            $table->string('description')->nullable();
+            $table->integer('estimation');
+            $table->timestamps();
+
+            $table->foreign('no_drawing')->references('drawing')->on('tools')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('po_number');
@@ -62,6 +74,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(['orders', 'job_types']);
+        Schema::dropIfExists(['orders', 'job_types', 'flow_processes']);
     }
 }

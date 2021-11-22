@@ -123,6 +123,9 @@
           <a href="/tool" class="nav-link">
             <span>Produk</span>
           </a>
+          <a href="/flow-process" class="nav-link">
+            <span>Flow proses</span>
+          </a>
         </li>
       </ul>
     </li>

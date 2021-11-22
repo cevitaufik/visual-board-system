@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FlowProcess;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\JobType;
@@ -115,6 +116,13 @@ class DatabaseSeeder extends Seeder
         // tool
 
         Tool::create([
+            'cust_code' => 'ASD',
+            'code' => 'ASD-1',
+            'description' => 'tool nomor 1 ASD',
+            'drawing' => 'ASD-210101-R0',
+        ]);
+
+        Tool::create([
             'cust_code' => 'ABC',
             'code' => 'TOOL-1',
             'description' => 'tool nomor 1',
@@ -140,13 +148,48 @@ class DatabaseSeeder extends Seeder
             'code' => 'MNO-1',
             'description' => 'tool nomor 1 MNO',
             'drawing' => 'MNO-210101-R0',
+        ]); 
+
+        // ===============================================================================
+        // order
+
+        FlowProcess::create([
+            'no_drawing' => 'ASD-210101-R0',            
+            'op_number' => 10,
+            'work_center' => 'SG',
+            'description' => 'potong material',
+            'estimation' => 10,
         ]);
 
-        Tool::create([
-            'cust_code' => 'ASD',
-            'code' => 'ASD-1',
-            'description' => 'tool nomor 1 ASD',
-            'drawing' => 'ASD-210101-R0',
+        FlowProcess::create([
+            'no_drawing' => 'ASD-210101-R0',            
+            'op_number' => 20,
+            'work_center' => 'BRZ',
+            'description' => 'brazing center bantu',
+            'estimation' => 10,
+        ]);
+
+        FlowProcess::create([
+            'no_drawing' => 'ASD-210101-R0',            
+            'op_number' => 30,
+            'work_center' => 'TR',
+            'description' => 'center bantu',
+            'estimation' => 10,
+        ]);
+
+        FlowProcess::create([
+            'no_drawing' => 'ASD-210101-R0',            
+            'op_number' => 40,
+            'work_center' => 'CG',
+            'estimation' => 10,
+        ]);
+
+        FlowProcess::create([
+            'no_drawing' => 'ASD-210101-R0',            
+            'op_number' => 50,
+            'work_center' => 'UG',
+            'description' => 'potong center bantu',
+            'estimation' => 10,
         ]);
 
         // ===============================================================================

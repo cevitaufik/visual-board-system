@@ -106,6 +106,7 @@ class OrderController extends Controller
         return view('orders.detail', [
             'order' => $order,
             'jobTypes' => JobType::all(),
+            'processes' => $order->tool->flowProcess->sortBy('op_number'),
         ]);
     }
 

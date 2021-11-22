@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EngineeringController;
+use App\Http\Controllers\FlowProcessController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\MarketingController;
 use App\Models\User;
@@ -60,5 +61,8 @@ Route::resource('/engineering', EngineeringController::class)->middleware('auth'
 Route::get('/marketing/table', [MarketingController::class, 'table'])->middleware('auth');
 Route::resource('/marketing', MarketingController::class)->middleware('auth');
 
-Route::get('tool/table', [ToolController::class, 'table'])->middleware('auth');
-Route::resource('tool', ToolController::class)->scoped(['tool' => 'drawing'])->middleware('auth');
+Route::get('/tool/table', [ToolController::class, 'table'])->middleware('auth');
+Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing'])->middleware('auth');
+
+Route::get('/flow-process/table', [FlowProcessController::class, 'table'])->middleware('auth');
+Route::resource('/flow-process', FlowProcessController::class)->middleware('auth');
