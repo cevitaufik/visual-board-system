@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FlowProcess;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class FlowProcessController extends Controller
 {
@@ -93,8 +93,15 @@ class FlowProcessController extends Controller
     public function update(Request $request, FlowProcess $flowProcess)
     {
         $rules = [
+            'op_number' => ['required', 
+                                // 'unique:flow_processes,op_number,' . $request->op_number
+                                // Rule::unique('flow_processes')
+                                // ->where(function ($query) use($no_drawing, $op_number) {
+                                //     return $query->where('no_drawing', $no_drawing)
+                                //             ->where('op_number', $op_number);
+                                // })
+                            ],
             'no_drawing' => ['required', 'max:13'],
-            'op_number' => ['required'],
             'work_center' => ['required'],
             'estimation' => ['required'],
         ];

@@ -19,89 +19,56 @@
 
 <body class="my-bg-element">
   <main class="container-fluid p-3">
-    <form action="/flow-process" id="order-detail" method="POST">
-      @csrf
 
-      <div class="row">
-        <h3 class="col">Tambah proses</h3>
+    <div class="col-2 p-1 mb-3">
+      <label for="no_drawing" class="d-block">Nomor drawing</label>
+      <input type="text" name="no_drawing" class="form-control @error('no_drawing') is-invalid @enderror"
+        value="{{ old('no_drawing') }}">
+      @error('no_drawing')
+      <div class="invalid-feedback">
+        {{ $message }}
       </div>
+      @enderror
+    </div>
 
-      @if (session()->has('success'))    
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <p class="m-0 p-0">{{ session('success') }}</p>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      @endif
-
-      <div class="row mb-3">
-        <div class="col-lg-12">
-          <div class="row px-2">
-
-            <div class="col-12 p-1">
-              <label for="no_drawing" class="d-block">Nomor drawing</label>
-              <input type="text" name="no_drawing" class="form-control @error('no_drawing') is-invalid @enderror"
-                value="{{ old('no_drawing') }}">
-              @error('no_drawing')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-
-            <div class="col-12 p-1">
-              <label for="op_number" class="d-block">No. operasi</label>
-              <input type="text" name="op_number" class="form-control @error('op_number') is-invalid @enderror"
-                value="{{ old('op_number') }}">
-              @error('op_number')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-
-            <div class="col-12 p-1">
-              <label for="work_center" class="d-block">Work center</label>
-              <input type="text" name="work_center" class="form-control @error('work_center') is-invalid @enderror"
-                value="{{ old('work_center') }}">
-              @error('work_center')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-
-            <div class="col-12 p-1">
-              <label for="description" class="d-block">Deskripsi</label>
-              <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
-                value="{{ old('description') }}">
-              @error('description')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-
-            <div class="col-12 p-1">
-              <label for="estimation" class="d-block">estimasi</label>
-              <input type="text" name="estimation" class="form-control @error('estimation') is-invalid @enderror"
-                value="{{ old('estimation') }}">
-              @error('estimation')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-            
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="position-fixed bottom-0 end-0 m-3">
-        <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin?')">Tambah</button>
-      </div>      
-    </form>
+    <table class="table my-text-white">
+      <thead>
+        <tr class="d-flex">
+          <th scope="col" class="col-1">OP</th>
+          <th scope="col" class="col-2">Work center</th>
+          <th scope="col" class="col">Deskripsi</th>
+          <th scope="col" class="col-2">Estimasi (menit)</th>
+          <th scope="col" class="col-2">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr scope="row" class="d-flex">
+          <td class="col-1">10</td>
+          <td class="col-2"><input type="text" class="form-control" value="UG"></td>
+          <td class="col"><input type="text" class="form-control" value="Potong material"></td>
+          <td class="col-2"><input type="text" class="form-control" value="100"></td>
+          <td class="col-2">
+            <span class="btn btn-success">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+            </span>
+            <span class="btn btn-warning">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+              </svg>
+            </span>
+            <span class="btn btn-danger">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
   </main>
 </body>

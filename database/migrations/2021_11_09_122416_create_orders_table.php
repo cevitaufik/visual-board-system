@@ -41,6 +41,9 @@ class CreateOrdersTable extends Migration
             $table->integer('estimation');
             $table->timestamps();
 
+            // membuat composite key
+            $table->unique(['no_drawing', 'op_number'], 'process_unique');
+
             $table->foreign('no_drawing')->references('drawing')->on('tools')->onDelete('cascade')->onUpdate('cascade');
         });
 

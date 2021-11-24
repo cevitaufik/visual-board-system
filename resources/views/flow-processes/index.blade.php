@@ -60,7 +60,7 @@
 
           <!-- Modal -->
           <div class="modal fade order-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-sm-down position-relative">
+            <div class="modal-dialog modal-fullscreen position-relative">
               <div class="modal-content my-bg-element p-1">
                 <div class="modal-body p-3 m-0">
                   <iframe title="Detail order" class="w-100 d-inline-block" id="iframe"></iframe>
