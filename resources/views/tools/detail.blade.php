@@ -27,11 +27,11 @@
         <h3 class="col">{{ $tool->drawing }}</h3>
       </div>
 
-      @if (session()->has('success'))    
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <p class="m-0 p-0">{{ session('success') }}</p>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+      @if (session()->has('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p class="m-0 p-0">{{ session('success') }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
       @endif
 
       <div class="row mb-3">
@@ -84,8 +84,8 @@
 
             <div class="col-md-2 p-1">
               <label for="dwg_production" class="d-block">Drawing produksi</label>
-              <input type="file" name="dwg_production" class="form-control @error('dwg_production') is-invalid @enderror"
-                value="{{ old('dwg_production') }}">
+              <input type="file" name="dwg_production"
+                class="form-control @error('dwg_production') is-invalid @enderror" value="{{ old('dwg_production') }}">
               @error('dwg_production')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -122,7 +122,7 @@
               <small>Tanggal dibuat</small>
               <h6>{{ date('d F Y', strtotime($tool->created_at)) }}</h6>
             </div>
-            
+
             <div class="col-md-2 p-1">
               <small>Terakhir diperbarui</small>
               <h6>{{ date('d F Y', strtotime($tool->updated_at)) }}</h6>
@@ -131,6 +131,21 @@
             <div class="col-md-8">
 
               <div class="row justify-content-end">
+
+                @if (count($tool->flowProcess))
+                  <div class="col-md-3 pt-2">
+                    <button class="btn btn-success" type="button" onclick="showFlowProces('{{ $tool->flowProcess[0]->id }}')">
+                      Lihat flow proses
+                    </button>
+                  </div>
+                @else
+                  <div class="col-md-3 pt-2">
+                    <button class="btn btn-primary" type="button" onclick="addFlowProces('{{ $tool->drawing }}')">
+                      Buat flow proses
+                    </button>
+                  </div>
+                @endif
+
                 <div class="col-md-3 pt-2">
                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dwgCust"
                     aria-expanded="false" aria-controls="dwgCust" @if (!isset($tool->dwg_customer))
@@ -139,7 +154,7 @@
                     Drawing customer
                   </button>
                 </div>
-    
+
                 <div class="col-md-3 pt-2">
                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dwgProd"
                     aria-expanded="false" aria-controls="dwgProd" @if (!isset($tool->dwg_production))
@@ -149,9 +164,9 @@
                   </button>
                 </div>
               </div>
-              
+
             </div>
-            
+
           </div>
 
         </div>
@@ -159,22 +174,69 @@
       </div>
 
       <div class="ratio ratio-16x9 collapse mb-3" id="dwgCust">
-        <object data="{{ asset('storage/'. $tool->dwg_customer) }}" type="application/pdf" title="Drawing customer" allowfullscreen>Perangkat tidak mendukung</object>
+        <object data="{{ asset('storage/'. $tool->dwg_customer) }}" type="application/pdf" title="Drawing customer"
+          allowfullscreen>Perangkat tidak mendukung</object>
       </div>
 
       <div class="ratio ratio-16x9 collapse" id="dwgProd">
-        <object data="{{ asset('storage/'. $tool->dwg_production) }}" type="application/pdf" title="Drawing produksi" allowfullscreen>Perangkat tidak mendukung</object>
+        <object data="{{ asset('storage/'. $tool->dwg_production) }}" type="application/pdf" title="Drawing produksi"
+          allowfullscreen>Perangkat tidak mendukung</object>
       </div>
 
       <div class="position-fixed bottom-0 end-0 m-3">
         <a class="btn btn-danger me-3" onclick="return confirm('Apakah anda yakin?')" id="delete">Hapus</a>
         <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin?')">Perbarui</button>
-      </div>      
+      </div>
+
     </form>
+
+    <!-- Modal -->
+    <div class="modal fade modal-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen position-relative">
+        <div class="modal-content my-bg-element p-1">
+          <div class="modal-body p-3 m-0">
+            <iframe title="Detail order" class="w-100 d-inline-block" id="iframe"></iframe>
+          </div>
+          <div class="position-absolute top-0 end-0 mt-2 me-3">
+            <button type="button" class="btn btn-danger btn-sm" id="close" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" title="Tutup">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </main>
 
   <script>
+    // mengatur tingging iframe
+    const height = $(window).height() * 0.92;
+    $('iframe').css('height', height +'px');
+
+    // menutup modal ketika mengklik tombol close
+    $('#close').on('click', function() {
+      $('.modal-detail').modal('hide')
+    })
+
+    //melihat flow proses yang sudah ada
+    function showFlowProces(id) {
+      $('iframe').attr('src', `/flow-process/${id}`)
+      $('.modal-detail').modal('show')
+    }
+
+    // menambah flow process
+    function addFlowProces(data) {
+      console.log(`/flow-process/create-new/${data}`);
+      $('iframe').attr('src', `/flow-process/create-new/${data}`)
+      $('.modal-detail').modal('show')
+    }
+
     $('#delete').on('click', function(event) {
       event.preventDefault();
       $('input[name="_method"]').val('DELETE')

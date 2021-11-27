@@ -61,7 +61,7 @@
           @endif
 
           <!-- Modal -->
-          <div class="modal fade order-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade modal-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen position-relative">
               <div class="modal-content my-bg-element p-1">
                 <div class="modal-body p-3 m-0">
@@ -93,13 +93,15 @@
       })
     }
 
+    // menutup modal saat user mengklik tombol close
     $('#close').on('click', function() {
-      $('.order-detail').modal('hide')
+      $('.modal-detail').modal('hide')
       getTable()
     })
 
+    // menutup modal saat user mengklik hapus
     function closeModal(){
-      $('.order-detail').modal('hide')
+      $('.modal-detail').modal('hide')
       getTable()
       $('#deletedMsg').html(`
         <div class="alert alert-success alert-dismissible fade show" role="alert" id="deleted">
@@ -112,7 +114,7 @@
     // menampilkan modal tambah data
     function add() {
       $('iframe').attr('src', `/tool/create`)
-      $('.order-detail').modal('show')
+      $('.modal-detail').modal('show')
     }
 
     // menampilkan modal
@@ -120,28 +122,10 @@
       let drawing = $(this).data('id');
 
       $('iframe').attr('src', `/tool/${drawing}`)
-      $('.order-detail').modal('show')
+      $('.modal-detail').modal('show')
     })
 
-    $('#update3').on('click', function() {
-      let id = $('#order-detail').find('#shop_order').val()
-      let formData = $('#order-detail').serialize()
-
-      $.ajax({
-        url: `/order/${id}`,
-        method: 'PUT',
-        data: formData,
-        success: function(data){
-          $('.order-detail').modal('hide');
-          getTable();
-        },
-        error: function(error){
-          alert('error ' + error.responseText);
-          console.log(error);
-        }        
-      })
-    })
-
+    // mengatur tinggi iframe
     const height = $(window).height() * 0.92;
     $('iframe').css('height', height +'px');
   </script>

@@ -142,7 +142,8 @@ class ToolController extends Controller
 
         Tool::where('drawing', $tool->drawing)->update($validatedData);
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        $dwg = $request['drawing'];
+        return redirect('/tool/' . $dwg)->with('success', 'Data berhasil diperbarui');
     }
 
     /**

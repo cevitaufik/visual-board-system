@@ -103,10 +103,18 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        // ddd($order->tool->flowProcess);
+
+        if (isset($order->tool->flowProcess)) {
+            $processes = $order->tool->flowProcess->sortBy('op_number');
+        } else {
+            $processes = null;
+        }
+
         return view('orders.detail', [
             'order' => $order,
             'jobTypes' => JobType::all(),
-            'processes' => $order->tool->flowProcess->sortBy('op_number'),
+            'processes' => $processes,
         ]);
     }
 

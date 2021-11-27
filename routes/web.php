@@ -65,4 +65,5 @@ Route::get('/tool/table', [ToolController::class, 'table'])->middleware('auth');
 Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing'])->middleware('auth');
 
 Route::get('/flow-process/table', [FlowProcessController::class, 'table'])->middleware('auth');
+Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew'])->middleware('auth');
 Route::resource('/flow-process', FlowProcessController::class)->middleware('auth');
