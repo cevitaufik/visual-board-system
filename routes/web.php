@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\WorkCenterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,3 +68,5 @@ Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing'])->
 Route::get('/flow-process/table', [FlowProcessController::class, 'table'])->middleware('auth');
 Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew'])->middleware('auth');
 Route::resource('/flow-process', FlowProcessController::class)->middleware('auth');
+
+Route::resource('/work-center', WorkCenterController::class)->middleware('auth');

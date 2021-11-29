@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\JobType;
 use App\Models\Tool;
+use App\Models\WorkCenter;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -151,7 +152,30 @@ class DatabaseSeeder extends Seeder
         ]); 
 
         // ===============================================================================
-        // order
+        // work center
+
+        WorkCenter::create([
+            'code' => 'SG',
+            'description' => 'Surface Grinding',
+        ]);
+
+        WorkCenter::create([
+            'code' => 'BRZ',
+            'description' => 'Brazing',
+        ]);
+
+        WorkCenter::create([
+            'code' => 'TR',
+            'description' => 'Turning',
+        ]);
+
+        WorkCenter::create([
+            'code' => 'CG',
+            'description' => 'Cylindrical grinding',
+        ]);
+
+        // ===============================================================================
+        // flow process
 
         FlowProcess::create([
             'no_drawing' => 'ASD-210101-R0',            

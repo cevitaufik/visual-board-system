@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\FlowProcess;
+use App\Models\WorkCenter;
 use Illuminate\Http\Request;
 
 class FlowProcessController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('flow-processes.index', [
@@ -22,22 +18,15 @@ class FlowProcessController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        return view('flow-processes.create');
+        return view('flow-processes.create', [
+            'workCenters' => WorkCenter::all(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 
@@ -67,39 +56,23 @@ class FlowProcessController extends Controller
         return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\FlowProcess  $flowProcess
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(FlowProcess $flowProcess)
     {
         $flows = FlowProcess::where('no_drawing', $flowProcess->no_drawing)->get()->sortBy('op_number');
 
         return view('flow-processes.detail', [
-            'flows' => $flows
+            'flows' => $flows,
+            'workCenters' => WorkCenter::all(),
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\FlowProcess  $flowProcess
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(FlowProcess $flowProcess)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FlowProcess  $flowProcess
-     * @return \Illuminate\Http\Response
-     */
+    
+    // public function edit(FlowProcess $flowProcess)
+    // {
+    //     //
+    // }
+    
     public function update(Request $request, FlowProcess $flowProcess)
     {
         // $rules = [
@@ -124,25 +97,31 @@ class FlowProcessController extends Controller
 
         // FlowProcess::where('id', $flowProcess->id)->update($validatedData);
 
-        foreach ($request->flow as $flow) {
+        if (isset($request['deleted'])) {
+            foreach ($request['deleted'] as $del) {
+                FlowProcess::where('id', $del)->delete();
+            }
+        }        
 
-            if ($flow['id'] == 'new') {
-                unset($flow['id']);
-                FlowProcess::create($flow);
-            } else {
-                FlowProcess::where('id', $flow['id'])->update($flow);
+        if (isset($request['flow'])) {
+            foreach ($request->flow as $flow) {
+                if ($flow['id'] == 'new') {
+                    unset($flow['id']);
+                    FlowProcess::create($flow);
+                } else {
+                    FlowProcess::where('id', $flow['id'])->update($flow);
+                }
             }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        if (count(FlowProcess::where('no_drawing', $request->drawing)->get())) {
+            return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        } else {
+            return redirect('/flow-process')->with('success', 'Data berhasil dihapus');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\FlowProcess  $flowProcess
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy(FlowProcess $flowProcess)
     {
         FlowProcess::destroy($flowProcess->id);
@@ -159,6 +138,7 @@ class FlowProcessController extends Controller
     public function createNew($no_drawing) {
         return view('flow-processes.create', [
             'no_drawing' => $no_drawing,
+            'workCenters' => WorkCenter::all(),
         ]);
     }
 }

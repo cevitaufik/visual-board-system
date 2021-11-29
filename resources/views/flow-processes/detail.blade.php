@@ -36,6 +36,10 @@
     <form action="/flow-process/{{ $flows[0]->id }}" method="POST">
       @method('PUT')
       @csrf
+      <div id="deleted" class="d-hidden">
+        <input type="hidden" name="drawing" value="{{ $flows[0]->no_drawing }}">
+        {{-- deleted items --}}
+      </div>
 
       @foreach ($flows as $flow)
 
@@ -49,7 +53,15 @@
           </div>
   
           <div class="col-2 align-self-center p-1">
-            <input type="text" class="form-control" id="work_center" name="flow[{{ $loop->iteration }}][work_center]" value="{{ $flow->work_center }}">
+            <select id="work_center" name="flow[{{ $loop->iteration }}][work_center]" class="form-select">
+              @foreach ($workCenters as $workCenter)
+                @if ($flow->work_center == $workCenter->code)
+                  <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @else
+                  <option value="{{ $workCenter->code }}">{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @endif
+              @endforeach
+            </select>
           </div>
   
           <div class="col align-self-center p-1">
@@ -57,7 +69,7 @@
           </div>
   
           <div class="col-2 align-self-center p-1">
-            <input type="number" class="form-control" id="estimation" name="flow[{{ $loop->iteration }}][estimation]" value="{{ $flow->estimation }}">
+            <input type="number" class="form-control" id="estimation" name="flow[{{ $loop->iteration }}][estimation]" value="{{ $flow->estimation }}" required>
           </div>
   
           <div class="col-2 align-self-center text-center p-1">
@@ -92,8 +104,6 @@
           
       @endforeach
 
-
-
       <button type="submit" class="btn btn-primary d-block ms-auto">Simpan</button>
     </form>
 
@@ -116,7 +126,15 @@
           </div>
 
           <div class="col-2 align-self-center p-1">
-            <input type="text" class="form-control" id="work_center" name="flow[${arrIndex}][work_center]">
+            <select id="work_center" name="flow[${arrIndex}][work_center]" class="form-select">
+              @foreach ($workCenters as $workCenter)
+                @if ($flow->work_center == $workCenter->code)
+                  <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @else
+                  <option value="{{ $workCenter->code }}">{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @endif
+              @endforeach
+            </select>
           </div>
 
           <div class="col align-self-center p-1">
@@ -124,7 +142,7 @@
           </div>
 
           <div class="col-2 align-self-center p-1">
-            <input type="number" class="form-control" id="estimation" name="flow[${arrIndex}][estimation]">
+            <input type="number" class="form-control" id="estimation" name="flow[${arrIndex}][estimation]" required>
           </div>
 
           <div class="col-2 align-self-center text-center p-1">
@@ -194,32 +212,13 @@
 
     // menghapus baris
     function deleteRow(row) {
+      let id = $('#row-' + row).find('#id').val()
+
+      $('#deleted').append(`<input type="hidden" name="deleted[]" value="${id}">`)
       $('.op-number-row').remove('#row-' + row)
 
       refreshRow()
     }
-
-    // harus diperbaiki
-    $('#delete').on('click', function(event) {
-      event.preventDefault();
-      $('input[name="_method"]').val('DELETE')
-
-      let formData = $('#order-detail').serialize()
-
-      let id = 'x'
-
-      $.ajax({
-        url: `/flow-process/${id}`,
-        method: 'POST',
-        data: formData,
-        success: function() {          
-          parent.closeModal();
-        },
-        error: function(error) {
-          console.log(error);
-        }
-      })
-    })
 
     // mengatur tinggi iframe
     const height = $(window).height() * 0.92;

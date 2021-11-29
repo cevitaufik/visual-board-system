@@ -49,7 +49,15 @@
           </div>
 
           <div class="col-2 align-self-center p-1">
-            <input type="text" id="work_center" class="form-control" name="flow[1][work_center]">
+            <select id="work_center" name="flow[1][work_center]" class="form-select">
+              @foreach ($workCenters as $workCenter)
+                @if (old('flow[1][work_center]') == $workCenter->code)
+                  <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @else
+                  <option value="{{ $workCenter->code }}">{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @endif
+              @endforeach
+            </select>
           </div>
 
           <div class="col align-self-center p-1">
@@ -57,7 +65,7 @@
           </div>
 
           <div class="col-2 align-self-center p-1">
-            <input type="number" class="form-control" id="estimation" name="flow[1][estimation]">
+            <input type="number" class="form-control" id="estimation" name="flow[1][estimation]" required>
           </div>
 
           <div class="col-2 align-self-center text-center p-1">
@@ -120,7 +128,15 @@
           </div>
 
           <div class="col-2 align-self-center p-1">
-            <input type="text" class="form-control" id="work_center" name="flow[${arrIndex}][work_center]">
+            <select id="work_center" name="flow[${arrIndex}][work_center]" class="form-select">
+              @foreach ($workCenters as $workCenter)
+                @if (old('flow[1][work_center]') == $workCenter->code)
+                  <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @else
+                  <option value="{{ $workCenter->code }}">{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
+                @endif
+              @endforeach
+            </select>
           </div>
 
           <div class="col align-self-center p-1">

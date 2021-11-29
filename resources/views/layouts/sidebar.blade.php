@@ -37,6 +37,11 @@
             <span>Tipe pekerjaan</span>
           </a>
         </li>
+        <li>
+          <a href="/work-center" class="nav-link">
+            <span>Work center</span>
+          </a>
+        </li>
       </ul>
     </li>
     @endif
