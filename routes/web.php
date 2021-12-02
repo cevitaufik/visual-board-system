@@ -39,6 +39,7 @@ Route::get('/user/superadmin', function(){
     ]);
 });
 
+Route::patch('/user/upload-profile-picture', [UserController::class, 'uploadImg'])->middleware('auth');
 Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword'])->middleware('auth');
 Route::resource('user', UserController::class)->scoped(['user' => 'username'])->middleware('auth');
 

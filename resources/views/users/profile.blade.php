@@ -2,20 +2,20 @@
 @section('main')
 @include('layouts.sidebar')
 
-<h1 class="fw-bold">Profile</h1>
+<h1 class="fw-bold">Profil</h1>
 
-@if (session()->has('success'))    
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <p class="m-0 p-0">{{ session('success') }}</p>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+@if (session()->has('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <p class="m-0 p-0">{{ session('success') }}</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 @if (session()->has('failed'))
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <p class="m-0 p-0">{{ session('failed') }}</p>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <p class="m-0 p-0">{{ session('failed') }}</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 <section class="">
@@ -25,14 +25,19 @@
       <div class="card">
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-          <img src="/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          @if (auth()->user()->profile_img)
+            <img src="{{ asset('storage/' . $user->profile_img) }}" alt="Profile" height="180" width="180" class="rounded-circle">
+          @else
+            <img src="/img/default-profile-picture.png" alt="Profile" height="180" width="180" class="rounded-circle">
+          @endif
+
           <h2 class="text-capitalize mt-3">{{ $user->name }}</h2>
           <h3>{{ $user->position }}</h3>
           <p>
             @if ($user->status)
-              Aktif
+            Aktif
             @else
-              Nonaktif  
+            Nonaktif
             @endif
           </p>
         </div>
@@ -52,15 +57,16 @@
             </li>
 
             @if (auth()->user()->username == $user->username || auth()->user()->position == 'superadmin')
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
-              </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profil</button>
+            </li>
             @endif
 
             @if (auth()->user()->username == $user->username)
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
-              </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
+                Password</button>
+            </li>
             @endif
 
           </ul>
@@ -70,7 +76,7 @@
               <h5 class="card-title">Tentang</h5>
               <p class="small fst-italic">{{ $user->about }}</p>
 
-              <h5 class="card-title">Profile Details</h5>
+              <h5 class="card-title">Profil Details</h5>
 
               <div class="row mb-2">
                 <div class="col-lg-3 col-md-4 label ">Nama lengkap</div>
@@ -117,20 +123,35 @@
                 @method('PUT')
                 @csrf
                 <div class="row mb-3">
-                  <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Poto profile</label>
+                  <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Poto profil</label>
                   <div class="col-md-8 col-lg-9">
-                    <img src="/img/profile-img.jpg" alt="Profile">
+
+                    @if (auth()->user()->profile_img)
+                      <img src="{{ asset('storage/' . $user->profile_img) }}" alt="Profile" height="180" width="180">
+                    @else
+                      <img src="/img/default-profile-picture.png" alt="Profile" height="180" width="180">
+                    @endif
+
                     <div class="pt-2">
-                      <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                          <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                          <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+
+                      {{-- upload profile picture --}}
+                      <div class="btn btn-primary btn-sm" onclick="uploadModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-upload" viewBox="0 0 16 16">
+                          <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                          <path
+                            d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
                         </svg>
-                      </a>
+                      </div>
+
                       <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-trash" viewBox="0 0 16 16">
+                          <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                          <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                         </svg>
                       </a>
                     </div>
@@ -140,86 +161,93 @@
                 <div class="row mb-3">
                   <label for="name" class="col-md-4 col-lg-3 col-form-label">Nama lengkap</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ old('name', $user->name) }}">
+                    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                      value="{{ old('name', $user->name) }}">
                     @error('name')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
+                  </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                   <div class="col-md-8 col-lg-9">
-                    <textarea name="about" class="form-control @error('about') is-invalid @enderror" id="about" style="height: 100px">{{ old('about', $user->about) }}</textarea>
+                    <textarea name="about" class="form-control @error('about') is-invalid @enderror" id="about"
+                      style="height: 100px">{{ old('about', $user->about) }}</textarea>
                     @error('about')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
+                  </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username" value="{{ old('username', $user->username) }}">
+                    <input name="username" type="text" class="form-control @error('username') is-invalid @enderror"
+                      id="username" value="{{ old('username', $user->username) }}">
                     @error('username')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
+                  </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="position" class="col-md-4 col-lg-3 col-form-label">Position</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="position" type="text" class="form-control " id="position" value="{{ $user->position }}" readonly>
+                    <input name="position" type="text" class="form-control " id="position" value="{{ $user->position }}"
+                      readonly>
                     @error('position')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
+                  </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="phone" class="col-md-4 col-lg-3 col-form-label">Nomor telpon</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="phone" type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" value="{{ old('phone', $user->phone) }}">
+                    <input name="phone" type="text" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                      value="{{ old('phone', $user->phone) }}">
                     @error('phone')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
+                  </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email', $user->email) }}">
+                    <input name="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email"
+                      value="{{ old('email', $user->email) }}">
                     @error('email')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
+                  </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="address" class="col-md-4 col-lg-3 col-form-label">Alamat</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="address" type="text" class="form-control @error('address') is-invalid @enderror" id="address" value="{{ old('address', $user->address) }}">
+                    <input name="address" type="text" class="form-control @error('address') is-invalid @enderror"
+                      id="address" value="{{ old('address', $user->address) }}">
                     @error('address')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
-                  </div>                  
-                </div>               
+                  </div>
+                </div>
 
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary">Simpan perubahan</button>
@@ -237,11 +265,12 @@
                 <div class="row mb-3">
                   <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password lama</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="currentPassword" type="password" class="form-control @error('currentPassword') is-invalid @enderror" id="currentPassword" required>
+                    <input name="currentPassword" type="password"
+                      class="form-control @error('currentPassword') is-invalid @enderror" id="currentPassword" required>
                     @error('currentPassword')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
                   </div>
                 </div>
@@ -249,23 +278,27 @@
                 <div class="row mb-3">
                   <label for="password" class="col-md-4 col-lg-3 col-form-label">Password baru</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" id="password" id="password" required>
+                    <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                      id="password" id="password" required>
                     @error('password')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="password_confirmation" class="col-md-4 col-lg-3 col-form-label">Masukan ulang password baru</label>
+                  <label for="password_confirmation" class="col-md-4 col-lg-3 col-form-label">Masukan ulang password
+                    baru</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" required>
+                    <input name="password_confirmation" type="password"
+                      class="form-control @error('password_confirmation') is-invalid @enderror"
+                      id="password_confirmation" required>
                     @error('password_confirmation')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
                     @enderror
                   </div>
                 </div>
@@ -285,6 +318,49 @@
 
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content my-bg-element">
+        <form action="/user/upload-profile-picture" method="post" enctype="multipart/form-data">
+          @method('PATCH')
+          @csrf
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">Upload photo profil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            @error('profile_img')
+                <div id="error-msg" class="text-danger mb-1">{{ $message }}</div>
+            @enderror
+
+            <div id="error-msg" class="text-danger mb-1"></div>
+            <input class="form-control" type="file" id="formFile" name="profile_img">
+            <small>Format yang di terima jpg, jpeg, png, dan bmp. Usahakan foto yang di upload berasio 1x1 dan kurang dari 1MB.</small>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let err = '{{ session()->has('errors') }}'
+      $(document).ready(function() {
+        if(err) {          
+          uploadModal()
+        }
+    })
+
+    function uploadModal() {
+      $('#modal').modal('show')
+    }      
+
+  </script>
 </section>
 
 @endsection

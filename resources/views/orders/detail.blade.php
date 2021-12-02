@@ -276,14 +276,12 @@
   <script>
     //melihat flow proses yang sudah ada
     function showFlowProces(id) {
-      console.log(id);
       $('iframe').attr('src', `/flow-process/${id}`)
       $('.modal-detail').modal('show')
     }
 
     // menambah flow process
     function addFlowProces(data) {
-      console.log(`/flow-process/create-new/${data}`);
       $('iframe').attr('src', `/flow-process/create-new/${data}`)
       $('.modal-detail').modal('show')
     }

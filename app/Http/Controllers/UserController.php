@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if(auth()->user()->position != 'superadmin') {
@@ -26,11 +21,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         if(auth()->user()->position != 'superadmin') {
@@ -41,12 +31,6 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -74,12 +58,6 @@ class UserController extends Controller
         return redirect('/user')->with('success', 'Registrasi berhasil');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
         return view('users.profile', [
@@ -87,12 +65,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         if(auth()->user()->position != 'superadmin') {
@@ -105,13 +77,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, User $user)
     {
         $rules = [
@@ -162,12 +127,6 @@ class UserController extends Controller
         }        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         User::destroy($user->id);
@@ -233,5 +192,20 @@ class UserController extends Controller
         } else {
             return redirect($route)->with('failed', 'Password gagal diperbarui');
         }        
+    }
+
+    public function uploadImg(Request $request) {
+        $rules = [
+            'profile_img' => ['file', 'max:1000','mimes:jpg,jpeg,bmp,png']
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        $fileName = auth()->user()->username . '.' . $request->file('profile_img')->extension();
+        $validatedData['profile_img'] = $request->file('profile_img')->storeAs('profile_image', $fileName);
+
+        User::where('username', auth()->user()->username)->update($validatedData);
+
+        return redirect()->back()->with('success', 'Photo profile berhasil diupload');
     }
 }

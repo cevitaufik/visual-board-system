@@ -114,7 +114,6 @@
   }
 
   let err = '{{ session()->has('errors') }}'
-  console.log(err);
 
   $( document ).ready(function() {
     function openModal() {
