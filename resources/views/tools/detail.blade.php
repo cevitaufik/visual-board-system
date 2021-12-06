@@ -132,9 +132,9 @@
 
               <div class="row justify-content-end">
 
-                @if (count($tool->flowProcess))
+                @if ($tool->flowProcesses->isNotEmpty())
                   <div class="col-md-3 pt-2">
-                    <button class="btn btn-success" type="button" onclick="showFlowProces('{{ $tool->flowProcess[0]->id }}')">
+                    <button class="btn btn-success" type="button" onclick="showFlowProces('{{ $tool->flowProcesses->first()->id }}')">
                       Lihat flow proses
                     </button>
                   </div>

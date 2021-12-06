@@ -25,7 +25,7 @@
       <div class="card">
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-          @if (auth()->user()->profile_img)
+          @if ($user->profile_img)
             <img src="{{ asset('storage/' . $user->profile_img) }}" alt="Profile" height="180" width="180" class="rounded-circle">
           @else
             <img src="/img/default-profile-picture.png" alt="Profile" height="180" width="180" class="rounded-circle">
@@ -126,7 +126,7 @@
                   <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Poto profil</label>
                   <div class="col-md-8 col-lg-9">
 
-                    @if (auth()->user()->profile_img)
+                    @if ($user->profile_img)
                       <img src="{{ asset('storage/' . $user->profile_img) }}" alt="Profile" height="180" width="180">
                     @else
                       <img src="/img/default-profile-picture.png" alt="Profile" height="180" width="180">
@@ -145,15 +145,28 @@
                         </svg>
                       </div>
 
-                      <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="bi bi-trash" viewBox="0 0 16 16">
-                          <path
-                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                          <path fill-rule="evenodd"
-                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                        </svg>
-                      </a>
+                      {{-- delete profile picture --}}
+                      @if ($user->profile_img)
+                        <a href="/user/delete-profile-picture/{{ $user->username }}" class="btn btn-danger btn-sm" title="Hapus poto profil" onclick="confirm('Apakah anda yakin?')">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash" viewBox="0 0 16 16">
+                            <path
+                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                          </svg>
+                        </a>
+                      @else
+                        <div class="btn btn-secondary btn-sm">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path
+                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                          </svg>
+                        </div>
+                      @endif
+
                     </div>
                   </div>
                 </div>
@@ -323,7 +336,7 @@
   <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content my-bg-element">
-        <form action="/user/upload-profile-picture" method="post" enctype="multipart/form-data">
+        <form action="/user/profile-picture" method="post" enctype="multipart/form-data">
           @method('PATCH')
           @csrf
           <div class="modal-header">
@@ -358,7 +371,7 @@
 
     function uploadModal() {
       $('#modal').modal('show')
-    }      
+    }
 
   </script>
 </section>

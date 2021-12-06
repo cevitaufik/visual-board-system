@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -184,8 +185,8 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'password' => ['required', 'min:5', 'max:255', 'confirmed']
             ]);
-            $validatedData['password'] = Hash::make($validatedData['password']);        
-
+            
+            $validatedData['password'] = Hash::make($validatedData['password']);
             User::where('id', $user->id)->update($validatedData);
 
             return redirect($route)->with('success', 'Password berhasil diperbarui');
@@ -207,5 +208,17 @@ class UserController extends Controller
         User::where('username', auth()->user()->username)->update($validatedData);
 
         return redirect()->back()->with('success', 'Photo profile berhasil diupload');
+    }
+
+    public function deleteImg($username) {
+        $img = User::where('username', $username)->first();
+
+        if ($img->profile_img) {
+            Storage::delete($img->profile_img);
+            User::where('username', $username)->update(['profile_img' => null]);
+            return redirect()->back()->with('success', 'Poto profil berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('failed', 'Poto profil gagal dihapus.');
+        }
     }
 }

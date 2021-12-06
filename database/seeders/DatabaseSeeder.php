@@ -125,7 +125,7 @@ class DatabaseSeeder extends Seeder
 
         Tool::create([
             'cust_code' => 'ABC',
-            'code' => 'TOOL-1',
+            'code' => 'ABC-1',
             'description' => 'tool nomor 1',
             'drawing' => 'ABC-210101-R0',
         ]);
@@ -139,10 +139,25 @@ class DatabaseSeeder extends Seeder
 
         Tool::create([
             'cust_code' => 'ABC',
-            'code' => 'TOOL-2',
+            'code' => 'ABC-2',
             'description' => 'tool nomor 2',
             'drawing' => 'ABC-210102-R0',
         ]);
+
+        Tool::create([
+            'cust_code' => 'ABC',
+            'code' => 'ABC-2',
+            'description' => 'tool nomor 2',
+            'drawing' => 'ABC-210102-R1',
+        ]);
+
+        Tool::create([
+            'cust_code' => 'ABC',
+            'code' => 'ABC-2',
+            'description' => 'tool nomor 2',
+            'drawing' => 'ABC-210102-R2',
+        ]);
+
 
         Tool::create([
             'cust_code' => 'MNO',
@@ -150,6 +165,13 @@ class DatabaseSeeder extends Seeder
             'description' => 'tool nomor 1 MNO',
             'drawing' => 'MNO-210101-R0',
         ]); 
+
+        Tool::create([
+            'cust_code' => 'MNO',
+            'code' => 'MNO-1',
+            'description' => 'tool nomor 1 MNO',
+            'drawing' => 'MNO-210101-R1',
+        ]);
 
         // ===============================================================================
         // work center
@@ -216,15 +238,31 @@ class DatabaseSeeder extends Seeder
             'estimation' => 10,
         ]);
 
+        FlowProcess::create([
+            'no_drawing' => 'ABC-210102-R2',            
+            'op_number' => 10,
+            'work_center' => 'SG',
+            'description' => 'potong material',
+            'estimation' => 10,
+        ]);
+
+        FlowProcess::create([
+            'no_drawing' => 'ABC-210102-R2',            
+            'op_number' => 20,
+            'work_center' => 'BRZ',
+            'description' => 'brazing center bantu',
+            'estimation' => 10,
+        ]);
+
         // ===============================================================================
         // order
 
         Order::create([
             'po_number' => 'PO2021-001',
             'shop_order' => 211109002,
-            'cust_code' => 'ABC',
+            'cust_code' => 'ASD',
             'description' => 'pekerjaan pertama',
-            'tool_code' => 'TOOL-1',
+            'tool_code' => 'ASD-1',
             'quantity' => 5,
             'no_drawing' => 'ASD-210101-R0',
             'job_type_code' => 'NEW',
@@ -233,11 +271,24 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Order::create([
+            'po_number' => 'PO2021-001',
+            'shop_order' => 211109006,
+            'cust_code' => 'ABC',
+            'description' => 'pekerjaan pertama',
+            'tool_code' => 'ABC-1',
+            'quantity' => 5,
+            'no_drawing' => 'ABC-210101-R0',
+            'job_type_code' => 'NEW',
+            'due_date' => '2021-11-30',
+            'note' => 'catatan',
+        ]);
+
+        Order::create([
             'po_number' => 'PO2021-002',
             'shop_order' => 211109003,
-            'cust_code' => 'ABD',
+            'cust_code' => 'MNO',
             'description' => 'pekerjaan pertama',
-            'tool_code' => 'TOOL-2',
+            'tool_code' => 'MNO-2',
             'quantity' => 5,
             'no_drawing' => 'MNO-210101-R0',
             'current_process' => 'prod',
@@ -251,7 +302,7 @@ class DatabaseSeeder extends Seeder
             'shop_order' => 211109004,
             'cust_code' => 'XYZ',
             'description' => 'pekerjaan pertama',
-            'tool_code' => 'TOOL-123',
+            'tool_code' => 'XYZ-123',
             'quantity' => 5,
             'current_process' => 'eng',
             'job_type_code' => 'NEW',
@@ -264,7 +315,7 @@ class DatabaseSeeder extends Seeder
             'shop_order' => 211109005,
             'cust_code' => 'XYZ',
             'description' => 'pekerjaan pertama',
-            'tool_code' => 'TOOL-123',
+            'tool_code' => 'XYZ-123',
             'quantity' => 5,
             'current_process' => 'close',
             'job_type_code' => 'NEW',

@@ -16,7 +16,8 @@ class ToolController extends Controller
     public function index()
     {
         return view('tools.index', [
-            'tools' => Tool::all()
+            // 'tools' => Tool::all()
+            'tools' => Tool::with('flowProcesses')->get()
         ]);
     }
 
@@ -171,5 +172,18 @@ class ToolController extends Controller
         return view('tools.table', [
             'tools' => Tool::all(),
         ]);
+    }
+
+    public function getDrawing($toolCode, $cust) {
+        $data = Tool::where('cust_code', '=', $cust)
+                    ->where('code', '=', $toolCode)
+                    ->orderBy('drawing', 'desc')
+                    ->first();
+
+        if($data) {
+            return $data->drawing;
+        } else {
+            return '';
+        }
     }
 }

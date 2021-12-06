@@ -104,7 +104,7 @@
 
             <div class="col-md-3 p-1">
               <label for="no_drawing" class="d-block">Nomor drawing</label>
-              <input type="text" name="no_drawing" class="form-control @error('no_drawing') is-invalid @enderror"
+              <input type="text" id="no_drawing" name="no_drawing" class="form-control @error('no_drawing') is-invalid @enderror"
                 value="{{ old('no_drawing', $order->no_drawing) }}">
               @error('no_drawing')
               <div class="invalid-feedback">
@@ -115,7 +115,7 @@
 
             <div class="col-md-3 p-1">
               <label for="tool_code" class="d-block">Kode tool</label>
-              <input type="text" name="tool_code" class="form-control @error('tool_code') is-invalid @enderror"
+              <input type="text" id="tool_code" name="tool_code" class="form-control @error('tool_code') is-invalid @enderror"
                 value="{{ old('tool_code', $order->tool_code) }}">
               @error('tool_code')
               <div class="invalid-feedback">
@@ -183,29 +183,19 @@
               </button>
             </div>
 
-            @if (isset($order->no_drawing))
-              @if (isset($order->tool->flowProcess[0]))
-                <div class="col-md-3 pt-2">
-                  <button class="btn btn-success" type="button" onclick="showFlowProces({{ $order->tool->flowProcess[0]->id }})">
-                    Edit flow proses
-                  </button>
-                </div>
-              @else
-                <div class="col-md-3 pt-2">
-                  <button class="btn btn-primary" type="button" onclick="addFlowProces('{{ $order->no_drawing }}')">
-                    Buat flow proses
-                  </button>
-                </div>
-              @endif
-            @endif
           </div>
 
         </div>
 
         <div class="col-lg-4 border border-white rounded">
           
-          @if (isset($processes))
+          @if (count($processes))
             <h3 class="my-2">Flow process</h3>
+            <div class="py-1">
+              <button class="btn btn-warning" type="button" onclick="showFlowProces({{ $order->tool->flowProcess[0]->id }})">
+                Edit flow proses
+              </button>
+            </div>
             <table>
               @foreach ($processes as $process)
                 <tr class="px-2">
@@ -229,6 +219,11 @@
             </table>
           @else
               <h1 class="py-3">Belum ada flow process</h1>
+              <div class="pt-2">
+                <button class="btn btn-primary" type="button" onclick="addFlowProces('{{ $order->no_drawing }}')">
+                  Buat flow proses
+                </button>
+              </div>
           @endif
         </div>
       </div>
@@ -294,6 +289,25 @@
     $('#close').on('click', function() {
       $('.modal-detail').modal('hide')
       getTable()
+    })
+
+    // mengisi nomor drawing secara otomatis
+    $('#tool_code').on('change', function() {
+      let toolCode = $('#tool_code').val()
+      let cust = '{{ $order->cust_code }}'
+
+      $.ajax({
+        url: `/tool/get-drawing/${toolCode}/${cust}`,
+        method: 'GET',
+        success: function(data){
+          $('#no_drawing').val(data)
+          $('#tool_code').val(toolCode.toUpperCase())
+        },
+        error: function(error){
+          alert('error ' + error.responseText);
+          console.log(error);
+        }        
+      })
     })
   </script>
 

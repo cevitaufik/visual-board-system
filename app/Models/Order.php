@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $with = ['tool'];
+    protected $with = ['tool', 'jobType'];
 
     // untuk menghubungkan dua kelas
     // buat function yang namanya sama dengan kelas yang akan dihubungkan

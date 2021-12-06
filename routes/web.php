@@ -39,7 +39,8 @@ Route::get('/user/superadmin', function(){
     ]);
 });
 
-Route::patch('/user/upload-profile-picture', [UserController::class, 'uploadImg'])->middleware('auth');
+Route::patch('/user/profile-picture', [UserController::class, 'uploadImg'])->middleware('auth');
+Route::get('/user/delete-profile-picture/{username}', [UserController::class, 'deleteImg'])->middleware('auth');
 Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword'])->middleware('auth');
 Route::resource('user', UserController::class)->scoped(['user' => 'username'])->middleware('auth');
 
@@ -64,6 +65,7 @@ Route::get('/marketing/table', [MarketingController::class, 'table'])->middlewar
 Route::resource('/marketing', MarketingController::class)->middleware('auth');
 
 Route::get('/tool/table', [ToolController::class, 'table'])->middleware('auth');
+Route::get('/tool/get-drawing/{toolCode}/{cust}', [ToolController::class, 'getDrawing'])->middleware('auth');
 Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing'])->middleware('auth');
 
 Route::get('/flow-process/table', [FlowProcessController::class, 'table'])->middleware('auth');
