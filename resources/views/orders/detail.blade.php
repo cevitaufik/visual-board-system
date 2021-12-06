@@ -189,12 +189,14 @@
 
         <div class="col-lg-4 border border-white rounded">
           
-          @if (count($processes))
+          @if ($processes != null)
             <h3 class="my-2">Flow process</h3>
             <div class="py-1">
-              <button class="btn btn-warning" type="button" onclick="showFlowProces({{ $order->tool->flowProcess[0]->id }})">
-                Edit flow proses
-              </button>
+              @if ($order->tool->flowProcesses->isNotEmpty())
+                <button class="btn btn-warning" type="button" onclick="showFlowProces({{ $order->tool->flowProcesses->first()->id }})">
+                  Edit flow proses
+                </button>
+              @endif              
             </div>
             <table>
               @foreach ($processes as $process)

@@ -105,8 +105,8 @@ class OrderController extends Controller
     {
         // ddd($order->tool->flowProcess);
 
-        if (isset($order->tool->flowProcess)) {
-            $processes = $order->tool->flowProcess->sortBy('op_number');
+        if (isset($order->tool->flowProcesses[0])) {
+            $processes = $order->tool->flowProcesses->sortBy('op_number');
         } else {
             $processes = null;
         }
