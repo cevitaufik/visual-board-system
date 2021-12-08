@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('code');
             $table->string('description')->nullable();
             $table->string('drawing')->unique();
+            $table->string('status')->nullable();
             $table->string('note')->nullable();
             $table->string('dwg_production')->nullable();
             $table->string('dwg_customer')->nullable();

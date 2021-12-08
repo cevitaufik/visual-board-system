@@ -82,7 +82,7 @@
                     <button class="btn btn-primary w-100" type="submit">Login</button>
                   </div>
                   <div class="col-12">
-                    <p class="small mb-0">Belum memiliki akun? <a href="/register">Buat akun</a></p>
+                    <p class="small mb-0">Belum memiliki akun? <a href="/register" class="text-primary">Buat akun</a></p>
                   </div>
                 </form>
               </div>

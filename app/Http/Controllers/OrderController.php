@@ -18,11 +18,6 @@ class OrderController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {            
@@ -34,12 +29,6 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {
@@ -129,13 +118,6 @@ class OrderController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Order $order)
     {
         $rules = [

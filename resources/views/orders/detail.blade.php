@@ -165,7 +165,17 @@
           </div>
 
           <div class="row">
-            <div class="col-md-3 pt-2">
+            <hr>
+            <div class="col-md-6">
+              Status drawing :
+              @if (isset($order->tool->status))
+                <span class="bg-success px-3 py-2 rounded">{{ $order->tool->status }}</span>
+              @else
+                N/A
+              @endif
+            </div>
+
+            <div class="col-md-3">
               <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dwgProd"
                 aria-expanded="false" aria-controls="dwgProd" @if (!isset($order->tool->dwg_production))
                 disabled
@@ -174,7 +184,7 @@
               </button>
             </div>
 
-            <div class="col-md-3 pt-2">
+            <div class="col-md-3">
               <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dwgCust"
                 aria-expanded="false" aria-controls="dwgCust" @if (!isset($order->tool->dwg_customer))
                 disabled
@@ -182,7 +192,6 @@
                 Dwg customer
               </button>
             </div>
-
           </div>
 
         </div>

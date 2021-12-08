@@ -113,6 +113,8 @@
     </li>
 
     {{-- engineering --}}
+
+    @if (auth()->user()->position == 'superadmin' || auth()->user()->position == 'engineering')
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#engineering-nav" data-bs-toggle="collapse" href="#">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-motherboard" viewBox="0 0 16 16">
@@ -134,6 +136,7 @@
         </li>
       </ul>
     </li>
+    @endif
 
     {{-- logistic --}}
     <li class="nav-item">

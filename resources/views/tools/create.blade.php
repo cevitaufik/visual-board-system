@@ -93,15 +93,26 @@
             </div>
           </div>
 
-          <div class="col-12 py-2">
-            <label for="description" class="d-block">Deskripsi</label>
-            <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
-              value="{{ old('description') }}" required>
-            @error('description')
-            <div class="invalid-feedback">
-              {{ $message }}
+          <div class="row px-2">
+            <div class="col-md-10 p-1">
+              <label for="description" class="d-block">Deskripsi</label>
+              <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
+                value="{{ old('description') }}" required>
+              @error('description')
+              <div class="invalid-feedback">
+                {{ $message }}
+              </div>
+              @enderror
             </div>
-            @enderror
+            <div class="col-md-2 p-1">
+              <label for="status">Status</label>
+              <select name="status" id="status" class="form-select">                
+                <option value="APPROVAL CUST." @if(old('status') == 'APPROVAL CUST.') selected @endif>APPROVAL CUST.</option>
+                <option value="APPROVED" @if(old('status') == 'APPROVED') selected @endif>APPROVED</option>
+                <option value="PRODUCTION" @if(old('status') == 'PRODUCTION') selected @endif>PRODUCTION</option>
+                <option value="TIDAK DIGUNAKAN" @if(old('status') == 'TIDAK DIGUNAKAN') selected @endif>TIDAK DIGUNAKAN</option>
+              </select>
+            </div>
           </div>
 
           <div class="col-12">

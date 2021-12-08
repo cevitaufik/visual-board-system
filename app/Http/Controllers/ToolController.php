@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ToolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('tools.index', [
@@ -21,31 +16,22 @@ class ToolController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('tools.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
             'cust_code' => ['required', 'max:3'],
             'drawing' => ['required', 'max:13', 'unique:tools'],
             'description' => ['required', 'max:255'],
+            'status' => 'required',
         ];
 
         $request['cust_code'] = strtoupper($request['cust_code']);
+        $request['drawing'] = strtoupper($request['drawing']);
 
         if(isset($request['note'])) {
             $rules['note'] = ['max:500'];
@@ -102,19 +88,13 @@ class ToolController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tool  $tool
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Tool $tool)
     {
         $rules = [
             'drawing' => ['required', 'max:13'],
             'code' => ['required', 'max:255'],
             'description' => ['required', 'max:255'],
+            'status' => 'required',
         ];
 
         if(isset($request['note'])) {
@@ -147,12 +127,6 @@ class ToolController extends Controller
         return redirect('/tool/' . $dwg)->with('success', 'Data berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tool  $tool
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Tool $tool)
     {
         if($tool->dwg_customer) {

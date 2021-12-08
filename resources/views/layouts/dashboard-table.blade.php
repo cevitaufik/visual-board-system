@@ -16,6 +16,13 @@
   <td>{{ $order->tool_code }}</td>
   <td>{{ $order->quantity }}</td>
   <td>{{ $order->current_process }}</td>
+  <td>
+    @if (isset($order->tool->status))                        
+      {{ $order->tool->status }}
+    @else
+      {{ '' }}
+    @endif
+  </td>
   <td>{{ $order->no_drawing }}</td>
 </tr>
 @endforeach
