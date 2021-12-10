@@ -46,8 +46,8 @@
     </li>
     @endif
 
-    @if (auth()->user()->position == 'superadmin' || auth()->user()->position == 'marketing')
     {{-- mkt --}}
+    @if (auth()->user()->position == 'superadmin' || auth()->user()->position == 'marketing')    
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#marketing-nav" data-bs-toggle="collapse" href="#">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-data" viewBox="0 0 16 16">
@@ -64,6 +64,13 @@
         <li>
           <a href="/order/create" class="nav-link">
             <span>Registrasi shop order</span>
+          </a>
+        </li>
+      </ul>
+      <ul id="marketing-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/customer" class="nav-link">
+            <span>Customer</span>
           </a>
         </li>
       </ul>

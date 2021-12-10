@@ -28,4 +28,8 @@ class Order extends Model
     public function tool() {
         return $this->hasOne(Tool::class, 'drawing', 'no_drawing');
     }
+
+    public function customer() {
+        return $this->hasOne(Customer::class, 'code', 'cust_code');
+    }
 }

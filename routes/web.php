@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EngineeringController;
 use App\Http\Controllers\FlowProcessController;
 use App\Http\Controllers\JobTypeController;
@@ -73,3 +74,6 @@ Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::clas
 Route::resource('/flow-process', FlowProcessController::class)->middleware('auth');
 
 Route::resource('/work-center', WorkCenterController::class)->middleware('auth');
+
+Route::get('/customer/table', [CustomerController::class, 'table'])->middleware('auth');
+Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code'])->middleware('auth');

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\FlowProcess;
 use App\Models\User;
 use App\Models\Order;
@@ -329,6 +330,30 @@ class DatabaseSeeder extends Seeder
             'job_type_code' => 'NEW',
             'due_date' => '2021-11-30',
             'note' => 'catatan',
-        ]);        
+        ]);
+        
+        Customer::create([
+            'code' => 'XYX',
+            'name' => 'Xyzabc',
+            'address' => 'bekasi',
+            'email' => 'xyz@gmail.com',
+            'phone' => '123123123',
+        ]);
+
+        Customer::create([
+            'code' => 'ASD',
+            'name' => 'Asdabc',
+            'address' => 'bekasi',
+            'email' => 'asd@gmail.com',
+            'phone' => '1231231231',
+        ]);
+
+        Customer::create([
+            'code' => 'MNO',
+            'name' => 'Mnoabc',
+            'address' => 'bekasi',
+            'email' => 'mno@gmail.com',
+            'phone' => '1231231232',
+        ]);
     }
 }

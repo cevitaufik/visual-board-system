@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class JobTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('job-types.index', [
@@ -29,12 +24,6 @@ class JobTypeController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -71,13 +60,6 @@ class JobTypeController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\JobType  $jobType
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, JobType $jobType)
     {
         $rules = [
@@ -94,12 +76,6 @@ class JobTypeController extends Controller
         return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\JobType  $jobType
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(JobType $jobType)
     {
         JobType::destroy($jobType->id);
