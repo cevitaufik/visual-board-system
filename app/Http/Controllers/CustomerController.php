@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('customers.index', [
@@ -19,22 +15,13 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('customers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $rules = [
@@ -43,6 +30,8 @@ class CustomerController extends Controller
             'phone' => ['required', 'unique:customers'],
             'address' => ['required', 'max:225'],
         ];
+
+        $request['name'] = strtoupper($request->name);
 
         $validatedData = $request->validate($rules);
 
@@ -65,18 +54,27 @@ class CustomerController extends Controller
 
         Customer::create($validatedData);
 
+        if (isset($request->contact_person)) {
+            foreach ($request->contact_person as $person) {
+
+                $contact['cust_code'] = $validatedData['code'];
+                $contact['name'] = $person['name'];
+                $contact['position'] = $person['position'];
+                $contact['email'] = implode(',', $person['email']);
+                $contact['phone'] = implode(',', $person['phone']);
+
+                CustomerContact::create($contact);
+            }
+        }        
+
         return redirect('/customer')->with('success', 'Data customer berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
+    // untuk membuat text menjadi array gunakan explode(',', $text)
+
     public function show(Customer $customer)
     {
-        //
+        return view('customers.detail', ['customer' => $customer]);
     }
 
     /**
@@ -90,27 +88,35 @@ class CustomerController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Customer $customer)
     {
-        //
+        $rules = [
+            'name' => ['required', 'max:255'],
+            'address' => ['required', 'max:225'],
+        ];
+
+        $request['name'] = strtoupper($request->name);
+
+        if ($request['email'] != $customer->email) {
+            $rules['email'] = ['required', 'email:dns', 'unique:customers'];
+        }
+
+        if ($request['phone'] != $customer->phone) {
+            $rules['phone'] = ['required', 'unique:customers'];
+        }
+
+        $validatedData = $request->validate($rules); 
+        Customer::where('code', $customer->code)->update($validatedData);
+
+        return redirect('/customer/' . $customer->code)->with('success', 'Data customer berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Customer $customer)
     {
-        //
+        Customer::destroy($customer->id);
+        return redirect('/customer')->with('success', 'Data berhasil dihapus');        
     }
 
     public function table() {
