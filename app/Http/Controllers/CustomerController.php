@@ -124,4 +124,15 @@ class CustomerController extends Controller
             'customers' => Customer::all(),
         ]);
     }
+
+    public function addContact(Request $request) {
+        $contact['cust_code'] = $request['cust_code'];
+        $contact['name'] = $request['name'];
+        $contact['email'] = implode(',', $request['email']);
+        $contact['phone'] = implode(',', $request['phone']);
+        $contact['position'] = $request['position'];
+
+        CustomerContact::create($contact);
+        return $contact;
+    }
 }
