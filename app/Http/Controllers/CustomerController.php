@@ -70,8 +70,6 @@ class CustomerController extends Controller
         return redirect('/customer')->with('success', 'Data customer berhasil ditambahkan');
     }
 
-    // untuk membuat text menjadi array gunakan explode(',', $text)
-
     public function show(Customer $customer)
     {
         return view('customers.detail', ['customer' => $customer]);
@@ -133,6 +131,40 @@ class CustomerController extends Controller
         $contact['position'] = $request['position'];
 
         CustomerContact::create($contact);
-        return $contact;
+        return redirect()->back()->with('success', 'Kontak berhasil ditambahkan.');
+    }
+
+    public function deleteContact($id) {
+        CustomerContact::destroy($id);
+        return redirect()->back()->with('success', 'Kontak berhasil dihapus.');
+    }
+
+    public function contactDetail($id) {
+        $contact = CustomerContact::where('id', $id)->first();
+
+        return view('customers.contact-detail', ['contact' => $contact]);
+    }
+
+    public function editContact(Request $request, $id) {
+        $contact['cust_code'] = $request['cust_code'];
+        $contact['name'] = $request['name'];
+
+        if (isset($request['email'])) {
+            $contact['email'] = implode(',', $request['email']);
+        } else {
+            $contact['email'] = null;
+        }
+        
+        if (isset($request['phone'])) {
+            $contact['phone'] = implode(',', $request['phone']);
+        } else {
+            $contact['phone'] = null;
+        }
+        
+        $contact['position'] = $request['position'];
+
+        CustomerContact::where('id', $id)->update($contact);
+
+        return redirect()->back()->with('success', 'Kontak berhasil diperbarui.');
     }
 }

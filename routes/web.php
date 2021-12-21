@@ -77,4 +77,7 @@ Route::resource('/work-center', WorkCenterController::class)->middleware('auth')
 
 Route::get('/customer/table', [CustomerController::class, 'table'])->middleware('auth');
 Route::post('/customer/contact/create', [CustomerController::class, 'addContact'])->middleware('auth');
+Route::get('/customer/contact/{id}', [CustomerController::class, 'contactDetail'])->middleware('auth');
+Route::put('/customer/contact/{id}', [CustomerController::class, 'editContact'])->middleware('auth');
+Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteContact'])->middleware('auth');
 Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code'])->middleware('auth');

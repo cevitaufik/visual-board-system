@@ -1,5 +1,5 @@
 // mengatur tingging iframe
-const height = $(window).height() * 0.92;
+const height = $(window).height() * 0.8;
 $('iframe').css('height', height + 'px');
 
 // menghapus data customer
@@ -23,6 +23,36 @@ function deleteCust(code) {
 function addContactModal() {
   $('#modal-add-contact').modal('show')
 }
+
+// menyimpan data kontak
+function addContact() {
+  let formData = $('#new-contact').serialize()
+
+  $.ajax({
+    url: `/customer/contact/create`,
+    method: 'POST',
+    data: formData,
+    success: function () {
+      $('#modal-add-contact').modal('hide')
+      location.reload()
+    },
+    error: function (error) {
+      alert(error);
+    }
+  })
+}
+
+//membuka modal edit kontak
+function editContactModal(id) {  
+  $('iframe').attr('src', `/customer/contact/${id}`)
+  $('#modal-detail-contact').modal('show')
+}
+
+// menutup modal tambah kontak
+$('#close-modal-detail-contact').on('click', function() {
+  $('#modal-detail-contact').modal('hide')
+  location.reload()
+})
 
 // menutup modal ketika mengklik tombol close
 $('#close').on('click', function () {
@@ -109,22 +139,4 @@ function addRowPhone() {
 // menghapus baris input nomor telpon
 function deleteRowPhone(index) {
   $(`#row-phone-${index}`).remove()
-}
-
-// menyimpan data kontak
-function addContact() {
-  let formData = $('#new-contact').serialize()
-
-  console.log(formData);
-  $.ajax({
-    url: `/customer/contact/create`,
-    method: 'POST',
-    data: formData,
-    success: function (data) {
-      console.log(data);
-    },
-    error: function (error) {
-      console.log(error);
-    }
-  })
 }
