@@ -185,7 +185,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img src="/img/messages-1.jpg" alt="" class="rounded-circle">
+                <img src="" alt="" class="rounded-circle">
                 <div>
                   <h4>Maria Hudson</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -199,7 +199,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img src="/img/messages-2.jpg" alt="" class="rounded-circle">
+                <img src="" alt="" class="rounded-circle">
                 <div>
                   <h4>Anna Nelson</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -213,7 +213,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img src="/img/messages-3.jpg" alt="" class="rounded-circle">
+                <img src="" alt="" class="rounded-circle">
                 <div>
                   <h4>David Muldon</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -333,8 +333,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+  {{-- <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a> --}}
 
   <!-- Vendor JS Files -->
   <script src="/vendor/bootstrap/js/bootstrap.bundle.js"></script>

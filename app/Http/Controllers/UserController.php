@@ -145,7 +145,9 @@ class UserController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request['remember'] ? true : false;
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             $route = '/' . auth()->user()->position;
             return redirect($route);

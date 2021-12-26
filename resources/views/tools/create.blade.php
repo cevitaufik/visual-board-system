@@ -130,11 +130,15 @@
       </div>
 
       <div class="position-fixed bottom-0 end-0 m-3">
-        <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin?')">Simpan</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit" onclick="return confirm('Apakah anda yakin?'), loading()">Simpan</button>
+        <button class="btn btn-primary d-none" type="button" disabled id="btn-submit-loading">
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Loading...
+        </button>
       </div>
     </form>
   </main>
-
+  <script src="/js/tools/main.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 </body>
 

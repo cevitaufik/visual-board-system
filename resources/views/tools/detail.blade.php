@@ -195,8 +195,17 @@
       </div>
 
       <div class="position-fixed bottom-0 end-0 m-3">
-        <a class="btn btn-danger me-3" onclick="return confirm('Apakah anda yakin?')" id="delete">Hapus</a>
-        <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin?')">Perbarui</button>
+        <a class="btn btn-danger me-3" id="btn-delete" onclick="return confirm('Apakah anda yakin?'), deleteTool('{{ $tool->drawing }}')" id="delete">Hapus</a>
+        <button class="btn btn-danger d-none" type="button" disabled id="btn-delete-loading">
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Loading...
+        </button>
+
+        <button type="submit" class="btn btn-primary" id="btn-submit" onclick="return confirm('Apakah anda yakin?'), loading()">Perbarui</button>
+        <button class="btn btn-primary d-none" type="button" disabled id="btn-submit-loading">
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Loading...
+        </button>
       </div>
 
     </form>
@@ -225,50 +234,7 @@
 
   </main>
 
-  <script>
-    // mengatur tingging iframe
-    const height = $(window).height() * 0.92;
-    $('iframe').css('height', height +'px');
-
-    // menutup modal ketika mengklik tombol close
-    $('#close').on('click', function() {
-      $('.modal-detail').modal('hide')
-    })
-
-    //melihat flow proses yang sudah ada
-    function showFlowProces(id) {
-      $('iframe').attr('src', `/flow-process/${id}`)
-      $('.modal-detail').modal('show')
-    }
-
-    // menambah flow process
-    function addFlowProces(data) {
-      console.log(`/flow-process/create-new/${data}`);
-      $('iframe').attr('src', `/flow-process/create-new/${data}`)
-      $('.modal-detail').modal('show')
-    }
-
-    $('#delete').on('click', function(event) {
-      event.preventDefault();
-      $('input[name="_method"]').val('DELETE')
-
-      let formData = $('#order-detail').serialize()
-      let drawing = '{{ $tool->drawing }}'
-
-      $.ajax({
-        url: `/tool/${drawing}`,
-        method: 'POST',
-        data: formData,
-        success: function() {          
-          parent.closeModal();
-        },
-        error: function(error) {
-          console.log(error);
-        }
-      })
-    })
-  </script>
-
+  <script src="/js/tools/main.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 </body>
 

@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.iframe')
+@section('main')
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <!-- Vendor CSS Files -->
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/mycss.css">
-
-  <!-- Jquery -->
-  <script src="/js/jquery.js"></script>
-</head>
-
-<body class="my-bg-element">
   <main class="container-fluid p-3 mb-5">
     <h3 class="mb-3">Ubah data kontak</h3>
 
@@ -165,7 +148,5 @@
   </main>
 
   <script src="/js/customers/detail.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-</body>
-
-</html>
+    
+@endsection

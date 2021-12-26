@@ -1,37 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <!-- Vendor CSS Files -->
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/mycss.css">
-
-  <!-- Jquery -->
-  <script src="/js/jquery.js"></script>
-</head>
-
-<body class="my-bg-element">
+@extends('layouts.iframe')
+@section('main')
+  
   <main class="container-fluid p-3">
     <form action="/order/{{ $order->shop_order }}" id="order-detail" method="POST">
       @method('put')
       @csrf
 
       <div class="row">
-        <h3 class="col">{{ $order->cust_code }}</h3>
+        <h3 class="col" id="cust_code">{{ $order->cust_code }}</h3>
       </div>
 
       @if (session()->has('success'))    
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <p class="m-0 p-0">{{ session('success') }}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <p class="m-0 p-0">{{ session('success') }}</p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
       @endif
 
       <div class="row mb-3">
@@ -279,50 +262,5 @@
     </div>
   </main>
 
-  <script>
-    //melihat flow proses yang sudah ada
-    function showFlowProces(id) {
-      $('iframe').attr('src', `/flow-process/${id}`)
-      $('.modal-detail').modal('show')
-    }
-
-    // menambah flow process
-    function addFlowProces(data) {
-      $('iframe').attr('src', `/flow-process/create-new/${data}`)
-      $('.modal-detail').modal('show')
-    }
-
-    // mengatur tinggi iframe
-    const height = $(window).height() * 0.92;
-    $('iframe').css('height', height +'px');
-
-    // menutup modal ketika mengklik tombol close
-    $('#close').on('click', function() {
-      $('.modal-detail').modal('hide')
-      getTable()
-    })
-
-    // mengisi nomor drawing secara otomatis
-    $('#tool_code').on('change', function() {
-      let toolCode = $('#tool_code').val()
-      let cust = '{{ $order->cust_code }}'
-
-      $.ajax({
-        url: `/tool/get-drawing/${toolCode}/${cust}`,
-        method: 'GET',
-        success: function(data){
-          $('#no_drawing').val(data)
-          $('#tool_code').val(toolCode.toUpperCase())
-        },
-        error: function(error){
-          alert('error ' + error.responseText);
-          console.log(error);
-        }        
-      })
-    })
-  </script>
-
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-</body>
-
-</html>
+  <script src="/js/orders/main.js"></script>
+@endsection

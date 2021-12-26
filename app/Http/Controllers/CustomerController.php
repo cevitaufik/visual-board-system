@@ -32,9 +32,7 @@ class CustomerController extends Controller
         ];
 
         $request['name'] = strtoupper($request->name);
-
         $validatedData = $request->validate($rules);
-
         $code = strtoupper(substr($request->name, 0, 3));
 
         if(!Customer::where('code', $code)->value('code')) {
@@ -54,7 +52,7 @@ class CustomerController extends Controller
 
         Customer::create($validatedData);
 
-        if (isset($request->contact_person)) {
+        if (isset($request->contact_person[0]['name'])) {
             foreach ($request->contact_person as $person) {
 
                 $contact['cust_code'] = $validatedData['code'];
@@ -113,9 +111,15 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
+        $contacts = CustomerContact::where('cust_code', $customer->code)->get();        
+        foreach ($contacts as $contact) {
+            CustomerContact::destroy($contact->id);
+        }
+        
         Customer::destroy($customer->id);
         return redirect('/customer')->with('success', 'Data berhasil dihapus');        
     }
+
 
     public function table() {
         return view('customers.table', [
@@ -133,11 +137,13 @@ class CustomerController extends Controller
         CustomerContact::create($contact);
         return redirect()->back()->with('success', 'Kontak berhasil ditambahkan.');
     }
+    
 
     public function deleteContact($id) {
         CustomerContact::destroy($id);
         return redirect()->back()->with('success', 'Kontak berhasil dihapus.');
     }
+
 
     public function contactDetail($id) {
         $contact = CustomerContact::where('id', $id)->first();
@@ -145,22 +151,12 @@ class CustomerController extends Controller
         return view('customers.contact-detail', ['contact' => $contact]);
     }
 
+
     public function editContact(Request $request, $id) {
         $contact['cust_code'] = $request['cust_code'];
         $contact['name'] = $request['name'];
-
-        if (isset($request['email'])) {
-            $contact['email'] = implode(',', $request['email']);
-        } else {
-            $contact['email'] = null;
-        }
-        
-        if (isset($request['phone'])) {
-            $contact['phone'] = implode(',', $request['phone']);
-        } else {
-            $contact['phone'] = null;
-        }
-        
+        $contact['email'] = $request['email'] ? implode(',', $request['email']) : null;
+        $contact['phone'] = $request['phone'] ? implode(',', $request['phone']) : null;               
         $contact['position'] = $request['position'];
 
         CustomerContact::where('id', $id)->update($contact);

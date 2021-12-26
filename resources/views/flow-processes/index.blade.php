@@ -83,50 +83,8 @@
     </div>
 
   </div>
-  <script>
-    // merefresh table 
-    function getTable() {
-      $.get(`/flow-process/table`, {}, function(data) {
-        $('#table-data').html(data)
-      })
-    }
 
-    // menutup modal ketika mengklik tombol close
-    $('#close').on('click', function() {
-      $('.modal-detail').modal('hide')
-      getTable()
-    })
-
-    // menutup modal setelah menghapus data
-    function closeModal(){
-      $('.modal-detail').modal('hide')
-      getTable()
-      $('#deletedMsg').html(`
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="deleted">
-          <p class="m-0 p-0">Data berhasil dihapus</p>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      `)
-    }
-
-    // menampilkan modal tambah data
-    function add() {
-      $('iframe').attr('src', `/flow-process/create`)
-      $('.modal-detail').modal('show')
-    }
-
-    // menampilkan modal
-    $('#table-data').on('click', 'tr', function() {
-      let id = $(this).data('id');
-
-      $('iframe').attr('src', `/flow-process/${id}`)
-      $('.modal-detail').modal('show')
-    })
-
-    // mengatur tinggi iframe
-    const height = $(window).height() * 0.92;
-    $('iframe').css('height', height +'px');
-  </script>
+  <script src="/js/flow-processes/main.js"></script>
 </section>
 
 @endsection
