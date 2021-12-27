@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FlowProcess;
+use App\Models\Order;
 use App\Models\WorkCenter;
 use Illuminate\Http\Request;
 
@@ -29,25 +30,6 @@ class FlowProcessController extends Controller
 
     public function store(Request $request)
     {
-
-        // ddd($request);
-        // $rules = [
-        //     'no_drawing' => ['required', 'max:13'],
-        //     'op_number' => ['required'],
-        //     'work_center' => ['required'],
-        //     'estimation' => ['required'],
-        // ];
-
-        // if(isset($request['description'])) {
-        //     $rules['description'] = ['max:500'];
-        // }
-
-        // $validatedData = $request->validate($rules);
-
-        // FlowProcess::create($validatedData);
-
-        // ddd($request->flow);
-
         foreach ($request->flow as $flow) {
             $flow['no_drawing'] = strtoupper($flow['no_drawing']);
             FlowProcess::create($flow);
@@ -75,28 +57,6 @@ class FlowProcessController extends Controller
     
     public function update(Request $request, FlowProcess $flowProcess)
     {
-        // $rules = [
-        //     'op_number' => ['required', 
-        //                         // 'unique:flow_processes,op_number,' . $request->op_number
-        //                         // Rule::unique('flow_processes')
-        //                         // ->where(function ($query) use($no_drawing, $op_number) {
-        //                         //     return $query->where('no_drawing', $no_drawing)
-        //                         //             ->where('op_number', $op_number);
-        //                         // })
-        //                     ],
-        //     'no_drawing' => ['required', 'max:13'],
-        //     'work_center' => ['required'],
-        //     'estimation' => ['required'],
-        // ];
-
-        // if(isset($request['description'])) {
-        //     $rules['description'] = ['max:500'];
-        // }
-
-        // $validatedData = $request->validate($rules);
-
-        // FlowProcess::where('id', $flowProcess->id)->update($validatedData);
-
         if (isset($request['deleted'])) {
             foreach ($request['deleted'] as $del) {
                 FlowProcess::where('id', $del)->delete();
@@ -140,5 +100,28 @@ class FlowProcessController extends Controller
             'no_drawing' => $no_drawing,
             'workCenters' => WorkCenter::all(),
         ]);
+    }
+
+
+    public function copy($shop_order, $no_drawing) {
+        $datas = FlowProcess::where('no_drawing', $no_drawing)->get()->sortBy('op_number');
+        $fp = [];
+        
+        foreach ($datas as $data) {
+            $fp[$data->op_number] = [
+                'work_center' => "$data->work_center", 
+                'description' => "$data->description", 
+                'estimation' => "$data->estimation",
+                'start' => null,
+                'end' => null,
+                'qty' => null,
+                'status' => 'open',
+                'processed_by' => null,
+            ];
+        }
+
+        Order::where('shop_order', $shop_order)->update(['flow_process' => serialize($fp)]);
+        
+        return redirect()->back()->with('success', 'Flow proses telah diperbarui.');
     }
 }

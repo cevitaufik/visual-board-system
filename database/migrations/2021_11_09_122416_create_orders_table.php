@@ -64,6 +64,7 @@ class CreateOrdersTable extends Migration
             $table->date('due_date')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('current_process')->nullable();
+            $table->text('flow_process')->nullable();
             $table->timestamps();
 
             $table->foreign('job_type_code')->references('code')->on('job_types')->onDelete('cascade')->onUpdate('cascade');
