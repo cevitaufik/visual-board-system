@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\WorkCenterController;
 
@@ -82,3 +83,5 @@ Route::get('/customer/contact/{id}', [CustomerController::class, 'contactDetail'
 Route::put('/customer/contact/{id}', [CustomerController::class, 'editContact'])->middleware('auth');
 Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteContact'])->middleware('auth');
 Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code'])->middleware('auth');
+
+Route::get('/scan', [TestController::class, 'index']);
