@@ -25,7 +25,8 @@
       </div>
 
       <div>
-        <video id="video" width="300" height="200" style="border: 1px solid gray"></video>
+        <video id="video" class="w-100" style="border: 1px solid gray"></video>
+        {{-- <video id="video" width="300" height="200" style="border: 1px solid gray"></video> --}}
       </div>
 
       <div id="sourceSelectPanel">
