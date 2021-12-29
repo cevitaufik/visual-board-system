@@ -85,3 +85,5 @@ Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteC
 Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code'])->middleware('auth');
 
 Route::get('/scan', [TestController::class, 'index']);
+Route::get('/qr', [TestController::class, 'qrIndex']);
+Route::get('/qr/{input}', [TestController::class, 'generateQR']);

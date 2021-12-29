@@ -4,7 +4,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="ZXing for JS">
   <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
 
   <title>Scaner</title>
@@ -17,17 +16,16 @@
   <main>
 
     <section class="container" id="demo-content">
-      <h1 class="title">Scan 1D/2D Code from Video Camera</h1>
-
-      <div class="mb-3">
-        <a class="btn btn-primary" id="startButton">Start</a>
-        <a class="btn btn-primary" id="resetButton">Reset</a>
-      </div>
+      <h1 class="title">Scan 1D/2D Code</h1>      
 
       <div>
         <video id="video" class="w-100" style="border: 1px solid gray"></video>
         {{-- <video id="video" width="300" height="200" style="border: 1px solid gray"></video> --}}
-      </div>
+      </div>      
+
+      <label>Result:</label>
+      <h4 id="result"></h4>
+      {{-- <pre><code id="result"></code></pre> --}}
 
       <div id="sourceSelectPanel">
         <label for="sourceSelect">Change video source:</label>
@@ -35,9 +33,13 @@
         </select>
       </div>
 
-      <label>Result:</label>
-      <h4 id="result"></h4>
-      {{-- <pre><code id="result"></code></pre> --}}
+      <div class="mb-3">
+        <a class="btn btn-primary" id="startButton">Start</a>
+        <a class="btn btn-primary" id="resetButton">Reset</a>
+      </div>
+
+      <p>*tulisan barcode akan dicetak dalam huruf kapital</p>
+      <audio style="display: none;" id="notification" preload src="/asset/success.mp3">
 
     </section>
 
@@ -72,6 +74,7 @@
               if (result) {
                 console.log(result.text)
                 document.getElementById('result').textContent = result.text
+                document.getElementById('notification').play()
               }
               if (err && !(err instanceof ZXing.NotFoundException)) {
                 console.error(err)

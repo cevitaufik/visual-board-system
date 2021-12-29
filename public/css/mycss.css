@@ -1,3 +1,13 @@
+@font-face {
+  font-family: barcode;
+  src: url(LibreBarcode39-Regular.ttf);
+}
+
+#barcode {
+  font-family: barcode;
+  font-size: 100px;
+}
+
 .my-bg-main {
   background-color: #101113;
 }
