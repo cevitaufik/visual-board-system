@@ -73,6 +73,7 @@ Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing'])->
 Route::get('/flow-process/table', [FlowProcessController::class, 'table'])->middleware('auth');
 Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew'])->middleware('auth');
 Route::get('/flow-process/copy/{shop_order}/{no_drawing}', [FlowProcessController::class, 'copy'])->middleware('auth');
+Route::get('/flow-process/print/{shop_order}', [FlowProcessController::class, 'print'])->middleware('auth');
 Route::resource('/flow-process', FlowProcessController::class)->middleware('auth');
 
 Route::resource('/work-center', WorkCenterController::class)->middleware('auth');

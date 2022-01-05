@@ -124,4 +124,10 @@ class FlowProcessController extends Controller
         
         return redirect()->back()->with('success', 'Flow proses telah diperbarui.');
     }
+
+    public function print($shop_order) {
+        $order = Order::whereShop_order($shop_order)->first();
+
+        return view('flow-processes.print', ['order' => $order]);
+    }
 }

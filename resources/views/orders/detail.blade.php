@@ -184,12 +184,13 @@
             <h3 class="my-2">Flow process</h3>
             @if (isset($order->tool->flowProcesses))
               @if ($order->tool->flowProcesses->isNotEmpty())
-                <div class="py-1">
+                <div class="py-1 mb-2">
                   <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcesses->first()->id }})">
-                    Master flow proses
+                    Master
                   </button>
                   @if ($order->flow_process)
-                    <a class="btn btn-warning ms-2" href="/flow-process/copy/{{ $order->shop_order }}/{{ $order->no_drawing }}" onclick="confirm('Apakah anda yakin?')">Refresh flow process</a>
+                    <a class="btn btn-warning ms-2" href="/flow-process/copy/{{ $order->shop_order }}/{{ $order->no_drawing }}" onclick="confirm('Apakah anda yakin?')">Refresh</a>
+                    <a class="btn btn-success ms-2" href="/flow-process/print/{{ $order->shop_order }}" target="_blank">Print</a>
                   @else
                     <a class="btn btn-warning ms-2" href="/flow-process/copy/{{ $order->shop_order }}/{{ $order->no_drawing }}" onclick="confirm('Apakah anda yakin?')">Copy flow process</a>
                   @endif              
