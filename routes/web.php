@@ -25,11 +25,6 @@ use App\Http\Controllers\WorkCenterController;
 |
 */
 
-Route::get('/', function () {
-    $route = auth()->user()->position;
-    return redirect('/' . $route);
-})->middleware('auth');
-
 Route::get('/user/superadmin', function(){
     if(auth()->user()->position != 'superadmin') {
         abort(403);
@@ -41,11 +36,6 @@ Route::get('/user/superadmin', function(){
     ]);
 });
 
-Route::patch('/user/profile-picture', [UserController::class, 'uploadImg'])->middleware('auth');
-Route::get('/user/delete-profile-picture/{username}', [UserController::class, 'deleteImg'])->middleware('auth');
-Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword'])->middleware('auth');
-Route::resource('user', UserController::class)->scoped(['user' => 'username'])->middleware('auth');
-
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login', [UserController::class, 'authenticate']);
 
@@ -55,36 +45,50 @@ Route::get('/logout', [UserController::class, 'logout']);
 
 Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
 
-Route::resource('/job-type', JobTypeController::class)->middleware('auth');
-
-Route::get('/superadmin', [SuperadminController::class, 'index'])->middleware('auth');
-Route::get('/superadmin/table', [SuperadminController::class, 'table'])->middleware('auth');
-
-Route::get('/engineering/table', [EngineeringController::class, 'table'])->middleware('auth');
-Route::resource('/engineering', EngineeringController::class)->middleware('auth');
-
-Route::get('/marketing/table', [MarketingController::class, 'table'])->middleware('auth');
-Route::resource('/marketing', MarketingController::class)->middleware('auth');
-
-Route::get('/tool/table', [ToolController::class, 'table'])->middleware('auth');
-Route::get('/tool/get-drawing/{toolCode}/{cust}', [ToolController::class, 'getDrawing'])->middleware('auth');
-Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing'])->middleware('auth');
-
-Route::get('/flow-process/table', [FlowProcessController::class, 'table'])->middleware('auth');
-Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew'])->middleware('auth');
-Route::get('/flow-process/copy/{shop_order}/{no_drawing}', [FlowProcessController::class, 'copy'])->middleware('auth');
-Route::get('/flow-process/print/{shop_order}', [FlowProcessController::class, 'print'])->middleware('auth');
-Route::resource('/flow-process', FlowProcessController::class)->middleware('auth');
-
-Route::resource('/work-center', WorkCenterController::class)->middleware('auth');
-
-Route::get('/customer/table', [CustomerController::class, 'table'])->middleware('auth');
-Route::post('/customer/contact/create', [CustomerController::class, 'addContact'])->middleware('auth');
-Route::get('/customer/contact/{id}', [CustomerController::class, 'contactDetail'])->middleware('auth');
-Route::put('/customer/contact/{id}', [CustomerController::class, 'editContact'])->middleware('auth');
-Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteContact'])->middleware('auth');
-Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code'])->middleware('auth');
-
 Route::get('/scan', [TestController::class, 'index']);
 Route::get('/qr', [TestController::class, 'qrIndex']);
 Route::get('/qr/{input}', [TestController::class, 'generateQR']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        $route = auth()->user()->position;
+        return redirect('/' . $route);
+    });
+
+    Route::patch('/user/profile-picture', [UserController::class, 'uploadImg']);
+    Route::get('/user/delete-profile-picture/{username}', [UserController::class, 'deleteImg']);
+    Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword']);
+    Route::resource('user', UserController::class)->scoped(['user' => 'username']);
+
+    Route::resource('/job-type', JobTypeController::class);
+
+    Route::get('/superadmin', [SuperadminController::class, 'index']);
+    Route::get('/superadmin/table', [SuperadminController::class, 'table']);
+
+    Route::get('/engineering/table', [EngineeringController::class, 'table']);
+    Route::resource('/engineering', EngineeringController::class);
+
+    Route::get('/marketing/table', [MarketingController::class, 'table']);
+    Route::resource('/marketing', MarketingController::class);
+
+    Route::get('/tool/table', [ToolController::class, 'table']);
+    Route::get('/tool/get-drawing/{toolCode}/{cust}', [ToolController::class, 'getDrawing']);
+    Route::resource('/tool', ToolController::class)->scoped(['tool' => 'drawing']);
+
+    Route::get('/flow-process/table', [FlowProcessController::class, 'table']);
+    Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew']);
+    Route::get('/flow-process/make-master/{cust_code}/{tool_code}/{no_drawing}', [FlowProcessController::class, 'makeMaster']);
+    Route::get('/flow-process/copy/{shop_order}/{no_drawing}', [FlowProcessController::class, 'copy']);
+    Route::get('/flow-process/print/{shop_order}', [FlowProcessController::class, 'print']);
+    Route::get('/flow-process/delete/{shop_order}', [FlowProcessController::class, 'deleteFlowProcess']);
+    Route::resource('/flow-process', FlowProcessController::class);
+
+    Route::resource('/work-center', WorkCenterController::class);
+
+    Route::get('/customer/table', [CustomerController::class, 'table']);
+    Route::post('/customer/contact/create', [CustomerController::class, 'addContact']);
+    Route::get('/customer/contact/{id}', [CustomerController::class, 'contactDetail']);
+    Route::put('/customer/contact/{id}', [CustomerController::class, 'editContact']);
+    Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteContact']);
+    Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code']);
+});

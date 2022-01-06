@@ -40,3 +40,7 @@ $('#tool_code').on('change', function() {
     })
   }  
 })
+
+function printPage(shop_order) {
+  window.open(`/flow-process/print/${shop_order}`, 'WO', 'popup=yes, scrollbars=yes, resizable=yes, width=900, height=1200')
+}

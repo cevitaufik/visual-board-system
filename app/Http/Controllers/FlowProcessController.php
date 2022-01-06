@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\FlowProcess;
 use App\Models\Order;
+use App\Models\Tool;
 use App\Models\WorkCenter;
 use Illuminate\Http\Request;
 
 class FlowProcessController extends Controller
 {
+    function getOrder($shop_order) {
+        return Order::whereShop_order($shop_order)->first();
+    }
+
+
     public function index()
     {
         return view('flow-processes.index', [
@@ -103,6 +109,30 @@ class FlowProcessController extends Controller
     }
 
 
+    public function makeMaster($cust_code, $tool_code, $no_drawing) {
+        $processes = unserialize(Order::whereNo_drawing($no_drawing)->first()->flow_process);
+        foreach ($processes as $key => $process) {
+            $flow['no_drawing'] = $no_drawing;
+            $flow['op_number'] = $key;
+            $flow['work_center'] = $process['work_center'];
+            $flow['description'] = $process['description'];
+            $flow['estimation'] = $process['estimation'];
+
+            FlowProcess::create($flow);
+        }
+
+        Tool::firstOrCreate(
+            ['drawing' => $no_drawing],
+            [
+                'cust_code' => $cust_code,
+                'code' => $tool_code,
+            ]
+        );
+        
+        return back()->with('success', 'Flow proses master telah di buat.');
+    }
+
+
     public function copy($shop_order, $no_drawing) {
         $datas = FlowProcess::where('no_drawing', $no_drawing)->get()->sortBy('op_number');
         $fp = [];
@@ -126,8 +156,13 @@ class FlowProcessController extends Controller
     }
 
     public function print($shop_order) {
-        $order = Order::whereShop_order($shop_order)->first();
-
+        $order = $this->getOrder($shop_order);
         return view('flow-processes.print', ['order' => $order]);
+    }
+
+
+    public function deleteFlowProcess($shop_order) {
+        Order::whereShop_order($shop_order)->update(['flow_process' => null]);
+        return back()->with('success', 'Flow proses berhasil di hapus.');
     }
 }

@@ -5,11 +5,65 @@
 
 }
 
+.no-print {
+  height: 50px;
+  background-color: gray;
+  margin-bottom: 5mm;
+  text-align: right;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.btn-print {
+  background-color: blue;
+  height: 40px;
+  padding: 5px 20px;
+  line-height: 50px;
+  text-align: center;
+  margin-left: 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-print:hover {
+  background-color: white;
+  color: blue;
+
+}
+
+.btn-close {
+  background-color: rgb(255, 0, 0);
+  height: 40px;
+  padding: 5px 20px;
+  line-height: 50px;
+  text-align: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  background-color: white;
+  color: red;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
 .content {
   width: 210mm;
-  height: 297mm;
+  height: 301mm;
   border: 1px solid black;
-  padding: 10mm;
+  padding: 5mm;
   margin: 0;
 }
 
