@@ -33,7 +33,7 @@
         <div class="row py-2 op-number-row" data-op="10" id="row-10">
 
           <div class="col-1 align-self-center text-center p-1">
-            <input type="hidden" id="no_drawing" name="flow[1][no_drawing]" value="--">
+            <input type="hidden" id="no_drawing" name="flow[1][no_drawing]" value="{{ ($no_drawing) ?? '' }}">
             <input type="hidden" id="op_number" name="flow[1][op_number]" value="10">
             <span class="number-row">10</span>
           </div>

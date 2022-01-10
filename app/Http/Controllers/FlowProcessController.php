@@ -36,6 +36,18 @@ class FlowProcessController extends Controller
 
     public function store(Request $request)
     {
+        $no_drawing = strtoupper($request->flow[1]['no_drawing']);
+        $cust_code = substr($no_drawing, 0, 3);
+        $code = substr($no_drawing, 0, 10);
+
+        Tool::firstOrCreate(['drawing' => $no_drawing], [
+            'cust_code' => $cust_code,
+            'description' => '--PERLU PENGECEKAN ENGINEERING. data ditambahkan otomatis--',
+            'note' => '--PERLU PENGECEKAN ENGINEERING. data ditambahkan otomatis--',
+            'code' => $code,
+            'status' => 'TIDAK DIGUNAKAN',
+        ]);
+
         foreach ($request->flow as $flow) {
             $flow['no_drawing'] = strtoupper($flow['no_drawing']);
             FlowProcess::create($flow);

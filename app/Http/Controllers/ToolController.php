@@ -40,6 +40,9 @@ class ToolController extends Controller
         if($request['code'] != null) {
             $rules['code'] = ['max:255'];
             $request['code'] = strtoupper($request['code']);
+        } else {
+            $code = substr($request->drawing, 0, 10);
+            $validatedData['code'] = $code;
         }
 
         $validatedData = $request->validate($rules);
@@ -54,11 +57,6 @@ class ToolController extends Controller
             $validatedData['dwg_production'] = $request->file('dwg_production')->storeAs('dwg_production', $fileName);
         }
         
-        if($request['code'] == null) {
-            $code = substr($request->drawing, 0, 10);
-            $validatedData['code'] = $code;
-        }
-
         Tool::create($validatedData);
 
         return redirect()->back()->with('success', 'Data berhasil disimpan');
