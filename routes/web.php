@@ -43,8 +43,6 @@ Route::get('/register', [UserController::class, 'register'])->middleware('guest'
 Route::post('/register', [UserController::class, 'userRegister']);
 Route::get('/logout', [UserController::class, 'logout']);
 
-Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
-
 Route::get('/scan', [TestController::class, 'index']);
 Route::get('/qr', [TestController::class, 'qrIndex']);
 Route::get('/qr/{input}', [TestController::class, 'generateQR']);
@@ -91,4 +89,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/customer/contact/{id}', [CustomerController::class, 'editContact']);
     Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteContact']);
     Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code']);
+
+    Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
 });

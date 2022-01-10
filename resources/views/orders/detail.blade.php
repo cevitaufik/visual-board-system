@@ -200,7 +200,7 @@
                 @endif
               @endif
               
-              <a href="/flow-process/delete/{{ $order->shop_order }}" class="btn btn-danger ms-2">Hapus</a>
+              <a onclick="if (confirm('Apakah Anda yakin ingin menghapus flow proses lokal?')){return true;}else{event.stopPropagation(); event.preventDefault()}" href="/flow-process/delete/{{ $order->shop_order }}" class="btn btn-danger ms-2">Hapus</a>
               <span class="btn btn-success ms-2" onclick="printPage({{ $order->shop_order }})">Print</span>
             </div>
 
