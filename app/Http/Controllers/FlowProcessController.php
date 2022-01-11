@@ -19,9 +19,6 @@ class FlowProcessController extends Controller
     {
         return view('flow-processes.index', [
             'processes' => FlowProcess::all()->sortBy('no_drawing'),
-            // 'processes' => DB::table('flow_processes')
-            //                     ->orderBy('op_number', 'asc')
-            //                     ->get()
         ]);
     }
 
@@ -36,7 +33,10 @@ class FlowProcessController extends Controller
 
     public function store(Request $request)
     {
-        $no_drawing = strtoupper($request->flow[1]['no_drawing']);
+        $flow = $request->flow;
+        unset($flow['no_drawing']);
+
+        $no_drawing = strtoupper($request->flow['no_drawing']);
         $cust_code = substr($no_drawing, 0, 3);
         $code = substr($no_drawing, 0, 10);
 
@@ -48,10 +48,10 @@ class FlowProcessController extends Controller
             'status' => 'TIDAK DIGUNAKAN',
         ]);
 
-        foreach ($request->flow as $flow) {
-            $flow['no_drawing'] = strtoupper($flow['no_drawing']);
-            FlowProcess::create($flow);
-        }
+        FlowProcess::create([
+            'no_drawing' => $no_drawing,
+            'process' => serialize($flow),
+        ]);
 
         return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
@@ -178,3 +178,14 @@ class FlowProcessController extends Controller
         return back()->with('success', 'Flow proses berhasil di hapus.');
     }
 }
+
+// $data = [
+//     1 => [
+//         10 => ['SG', 'POTONG', 10],
+//         20 => ['BRZ', 'BRAZING', 5],
+//     ],
+//     2 => [
+//         10 => ['SG', 'POTONG', 10],
+//         20 => ['BRZ', 'BRAZING', 5],
+//     ],
+// ];

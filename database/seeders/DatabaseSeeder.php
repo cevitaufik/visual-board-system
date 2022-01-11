@@ -208,60 +208,60 @@ class DatabaseSeeder extends Seeder
         // ===============================================================================
         // flow process
 
-        FlowProcess::create([
-            'no_drawing' => 'ASD-210101-R0',            
-            'op_number' => 10,
-            'work_center' => 'SG',
-            'description' => 'potong material',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ASD-210101-R0',            
+        //     'op_number' => 10,
+        //     'work_center' => 'SG',
+        //     'description' => 'potong material',
+        //     'estimation' => 10,
+        // ]);
 
-        FlowProcess::create([
-            'no_drawing' => 'ASD-210101-R0',            
-            'op_number' => 20,
-            'work_center' => 'BRZ',
-            'description' => 'brazing center bantu',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ASD-210101-R0',            
+        //     'op_number' => 20,
+        //     'work_center' => 'BRZ',
+        //     'description' => 'brazing center bantu',
+        //     'estimation' => 10,
+        // ]);
 
-        FlowProcess::create([
-            'no_drawing' => 'ASD-210101-R0',            
-            'op_number' => 30,
-            'work_center' => 'TR',
-            'description' => 'center bantu',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ASD-210101-R0',            
+        //     'op_number' => 30,
+        //     'work_center' => 'TR',
+        //     'description' => 'center bantu',
+        //     'estimation' => 10,
+        // ]);
 
-        FlowProcess::create([
-            'no_drawing' => 'ASD-210101-R0',            
-            'op_number' => 40,
-            'work_center' => 'CG',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ASD-210101-R0',            
+        //     'op_number' => 40,
+        //     'work_center' => 'CG',
+        //     'estimation' => 10,
+        // ]);
 
-        FlowProcess::create([
-            'no_drawing' => 'ASD-210101-R0',            
-            'op_number' => 50,
-            'work_center' => 'UG',
-            'description' => 'potong center bantu',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ASD-210101-R0',            
+        //     'op_number' => 50,
+        //     'work_center' => 'UG',
+        //     'description' => 'potong center bantu',
+        //     'estimation' => 10,
+        // ]);
 
-        FlowProcess::create([
-            'no_drawing' => 'ABC-210102-R2',            
-            'op_number' => 10,
-            'work_center' => 'SG',
-            'description' => 'potong material',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ABC-210102-R2',            
+        //     'op_number' => 10,
+        //     'work_center' => 'SG',
+        //     'description' => 'potong material',
+        //     'estimation' => 10,
+        // ]);
 
-        FlowProcess::create([
-            'no_drawing' => 'ABC-210102-R2',            
-            'op_number' => 20,
-            'work_center' => 'BRZ',
-            'description' => 'brazing center bantu',
-            'estimation' => 10,
-        ]);
+        // FlowProcess::create([
+        //     'no_drawing' => 'ABC-210102-R2',            
+        //     'op_number' => 20,
+        //     'work_center' => 'BRZ',
+        //     'description' => 'brazing center bantu',
+        //     'estimation' => 10,
+        // ]);
 
         // ===============================================================================
         // order

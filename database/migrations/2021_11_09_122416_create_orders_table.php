@@ -36,10 +36,7 @@ class CreateOrdersTable extends Migration
         Schema::create('flow_processes', function (Blueprint $table) {
             $table->id();
             $table->string('no_drawing');
-            $table->integer('op_number');
-            $table->string('work_center');
-            $table->string('description')->nullable();
-            $table->integer('estimation');
+            $table->text('process');
             $table->timestamps();
 
             // membuat composite key
