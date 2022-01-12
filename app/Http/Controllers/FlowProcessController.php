@@ -18,7 +18,7 @@ class FlowProcessController extends Controller
     public function index()
     {
         return view('flow-processes.index', [
-            'processes' => FlowProcess::all()->sortBy('no_drawing'),
+            'processes' => FlowProcess::with(['tool'])->get()->sortBy('no_drawing'),
         ]);
     }
 
@@ -59,10 +59,13 @@ class FlowProcessController extends Controller
 
     public function show(FlowProcess $flowProcess)
     {
-        $flows = FlowProcess::where('no_drawing', $flowProcess->no_drawing)->get()->sortBy('op_number');
+        // $flows = FlowProcess::where('no_drawing', $flowProcess->no_drawing)->get()->sortBy('op_number');
+        $flow = FlowProcess::whereNo_drawing($flowProcess->no_drawing)->first();
+        $processes = unserialize($flow->process);
 
         return view('flow-processes.detail', [
-            'flows' => $flows,
+            'flow' => $flow,
+            'processes' => $processes,
             'workCenters' => WorkCenter::all(),
         ]);
     }
@@ -75,28 +78,15 @@ class FlowProcessController extends Controller
     
     public function update(Request $request, FlowProcess $flowProcess)
     {
-        if (isset($request['deleted'])) {
-            foreach ($request['deleted'] as $del) {
-                FlowProcess::where('id', $del)->delete();
-            }
-        }        
+        $flow = $request->flow;
+        unset($flow['no_drawing']);
 
-        if (isset($request['flow'])) {
-            foreach ($request->flow as $flow) {
-                if ($flow['id'] == 'new') {
-                    unset($flow['id']);
-                    FlowProcess::create($flow);
-                } else {
-                    FlowProcess::where('id', $flow['id'])->update($flow);
-                }
-            }
-        }
+        FlowProcess::whereId($flowProcess->id)->update([
+            'no_drawing' => strtoupper($request->flow['no_drawing']),
+            'process' => serialize($flow)
+        ]);
 
-        if (count(FlowProcess::where('no_drawing', $request->drawing)->get())) {
-            return redirect()->back()->with('success', 'Data berhasil diperbarui');
-        } else {
-            return redirect('/flow-process')->with('success', 'Data berhasil dihapus');
-        }
+        return back()->with('success', 'Data berhasil diperbarui.');
     }
 
     

@@ -1,0 +1,14 @@
+body {
+  background-image: url('/img/wallpaper-login.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.card-body {
+  box-shadow: 3px 3px 28px 4px rgba(0,0,0,0.61);
+  -webkit-box-shadow: 3px 3px 28px 4px rgba(0,0,0,0.61);
+  -moz-box-shadow: 3px 3px 28px 4px rgba(0,0,0,0.61);
+  background-color: #212224;
+  color: #dadada;
+  border: 0px;
+}

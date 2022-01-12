@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Login</title>
 
   <!-- Favicons -->
   <link href="/img/favicon.png" rel="icon">
@@ -16,8 +16,7 @@
   <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/mycss.css">
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 
 <body>
@@ -26,22 +25,15 @@
 
     <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
       <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-end">
           <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-            <div class="d-flex justify-content-center py-4">
-              <div class="logo d-flex align-items-center w-auto">
-                <span class="d-block">Visual board system</span>
-              </div>
-            </div><!-- End Logo -->
+            <div class="mb-3">
 
-            <div class="card mb-3">
+              <div class="card-body border-0">
 
-              <div class="card-body">
-
-                <div class="pt-2 pb-2">
-                  <h5 class="card-title text-center pb-0 fs-4">Login</h5>
-                  <p class="text-center small">Gunakan username dan password</p>
+                <div class="pb-1">
+                  <h5 class="card-title text-center pb-0 fs-1">Login</h5>
                 </div>
 
                 @if (session()->has('success'))
@@ -85,6 +77,7 @@
                     <p class="small mb-0">Belum memiliki akun? <a href="/register" class="text-primary">Buat akun</a></p>
                   </div>
                 </form>
+                
               </div>
             </div>
           </div>

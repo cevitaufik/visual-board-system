@@ -28,10 +28,8 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">No. drawing</th>
-                  <th scope="col">No. operasi</th>
-                  <th scope="col">Work center</th>
+                  <th scope="col">Kode tool</th>
                   <th scope="col">Deskripsi</th>
-                  <th scope="col">Estimasi</th>
                 </tr>
               </thead>
               <tbody id="table-data">
@@ -39,18 +37,8 @@
                 <tr class="my-cursor row-data" data-id="{{ $process->id }}">
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $process->no_drawing }}</td>
-                  <td>{{ $process->op_number }}</td>
-                  <td>{{ $process->work_center }}</td>
-
-                  <td>
-                    @if (strlen($process->description) > 20)
-                    {{ substr($process->description, 0, 20) . '...'; }}
-                    @else
-                    {{ $process->description }}
-                    @endif
-                  </td>
-
-                  <td>{{ $process->estimation }} menit</td>
+                  <td>{{ $process->tool->code }}</td>
+                  <td>{{ $process->tool->description }}</td>
                 </tr>
                 @endforeach
               </tbody>

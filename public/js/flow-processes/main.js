@@ -128,9 +128,8 @@ function getDwgNumber() {
   return $('#dwg-number').val()
 }
 
-function refreshRow(subprocess) {
-  let dwg = getDwgNumber();
-
+function refreshProcess(subprocess) {
+  let dwg = getDwgNumber()
   $('#subprocess-' + subprocess).find('.op-number-row').each(function(i) {
     let index = i * 10 + 10
 
@@ -158,15 +157,25 @@ function refreshRow(subprocess) {
   })
 }
 
+function refreshRow(subprocess) {  
+  let numberRow = $('#subprocess-' + subprocess).find('.op-number-row')
+  
+  if (numberRow.length) {
+    refreshProcess(subprocess)
+  } else {
+    $('#subprocess-' + subprocess).remove()
+    $('.subprocess').each(function(i) {
+      let newSP = i + 1
+      $(this).attr('data-sp', newSP)
+      $(this).attr('id', `subprocess-${newSP}`)
+      refreshProcess(newSP)
+    })
+  }  
+}
+
 // menghapus baris
 function deleteRow(subprocess, row) {
-  // perlu diperbaiki. pada halaman detail flow process
-  let id = $('#row-' + row).find('#id').val()
-  $('#deleted').append(`<input type="hidden" name="deleted[]" value="${id}">`)
-
-  //sudah oke
   $('#subprocess-' + subprocess).find('.op-number-row').remove('#row-' + row)
-
   refreshRow(subprocess)
 }
 
