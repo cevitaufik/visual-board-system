@@ -75,8 +75,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/flow-process/table', [FlowProcessController::class, 'table']);
     Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew']);
-    Route::get('/flow-process/make-master/{cust_code}/{tool_code}/{no_drawing}', [FlowProcessController::class, 'makeMaster']);
-    Route::get('/flow-process/copy/{shop_order}/{no_drawing}', [FlowProcessController::class, 'copy']);
+    Route::get('/flow-process/make-master/{shop_order}', [FlowProcessController::class, 'makeMaster']);
+    Route::get('/flow-process/copy/{shop_order}', [FlowProcessController::class, 'copy']);
     Route::get('/flow-process/print/{shop_order}', [FlowProcessController::class, 'print']);
     Route::get('/flow-process/delete/{shop_order}', [FlowProcessController::class, 'deleteFlowProcess']);
     Route::resource('/flow-process', FlowProcessController::class);

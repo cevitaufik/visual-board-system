@@ -10,13 +10,12 @@ class Tool extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    // protected $with = ['flowProcesses'];
 
     public function order() {
         return $this->hasMany(Order::class, 'no_drawing', 'drawing');
     }
 
-    public function flowProcesses() {
-        return $this->hasMany(FlowProcess::class, 'no_drawing', 'drawing');
+    public function flowProcess() {
+        return $this->hasOne(FlowProcess::class, 'no_drawing', 'drawing');
     }
 }

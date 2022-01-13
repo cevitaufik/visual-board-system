@@ -3,10 +3,10 @@
     WORK ORDER
   </div>
   <div class="sub-header">
-    {{ $order->cust_code . ' - ' . $order->shop_order }}
+    {{ $order->cust_code . ' - ' . $order->shop_order . $subprocess }}
   </div>
   <div class="qr-code">
-    {!! QrCode::size(114)->generate($order->shop_order) !!}
+    {!! QrCode::size(114)->generate($order->shop_order . $subprocess) !!}
   </div>
 </div>
 

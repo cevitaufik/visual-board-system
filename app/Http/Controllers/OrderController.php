@@ -92,18 +92,16 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        // ddd($order->tool->flowProcess);
-
-        if (isset($order->tool->flowProcesses[0])) {
-            $processes = $order->tool->flowProcesses->sortBy('op_number');
+        if (isset($order->tool->flowProcess)) {
+            $masterFlowProcess = unserialize($order->tool->flowProcess->process);
         } else {
-            $processes = null;
+            $masterFlowProcess = null;
         }
 
         return view('orders.detail', [
             'order' => $order,
             'jobTypes' => JobType::all(),
-            'processes' => $processes,
+            'masterFlowProcess' => $masterFlowProcess,
         ]);
     }
 
@@ -121,7 +119,6 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $rules = [
-            // 'shop_order' => ['required'],
             'quantity' => ['required'],
             'job_type_code' => ['required'],
             'po_number' => ['required'],

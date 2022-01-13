@@ -181,12 +181,98 @@
 
         <div class="col-lg-4 border border-white rounded">
           <h3 class="my-2">Flow process</h3>
-          @if ($order->flow_process)            
+
+          @if ($order->flow_process)
             <div class="py-1 mb-2">
 
-              @if (isset($order->tool->flowProcesses))
-                @if ($order->tool->flowProcesses->isNotEmpty())
-                  <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcesses->first()->id }})">
+              @if ($masterFlowProcess)
+
+                <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcess->id }})">
+                  Master
+                </button>
+
+                <a class="btn btn-warning ms-2" href="/flow-process/copy/{{ $order->shop_order }}" onclick="confirm('Apakah anda yakin?')">Refresh</a>
+
+              @else
+                @if ($order->no_drawing)
+                  <a href="/flow-process/make-master/{{ $order->shop_order }}" class="btn btn-primary">
+                    Jadikan master
+                  </a>
+                @endif
+              @endif
+              
+              <a onclick="if (confirm('Apakah Anda yakin ingin menghapus flow proses lokal?')){return true;}else{event.stopPropagation(); event.preventDefault()}" href="/flow-process/delete/{{ $order->shop_order }}" class="btn btn-danger ms-2">Hapus</a>
+              <span class="btn btn-success ms-2" onclick="printPage({{ $order->shop_order }})">Print</span>
+
+            </div>
+            <table class="table text-white table-borderless">
+              <thead class="border-bottom">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">SP</th>
+                  <th scope="col">OP</th>
+                  <th scope="col">WC</th>
+                  <th scope="col">INSTRUKSI</th>
+                  <th scope="col">EST</th>
+                </tr>
+              </thead>
+
+              @foreach (unserialize($order->flow_process) as $processes)
+                @foreach ($processes as $process)
+                  <tbody>
+                    <tr class="@if($loop->last) border-bottom @endif">
+                      <td class="@if ($process['status'] == 'close') text-success @endif">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                      </td>
+                      <td>
+                        <span>{{ ($loop->first) ? $loop->parent->iteration : '' }}</span>
+                      </td>
+                      <td>
+                        <span>{{ $process['op_number'] }}</span>
+                      </td>
+                      <td>
+                        <span>{{ $process['work_center'] }}</span>
+                      </td>
+                      <td>
+                        <span>{{ $process['description'] }}</span>
+                      </td>
+                      <td>
+                        <span>{{ $process['estimation'] }} menit</span>
+                      </td>
+                    </tr>
+                  </tbody>                    
+                @endforeach
+              @endforeach
+            </table>
+          @else
+
+            @if (isset($order->tool->flowProcess))
+              <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcess->id }})">Master</button>
+              <a class="btn btn-warning ms-2" href="/flow-process/copy/{{ $order->shop_order }}" onclick="confirm('Apakah anda yakin?')">
+                Copy dari master
+              </a>              
+            @else
+              <div class="pt-2">
+                <button class="btn btn-primary" type="button" onclick="addFlowProces('{{ $order->no_drawing }}')">
+                  Buat flow proses
+                </button>
+              </div>
+            @endif
+
+          @endif
+
+
+
+
+          {{-- @if ($order->flow_process)
+            <div class="py-1 mb-2">
+
+              @if (isset($order->tool->flowProcess))
+                @if ($order->tool->flowProcess->isNotEmpty())
+                  <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcess->first()->id }})">
                     Master
                   </button>
 
@@ -226,9 +312,9 @@
               @endforeach
             </table>
           @else
-            @if (isset($order->tool->flowProcesses))
-              @if ($order->tool->flowProcesses->isNotEmpty())
-                <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcesses->first()->id }})">Master</button>
+            @if (isset($order->tool->flowProcess))
+              @if ($order->tool->flowProcess->isNotEmpty())
+                <button class="btn btn-primary" type="button" onclick="showFlowProces({{ $order->tool->flowProcess->first()->id }})">Master</button>
                 <a class="btn btn-warning ms-2" href="/flow-process/copy/{{ $order->shop_order }}/{{ $order->no_drawing }}" onclick="confirm('Apakah anda yakin?')">Copy dari master</a>
               @else
                 <div class="pt-2">
@@ -244,7 +330,7 @@
                 </button>
               </div>
             @endif
-          @endif
+          @endif --}}
 
         </div>
 

@@ -59,7 +59,6 @@ class FlowProcessController extends Controller
 
     public function show(FlowProcess $flowProcess)
     {
-        // $flows = FlowProcess::where('no_drawing', $flowProcess->no_drawing)->get()->sortBy('op_number');
         $flow = FlowProcess::whereNo_drawing($flowProcess->no_drawing)->first();
         $processes = unserialize($flow->process);
 
@@ -111,49 +110,65 @@ class FlowProcessController extends Controller
     }
 
 
-    public function makeMaster($cust_code, $tool_code, $no_drawing) {
-        $processes = unserialize(Order::whereNo_drawing($no_drawing)->first()->flow_process);
-        foreach ($processes as $key => $process) {
-            $flow['no_drawing'] = $no_drawing;
-            $flow['op_number'] = $key;
-            $flow['work_center'] = $process['work_center'];
-            $flow['description'] = $process['description'];
-            $flow['estimation'] = $process['estimation'];
+    public function makeMaster($shop_order) {
+        $order = Order::whereShop_order($shop_order)->first();
+        $flow_process = unserialize($order->flow_process);
+        // $processes = unserialize(Order::whereNo_drawing($no_drawing)->first()->flow_process);
+        // foreach ($processes as $key => $process) {
+        //     $flow['no_drawing'] = $no_drawing;
+        //     $flow['op_number'] = $key;
+        //     $flow['work_center'] = $process['work_center'];
+        //     $flow['description'] = $process['description'];
+        //     $flow['estimation'] = $process['estimation'];
 
-            FlowProcess::create($flow);
+        //     FlowProcess::create($flow);
+        // }
+
+        // $flow_process[$pk][$ck]['start'] = null;
+        // $flow_process[$pk][$ck]['end'] = null;
+        // $flow_process[$pk][$ck]['qty'] = null;
+        // $flow_process[$pk][$ck]['status'] = 'open';
+        // $flow_process[$pk][$ck]['processed_by'] = null;
+
+        foreach ($flow_process as $flowProcesses) {
+            foreach ($flowProcesses as $process) {
+                dd($process);
+                unset($process['start']);
+                unset($process['end']);
+                unset($process['qty']);
+                unset($process['status']);
+                unset($process['processed_by']);
+            }
         }
 
-        Tool::firstOrCreate(
-            ['drawing' => $no_drawing],
-            [
-                'cust_code' => $cust_code,
-                'code' => $tool_code,
-            ]
-        );
+        dd($flow_process);
+        // Tool::firstOrCreate(
+        //     ['drawing' => $no_drawing],
+        //     [
+        //         'cust_code' => $cust_code,
+        //         'code' => $tool_code,
+        //     ]
+        // );
         
         return back()->with('success', 'Flow proses master telah di buat.');
     }
 
 
-    public function copy($shop_order, $no_drawing) {
-        $datas = FlowProcess::where('no_drawing', $no_drawing)->get()->sortBy('op_number');
-        $fp = [];
-        
-        foreach ($datas as $data) {
-            $fp[$data->op_number] = [
-                'work_center' => "$data->work_center", 
-                'description' => "$data->description", 
-                'estimation' => "$data->estimation",
-                'start' => null,
-                'end' => null,
-                'qty' => null,
-                'status' => 'open',
-                'processed_by' => null,
-            ];
+    public function copy($shop_order) {
+        $order = Order::whereShop_order($shop_order)->first();
+        $flow_process = unserialize($order->tool->flowProcess->process);
+
+        foreach ($flow_process as $pk => $processes) {
+            foreach ($processes as $ck => $process) {
+                $flow_process[$pk][$ck]['start'] = null;
+                $flow_process[$pk][$ck]['end'] = null;
+                $flow_process[$pk][$ck]['qty'] = null;
+                $flow_process[$pk][$ck]['status'] = 'open';
+                $flow_process[$pk][$ck]['processed_by'] = null;
+            }
         }
 
-        Order::where('shop_order', $shop_order)->update(['flow_process' => serialize($fp)]);
-        
+        $order->update(['flow_process' => serialize($flow_process)]);
         return redirect()->back()->with('success', 'Flow proses telah diperbarui.');
     }
 
