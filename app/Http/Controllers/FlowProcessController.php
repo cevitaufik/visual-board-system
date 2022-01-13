@@ -113,42 +113,33 @@ class FlowProcessController extends Controller
     public function makeMaster($shop_order) {
         $order = Order::whereShop_order($shop_order)->first();
         $flow_process = unserialize($order->flow_process);
-        // $processes = unserialize(Order::whereNo_drawing($no_drawing)->first()->flow_process);
-        // foreach ($processes as $key => $process) {
-        //     $flow['no_drawing'] = $no_drawing;
-        //     $flow['op_number'] = $key;
-        //     $flow['work_center'] = $process['work_center'];
-        //     $flow['description'] = $process['description'];
-        //     $flow['estimation'] = $process['estimation'];
 
-        //     FlowProcess::create($flow);
-        // }
-
-        // $flow_process[$pk][$ck]['start'] = null;
-        // $flow_process[$pk][$ck]['end'] = null;
-        // $flow_process[$pk][$ck]['qty'] = null;
-        // $flow_process[$pk][$ck]['status'] = 'open';
-        // $flow_process[$pk][$ck]['processed_by'] = null;
-
-        foreach ($flow_process as $flowProcesses) {
-            foreach ($flowProcesses as $process) {
-                dd($process);
-                unset($process['start']);
-                unset($process['end']);
-                unset($process['qty']);
-                unset($process['status']);
-                unset($process['processed_by']);
+        foreach ($flow_process as $pk => $flowProcesses) {
+            foreach ($flowProcesses as $ck => $process) {
+                
+                unset($flow_process[$pk][$ck]['start']);
+                unset($flow_process[$pk][$ck]['end']);
+                unset($flow_process[$pk][$ck]['qty']);
+                unset($flow_process[$pk][$ck]['status']);
+                unset($flow_process[$pk][$ck]['processed_by']);
             }
         }
 
-        dd($flow_process);
-        // Tool::firstOrCreate(
-        //     ['drawing' => $no_drawing],
-        //     [
-        //         'cust_code' => $cust_code,
-        //         'code' => $tool_code,
-        //     ]
-        // );
+        FlowProcess::create([
+            'no_drawing' => $order->no_drawing,
+            'process' => serialize($flow_process),
+        ]);
+
+        Tool::firstOrCreate(
+            ['drawing' => $order->no_drawing],
+            [
+                'cust_code' => $order->cust_code,
+                'code' => ($order->tool_code) ?? substr($order->no_drawing, 0, 10),
+                'description' => '--PERLU PENGECEKAN ENGINEERING. data ditambahkan otomatis--',
+                'note' => '--PERLU PENGECEKAN ENGINEERING. data ditambahkan otomatis--',
+                'status' => 'TIDAK DIGUNAKAN',
+            ]
+        );
         
         return back()->with('success', 'Flow proses master telah di buat.');
     }
