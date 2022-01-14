@@ -12,7 +12,7 @@ class ToolController extends Controller
     {
         return view('tools.index', [
             // 'tools' => Tool::all()
-            'tools' => Tool::with('flowProcesses')->get()
+            'tools' => Tool::with('flowProcess')->get()
         ]);
     }
 
@@ -40,20 +40,22 @@ class ToolController extends Controller
         if($request['code'] != null) {
             $rules['code'] = ['max:255'];
             $request['code'] = strtoupper($request['code']);
-        } else {
-            $code = substr($request->drawing, 0, 10);
-            $validatedData['code'] = $code;
         }
 
         $validatedData = $request->validate($rules);
 
+        if ($request['code'] == null) {
+            $code = substr($request->drawing, 0, 10);
+            $validatedData['code'] = $code;
+        }
+
         if($request->file('dwg_customer')) {
-            $fileName = $request['drawing'] . '_customer' . '.' . $request->file('dwg_customer')->extension();
+            $fileName = $request['drawing'] . '_customer.' . $request->file('dwg_customer')->extension();
             $validatedData['dwg_customer'] = $request->file('dwg_customer')->storeAs('dwg_customer', $fileName);
         }
 
         if($request->file('dwg_production')) {
-            $fileName = $request['drawing'] . '_produksi' . '.' . $request->file('dwg_production')->extension();
+            $fileName = $request['drawing'] . '_produksi.' . $request->file('dwg_production')->extension();
             $validatedData['dwg_production'] = $request->file('dwg_production')->storeAs('dwg_production', $fileName);
         }
         
@@ -139,6 +141,7 @@ class ToolController extends Controller
         
         return redirect('/tool')->with('success', 'Data berhasil dihapus');
     }
+    
 
     public function table() {
         return view('tools.table', [

@@ -54,3 +54,22 @@ tbody tr:hover {
    margin-left: 0;
    padding-left: 0;
  }
+
+
+ /* search bar */
+
+#filter  {
+  border-radius: 4px 0 0 4px;
+  width: auto;
+  border: 0;
+  font-size: 14px;
+  padding: 7px 38px 7px 8px;
+  border-right: 1px solid #212224;
+}
+
+#search  {
+  border-radius: 0 4px 4px 0;
+  border: 0;
+}
+
+ /* search bar end*/

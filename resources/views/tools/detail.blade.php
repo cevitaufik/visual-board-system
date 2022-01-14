@@ -51,7 +51,7 @@
 
             <div class="col-sm-3 p-1">
               <label for="drawing" class="d-block">Nomor drawing</label>
-              <input type="text" name="drawing" class="form-control @error('drawing') is-invalid @enderror"
+              <input type="text" name="drawing" id="drawing" class="form-control @error('drawing') is-invalid @enderror"
                 value="{{ old('drawing', $tool->drawing) }}">
               @error('drawing')
               <div class="invalid-feedback">
@@ -97,7 +97,7 @@
           <div class="row px-2">
             <div class="col-md-10 p-1">
               <label for="description" class="d-block">Deskripsi</label>
-              <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
+              <input type="text" name="description" id="description" class="form-control @error('description') is-invalid @enderror"
                 value="{{ old('description', $tool->description) }}">
               @error('description')
               <div class="invalid-feedback">
@@ -143,9 +143,9 @@
 
               <div class="row justify-content-end">
 
-                @if ($tool->flowProcesses->isNotEmpty())
+                @if ($tool->flowProcess)
                   <div class="col-md-3 pt-2">
-                    <button class="btn btn-success" type="button" onclick="showFlowProces('{{ $tool->flowProcesses->first()->id }}')">
+                    <button class="btn btn-success" type="button" onclick="showFlowProces('{{ $tool->flowProcess->id }}')">
                       Lihat flow proses
                     </button>
                   </div>
@@ -194,7 +194,7 @@
           allowfullscreen>Perangkat tidak mendukung</object>
       </div>
 
-      <div class="position-fixed bottom-0 end-0 m-3">
+      <div class="position-fixed bottom-0 end-0 p-2 w-100 my-bg-element text-end">
         <a class="btn btn-danger me-3" id="btn-delete" onclick="return confirm('Apakah anda yakin?'), deleteTool('{{ $tool->drawing }}')" id="delete">Hapus</a>
         <button class="btn btn-danger d-none" type="button" disabled id="btn-delete-loading">
           <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
