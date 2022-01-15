@@ -1,6 +1,6 @@
 @php
-    
-  $flowProcesses = unserialize($order->flow_process);
+
+$flowProcesses = unserialize($order->flow_process);
 
 @endphp
 
@@ -150,6 +150,12 @@
 
     @endif
   @endforeach
+
+  <script>
+    (function() {
+      window.print()
+    })()
+  </script>
 
 </body>
 

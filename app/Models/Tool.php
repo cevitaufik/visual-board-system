@@ -28,14 +28,14 @@ class Tool extends Model
                         ->orWhere('note', 'like', '%' . $filter . '%');
     }
 
-    public function getDrawingNumber($code, $cust_code): Tool {
+    public function getDrawingNumber($code, $cust_code) {
         return $this->whereCust_code($cust_code)
                         ->whereCode($code)
                         ->orderBy('drawing', 'desc')
                         ->first();
     }
 
-    public function getByDrawing($drawing): Tool {
+    public function getByDrawing($drawing) {
         return $this->whereDrawing($drawing)->first();
     }
 }

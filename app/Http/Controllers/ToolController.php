@@ -17,8 +17,7 @@ class ToolController extends Controller
     public function index()
     {
         return view('tools.index', [
-            // 'tools' => Tool::all()
-            'tools' => Tool::with('flowProcess')->get()
+            'tools' => $this->tool->with('flowProcess')->get()
         ]);
     }
 
@@ -143,7 +142,7 @@ class ToolController extends Controller
             Storage::delete($tool->dwg_production);
         }
 
-        Tool::destroy($tool->id);
+        $this->tool->destroy($tool->id);
         
         return redirect('/tool')->with('success', 'Data berhasil dihapus');
     }
@@ -151,7 +150,7 @@ class ToolController extends Controller
 
     public function table() {
         return view('tools.table', [
-            'tools' => Tool::all(),
+            'tools' => $this->tool->all(),
         ]);
     }
 

@@ -76,18 +76,16 @@ class OrderController extends Controller
                 $validatedData['tool_code'] = strtoupper($request->tool_code);
                 $noDrawingFromDB = $this->tool->getDrawingNumber(
                                         $validatedData['tool_code'], 
-                                        $validatedData['cust_code'])->drawing;
+                                        $validatedData['cust_code']);                
+                (isset($noDrawingFromDB)) ? $noDrawingFromDB = $noDrawingFromDB->drawing : false;
                 $validatedData['no_drawing'] = ($request->no_drawing) ?? $noDrawingFromDB;
-                $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']);
+                (isset($validatedData['no_drawing'])) ? $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']) : false;
             } elseif (isset($request->no_drawing)) {
-                $toolCodeFromDB = $this->tool->getByDrawing($request->no_drawing)->code;
+                $toolCodeFromDB = $this->tool->getByDrawing($request->no_drawing);
+                (isset($toolCodeFromDB)) ? $toolCodeFromDB = $toolCodeFromDB->code : false;
                 $validatedData['tool_code'] = $toolCodeFromDB;
                 $validatedData['no_drawing'] = strtoupper($request->no_drawing);
             }
-
-            // $validatedData['no_drawing'] = (strtoupper($request->no_drawing)) ?? $noDrawingFromDB;
-
-            dd($validatedData);
             
             if(isset($request->note)) {
                 $validatedData['note'] = $request->note;
@@ -104,8 +102,12 @@ class OrderController extends Controller
             $validatedData['shop_order'] = (substr($lastSO, 0, 6) == $code) ? ++$lastSO : $code . '001';            
     
             $this->order->create($validatedData);
-    
-            return redirect()->back()->with('success', 'Pekerjaan berhasil diregistrasi');
+
+            if ($validatedData['no_drawing'] && $validatedData['tool_code']) {
+                $this->flowProcess->copyToOrder($validatedData['shop_order'], $validatedData['no_drawing']);
+            }
+
+            return back()->with('success', 'Pekerjaan berhasil diregistrasi');
             
         } else {
             abort(403);
