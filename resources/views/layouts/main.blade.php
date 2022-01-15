@@ -43,14 +43,13 @@
     </div><!-- End Logo -->
 
     <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="GET">
+      <form class="search-form d-flex align-items-center" method="GET" action="/search">
         <select name="filter" id="filter" class="form-select no-radius">
-          <option value="0">Filter</option>
-          <option value="2">2wewef</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+          <option value="order" @if (request('filter') == 'order') selected @endif>Order</option>
+          <option value="drawing" @if (request('filter') == 'drawing') selected @endif>Drawing</option>
+          <option value="customer" @if (request('filter') == 'customer') selected @endif>Customer</option>
         </select>
-        <input type="text" name="search" id="search" placeholder="Cari">
+        <input type="text" name="keyword" id="search" placeholder="Cari" value="{{ request('keyword') }}">
         <button type="submit" title="Search"><em class="bi bi-search"></em></button>
       </form>
     </div><!-- End Search Bar -->

@@ -17,7 +17,7 @@
 <body>
 
   <div class="no-print">
-    <span class="btn-print" onclick="window.print(), window.close()">Print</span>
+    <span class="btn-print" onclick="window.print()">Print</span>
     <span class="btn-close" onclick="window.close()">close</span>
   </div>
 

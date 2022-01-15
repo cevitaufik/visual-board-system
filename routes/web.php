@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ToolController;
@@ -76,7 +77,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/flow-process/table', [FlowProcessController::class, 'table']);
     Route::get('/flow-process/create-new/{no_drawing}', [FlowProcessController::class, 'createNew']);
     Route::get('/flow-process/make-master/{shop_order}', [FlowProcessController::class, 'makeMaster']);
-    Route::get('/flow-process/copy/{shop_order}', [FlowProcessController::class, 'copy']);
+    Route::get('/flow-process/copy/{shop_order}', [FlowProcessController::class, 'copyFlowProcessFromMaster']);
     Route::get('/flow-process/print/{shop_order}', [FlowProcessController::class, 'print']);
     Route::get('/flow-process/delete/{shop_order}', [FlowProcessController::class, 'deleteFlowProcess']);
     Route::resource('/flow-process', FlowProcessController::class);
@@ -91,4 +92,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code']);
 
     Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
+
+    Route::get('/search', [SearchController::class, 'search']);
 });

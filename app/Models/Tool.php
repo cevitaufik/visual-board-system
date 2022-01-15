@@ -18,4 +18,24 @@ class Tool extends Model
     public function flowProcess() {
         return $this->hasOne(FlowProcess::class, 'no_drawing', 'drawing');
     }
+
+    public function scopeFilter($query, $filter) {
+        return $query->whereDrawing($filter)
+                        ->orWhere('cust_code', strtoupper($filter))
+                        ->orWhere('code','like', '%' . $filter . '%')
+                        ->orWhere('description', 'like', '%' . $filter . '%')
+                        ->orWhere('status', strtoupper($filter))
+                        ->orWhere('note', 'like', '%' . $filter . '%');
+    }
+
+    public function getDrawingNumber($code, $cust_code): Tool {
+        return $this->whereCust_code($cust_code)
+                        ->whereCode($code)
+                        ->orderBy('drawing', 'desc')
+                        ->first();
+    }
+
+    public function getByDrawing($drawing): Tool {
+        return $this->whereDrawing($drawing)->first();
+    }
 }

@@ -19,4 +19,9 @@ class Customer extends Model
     public function contacts() {
         return $this->hasMany(CustomerContact::class, 'cust_code', 'code');
     }
+
+    public function scopeFilter($query, $filter) {
+        return $query->whereCode(strtoupper($filter))
+                        ->orWhere('name', 'like', '%' . $filter . '%');
+    }
 }

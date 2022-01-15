@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FlowProcess;
 use App\Models\JobType;
 use App\Models\Order;
+use App\Models\Tool;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    private $flowProcess;
+    private $order;
+    private $jobTypes;
+    private $tool;
+
+    function __construct() {
+        $this->flowProcess = new FlowProcess;
+        $this->order = new Order;
+        $this->jobTypes = JobType::all();
+        $this->tool = new Tool;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,15 +36,28 @@ class OrderController extends Controller
     {
         if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {            
             return view('orders.create', [
-                'jobTypes' => JobType::all(),
+                'jobTypes' => $this->jobTypes,
             ]);            
         } else {
             abort(403);
         }
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        // jika cust_code dan tool_code ada di database
+        // dan jika user tidak mengisi nomor drawing
+        // 1. ambil nomor gambarnya
+        // 2. update flow processnya
+
+        // jika user mengisi nomor drawing
+        // 1. isi otomatis kode toolnya
+        // 2. update flow processnya
+
+        // jika user mengisi kode tool beserta nomor gambar
+        // jika datanya match meskipun drawing sudah tidak digunakan
+        // 1. jangan ubah input user
+        // 2. update flow processnya
+
         if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {
 
             $rules = [
@@ -42,19 +69,25 @@ class OrderController extends Controller
                 'description' => ['required', 'min:2', 'max:255'],
             ];
     
-            $validatedData = $request->validate($rules);
-    
+            $validatedData = $request->validate($rules);    
             $validatedData['cust_code'] = strtoupper($validatedData['cust_code']);
-    
-            if (isset($request->no_drawing)) {
-                $validatedData['no_drawing'] = $request->no_drawing;
-                $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']);
-            }
-    
+                   
             if(isset($request->tool_code)) {
-                $validatedData['tool_code'] = $request->tool_code;
-                $validatedData['tool_code'] = strtoupper($validatedData['tool_code']);
+                $validatedData['tool_code'] = strtoupper($request->tool_code);
+                $noDrawingFromDB = $this->tool->getDrawingNumber(
+                                        $validatedData['tool_code'], 
+                                        $validatedData['cust_code'])->drawing;
+                $validatedData['no_drawing'] = ($request->no_drawing) ?? $noDrawingFromDB;
+                $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']);
+            } elseif (isset($request->no_drawing)) {
+                $toolCodeFromDB = $this->tool->getByDrawing($request->no_drawing)->code;
+                $validatedData['tool_code'] = $toolCodeFromDB;
+                $validatedData['no_drawing'] = strtoupper($request->no_drawing);
             }
+
+            // $validatedData['no_drawing'] = (strtoupper($request->no_drawing)) ?? $noDrawingFromDB;
+
+            dd($validatedData);
             
             if(isset($request->note)) {
                 $validatedData['note'] = $request->note;
@@ -65,17 +98,12 @@ class OrderController extends Controller
             $code = date('ymd');
     
             // ambil nomor SO terakhir
-            $lastSO = Order::latest()->first();
-            $lastSO = $lastSO->shop_order;
+            $lastSO = $this->order->latest()->first()->shop_order;
     
             // buat nomor SO
-            if(substr($lastSO, 0, 6) == $code) {
-                $validatedData['shop_order'] = $lastSO + 1;
-            } else {
-                $validatedData['shop_order'] = $code . '001';
-            }
+            $validatedData['shop_order'] = (substr($lastSO, 0, 6) == $code) ? ++$lastSO : $code . '001';            
     
-            Order::create($validatedData);
+            $this->order->create($validatedData);
     
             return redirect()->back()->with('success', 'Pekerjaan berhasil diregistrasi');
             
@@ -100,7 +128,7 @@ class OrderController extends Controller
 
         return view('orders.detail', [
             'order' => $order,
-            'jobTypes' => JobType::all(),
+            'jobTypes' => $this->jobTypes,
             'masterFlowProcess' => $masterFlowProcess,
         ]);
     }
@@ -127,16 +155,18 @@ class OrderController extends Controller
         ];
 
         $validatedData = $request->validate($rules);
-
-        $validatedData['tool_code'] = $request['tool_code'];
+        $validatedData['tool_code'] = strtoupper($request['tool_code']);
         $validatedData['note'] = $request['note'];
-        $validatedData['no_drawing'] = $request['no_drawing'];
-
+        $validatedData['no_drawing'] = strtoupper($request['no_drawing']);
         $validatedData['updated_by'] = auth()->user()->username;
 
-        Order::where('shop_order', $order->shop_order)->update($validatedData);
+        // membuat flow process local secara otomatis
+        if ($validatedData['no_drawing']) {
+            $this->flowProcess->copyToOrder($order->shop_order, $validatedData['no_drawing']);
+        }
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        $this->order->getByShopOrder($order->shop_order)->update($validatedData);
+        return back()->with('success', 'Data berhasil diperbarui');
     }
 
     /**

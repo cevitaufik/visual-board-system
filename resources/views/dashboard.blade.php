@@ -4,6 +4,7 @@
 
 <div class="pagetitle">
   <h1>Dashboard</h1>
+  <input type="hidden" id="user-position" value="{{ auth()->user()->position }}">
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
@@ -15,7 +16,7 @@
 
         <!-- Recent Sales -->
         <div class="col-12">
-          <div class="card recent-sales my-bg-element">
+          <div class="card recent-sales my-bg-element overflow-visible">
 
             <div class="filter my-text-white">
               <a class="icon" href="#" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -27,12 +28,14 @@
                 <li class="dropdown-header text-start">
                   <h6>Filter</h6>
                 </li>
+                <li class="dropdown-item" onclick="filterReset()">Reset</li>
 
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
+                @foreach ($jobTypes as $jobType)
+                  <li class="dropdown-item" onclick="filterJob('{{ $jobType->code }}')">{{ $jobType->code }}</li>
+                @endforeach
               </ul>
             </div>
+
             <div class="card-body">
               <h5 class="card-title">Daftar pekerjaan</h5>
 
@@ -57,11 +60,11 @@
                   </thead>
                   <tbody id="table-data">
                     @foreach ($orders as $order)
-                    <tr class="my-cursor row-data" data-id="{{ $order->shop_order }}">
+                    <tr class="my-cursor row-data" data-id="{{ $order->shop_order }}" data-jobtype="{{ $order->jobType->code }}">
                       <td scope="row">{{ $loop->iteration }}</td>
                       <td>{{ $order->cust_code }}</td>
                       <td>{{ $order->shop_order }}</td>
-                      <td>{{ $order->jobType->code }}</td>
+                      <td class="job-type">{{ $order->jobType->code }}</td>
 
                       <td>
                         @if (strlen($order->description) > 20)
@@ -195,47 +198,8 @@
     </div><!-- End Right side columns -->
 
   </div>
-  <script>
-    function getTable() {
-      $.get(`/{{ auth()->user()->position }}/table`, {}, function(data) {
-        $('#table-data').html(data)
-      })
-    }
+  <script src="/js/dashboard/main.js"></script>
 
-    $('#close').on('click', function() {
-      $('.order-detail').modal('hide')
-      getTable()
-    })
-
-    $('#table-data').on('click', 'tr', function() {
-      let id = $(this).data('id');
-
-      $('iframe').attr('src', `/order/${id}`)
-      $('.order-detail').modal('show')
-    })
-
-    $('#update3').on('click', function() {
-      let id = $('#order-detail').find('#shop_order').val()
-      let formData = $('#order-detail').serialize()
-
-      $.ajax({
-        url: `/order/${id}`,
-        method: 'PUT',
-        data: formData,
-        success: function(data){
-          $('.order-detail').modal('hide');
-          getTable();
-        },
-        error: function(error){
-          alert('error ' + error.responseText);
-          console.log(error);
-        }        
-      })
-    })
-
-    const height = $(window).height() * 0.92;
-    $('iframe').css('height', height +'px');
-  </script>
 </section>
 
 @endsection

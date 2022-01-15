@@ -34,8 +34,7 @@ $('#tool_code').on('change', function() {
         $('#tool_code').val(toolCode.toUpperCase())
       },
       error: function(error){
-        alert('error ' + error.responseText);
-        console.log(error);
+        $('#tool_code').val(toolCode.toUpperCase())
       }        
     })
   }  

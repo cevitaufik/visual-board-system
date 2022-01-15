@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ToolController extends Controller
 {
+    private $tool;
+
+    function __construct() {
+        $this->tool = new Tool;
+    }
+
     public function index()
     {
         return view('tools.index', [
@@ -150,15 +156,7 @@ class ToolController extends Controller
     }
 
     public function getDrawing($toolCode, $cust) {
-        $data = Tool::where('cust_code', '=', $cust)
-                    ->where('code', '=', $toolCode)
-                    ->orderBy('drawing', 'desc')
-                    ->first();
-
-        if($data) {
-            return $data->drawing;
-        } else {
-            return '';
-        }
+        $drawing = $this->tool->getDrawingNumber($toolCode, $cust)->drawing;
+        return ($drawing) ?? '';
     }
 }

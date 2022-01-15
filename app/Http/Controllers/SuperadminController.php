@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobType;
 use Illuminate\Http\Request;
 use App\Models\Order;
 
@@ -16,14 +17,11 @@ class SuperadminController extends Controller
 
         return view('dashboard', [
             'orders' => Order::where('current_process', '<>', 'close')
-            ->orWhere('current_process', '=', null)
-            ->latest()
-            ->get(),
+                                ->orWhere('current_process', '=', null)
+                                ->latest()
+                                ->get(),
+            'jobTypes' => JobType::all(['code']),
         ]);
-
-        // return view('dashboard', [
-        //     'orders' => Order::all()
-        // ]);
     }
 
     public function table() {

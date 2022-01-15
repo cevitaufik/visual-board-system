@@ -32,4 +32,21 @@ class Order extends Model
     public function customer() {
         return $this->hasOne(Customer::class, 'code', 'cust_code');
     }
+
+    public function scopeFilter($query, $filter) {
+
+        return $query->whereShop_order($filter)
+                        ->orWhere('po_number','like', '%' . $filter . '%')
+                        ->orWhere('cust_code', strtoupper($filter))
+                        ->orWhere('description', 'like', '%' . $filter . '%')
+                        ->orWhere('note', 'like', '%' . $filter . '%')                        
+                        ->orWhere('tool_code', 'like', '%' . $filter . '%')                        
+                        ->orWhere('no_drawing', strtoupper($filter))
+                        ->orWhere('job_type_code', strtoupper($filter));
+    }
+
+    function getByShopOrder($shop_order) {
+        return $this->whereShop_order($shop_order)->first();
+    }
+
 }
