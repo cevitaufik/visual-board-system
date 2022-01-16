@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\TestController;
@@ -94,4 +95,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
 
     Route::get('/search', [SearchController::class, 'search']);
+
+    Route::get('/productions/process/{shop_order}', [ProductionController::class, 'processForm']);
+    Route::resource('/productions', ProductionController::class);
 });

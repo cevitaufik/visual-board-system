@@ -138,7 +138,7 @@ class FlowProcessController extends Controller
                 'code' => ($data->tool_code) ?? substr($data->no_drawing, 0, 10),
                 'description' => '--PERLU PENGECEKAN ENGINEERING. data ditambahkan otomatis--',
                 'note' => '--PERLU PENGECEKAN ENGINEERING. data ditambahkan otomatis--',
-                'status' => 'TIDAK DIGUNAKAN',
+                'status' => 'TIDAK DIGUNAKAN',                
             ]
         );
         
