@@ -50,6 +50,7 @@ window.addEventListener('load', function () {
             codeReader.reset()
 
             hideVideo()
+            processSO()
           }
           if (err && !(err instanceof ZXing.NotFoundException)) {
             console.error(err)

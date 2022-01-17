@@ -13,6 +13,10 @@
 
   <form action="/productions" method="post" class="row justify-content-center">
     @csrf
+
+    <input type="hidden" name="shop_order" value="{{ $shop_order }}">
+    <input type="hidden" name="processed_by" value="{{ auth()->user()->username }}">
+
     <div class="col-md-6 my-bg-element p-5 rounded mt-5">
 
       <h1 class="text-center pb-4">{{ $shop_order }}</h1>
@@ -26,8 +30,8 @@
 
 
         <div class="col-md-8 mx-0 px-0 ps-md-1 mt-3 mt-md-0">
-          <label for="process" class="form-lable">OP - WORK CENTER</label>
-          <select class="form-select" id="process" name="process">
+          <label for="op_number" class="form-lable ps-2">OP - WORK CENTER</label>
+          <select class="form-select" id="op_number" name="op_number">
             @foreach ($processes as $process)
               <option 
                 value="{{ $process['op_number'] }}"
@@ -57,7 +61,12 @@
       </div>
 
       <div class="row mt-4">
-        <button type="submit" class="btn btn-success w-100 fs-3" name="start">START</button>
+
+        @if ($currentProcess['start'])
+          <button type="submit" class="btn btn-success w-100 fs-3" name="end" value="1">FINISH</button>
+        @else
+          <button type="submit" class="btn btn-success w-100 fs-3" name="start" value="1">START</button>
+        @endif        
       </div>
 
     </div>

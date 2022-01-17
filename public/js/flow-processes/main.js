@@ -199,7 +199,7 @@ $('#dwg-number').on('change', function() {
 
 // menambah subprocess
 function addSubprocess() {
-  let numberOfSubprocess = $('.subprocess').length + 1
+  let numberOfSubprocess = $('.subprocess').length
   
   $('.processes-container').append(
     `<div data-sp="${numberOfSubprocess}" id="subprocess-${numberOfSubprocess}" class="subprocess border-bottom"></div>`

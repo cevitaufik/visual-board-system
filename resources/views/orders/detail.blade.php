@@ -18,7 +18,7 @@
       @endif
 
       <div class="row mb-3">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row px-2">
             <div class="col-md-3 p-1">
               <label for="shop_order" class="d-block">Shop order</label>
@@ -177,9 +177,12 @@
             </div>
           </div>
 
-        </div>
+        </div>   
 
-        <div class="col-lg-4 border border-white rounded">
+      </div>
+
+      <div class="row mb-3 p-3">
+        <div class="col-lg-12 border border-white rounded">
           <h3 class="my-2">Flow process</h3>
 
           @if ($order->flow_process)
@@ -211,9 +214,12 @@
                   <th scope="col">#</th>
                   <th scope="col">SP</th>
                   <th scope="col">OP</th>
-                  <th scope="col">WC</th>
+                  <th scope="col">WORK CNTR</th>
                   <th scope="col">INSTRUKSI</th>
-                  <th scope="col">EST</th>
+                  <th scope="col">ESTIMASI <small>(menit)</small></th>
+                  <th scope="col">OPERATOR</th>
+                  <th scope="col">LAMA PROSES <small>(menit)</small></th>
+                  <th scope="col">CATATAN</th>
                 </tr>
               </thead>
 
@@ -221,7 +227,10 @@
                 @foreach ($processes as $process)
                   <tbody>
                     <tr class="@if($loop->last) border-bottom @endif">
-                      <td class="@if ($process['status'] == 'close') text-success @endif">
+                      <td class="@if ($process['qty'] != $order->quantity && $process['qty'] != 0) text-danger 
+                                  @elseif ($process['status'] == 'on process') text-warning
+                                  @elseif ($process['status'] == 'done') text-success 
+                                  @endif">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                           <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -240,7 +249,16 @@
                         <span>{{ $process['description'] }}</span>
                       </td>
                       <td>
-                        <span>{{ $process['estimation'] }} menit</span>
+                        <span>{{ $process['estimation'] }}</span>
+                      </td>
+                      <td>
+                        <span>{{ $process['processed_by'] }}</span>
+                      </td>
+                      <td>
+                        <span>{{ ($process['end']) ? round(($process['end'] - $process['start']) / 60, 0) : '' }}</span>
+                      </td>
+                      <td>
+                        <span>{{ ($process['note']) ?? '' }}</span>
                       </td>
                     </tr>
                   </tbody>                    
@@ -265,7 +283,6 @@
           @endif
 
         </div>
-
       </div>
 
       @if (isset($order->tool->dwg_production))

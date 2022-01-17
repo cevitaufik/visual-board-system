@@ -37,8 +37,8 @@
                 <tr class="my-cursor row-data" data-id="{{ $process->id }}">
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $process->no_drawing }}</td>
-                  <td>{{ $process->tool->code }}</td>
-                  <td>{{ $process->tool->description }}</td>
+                  <td>{{ ($process->tool->code) ?? '--kosong--' }}</td>
+                  <td>{{ ($process->tool->description) ?? '--kosong--' }}</td>
                 </tr>
                 @endforeach
               </tbody>

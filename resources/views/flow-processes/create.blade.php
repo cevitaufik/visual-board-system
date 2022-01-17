@@ -39,21 +39,21 @@
         </div>
 
         <div class="processes-container">
-          <div data-sp="1" id="subprocess-1" class="subprocess border-bottom">
+          <div data-sp="0" id="subprocess-0" class="subprocess border-bottom">
             <div class="row py-2 op-number-row" data-op="10" id="row-10">
               <div class="col-1 align-self-center text-center p-1">
-                <span class="number-subprocess">1</span>
+                <span class="number-subprocess">0</span>
               </div>
     
               <div class="col-1 align-self-center text-center p-1">
-                <input type="hidden" id="op_number" name="flow[1][10][op_number]" value="10">
+                <input type="hidden" id="op_number" name="flow[0][10][op_number]" value="10">
                 <span class="number-row">10</span>
               </div>
     
               <div class="col-2 align-self-center p-1">
-                <select id="work_center" name="flow[1][10][work_center]" class="form-select">
+                <select id="work_center" name="flow[0][10][work_center]" class="form-select">
                   @foreach ($workCenters as $workCenter)
-                    @if (old('flow[1][10][work_center]') == $workCenter->code)
+                    @if (old('flow[0][10][work_center]') == $workCenter->code)
                       <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
                     @else
                       <option value="{{ $workCenter->code }}">{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
@@ -63,15 +63,15 @@
               </div>
     
               <div class="col align-self-center p-1">
-                <input type="text" class="form-control" id="description" name="flow[1][10][description]">
+                <input type="text" class="form-control" id="description" name="flow[0][10][description]">
               </div>
     
               <div class="col-2 align-self-center p-1">
-                <input type="number" class="form-control" id="estimation" name="flow[1][10][estimation]" required>
+                <input type="number" class="form-control" id="estimation" name="flow[0][10][estimation]" required>
               </div>
     
               <div class="col-2 align-self-center text-center p-1">
-                <span class="badge bg-success add-btn" onclick="addRow(1, 10)">
+                <span class="badge bg-success add-btn" onclick="addRow(0, 10)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-plus-square my-hover" viewBox="0 0 16 16">
                     <path
@@ -80,7 +80,7 @@
                       d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                   </svg>
                 </span>
-                <span class="badge bg-warning insert-btn" onclick="insertRowBefore(1, 10)">
+                <span class="badge bg-warning insert-btn" onclick="insertRowBefore(0, 10)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-up-square my-hover" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -108,7 +108,7 @@
 
     <div class="d-none" id="select-blueprint">
       @foreach ($workCenters as $workCenter)
-        @if (old('flow[1][10][work_center]') == $workCenter->code)
+        @if (old('flow[0][10][work_center]') == $workCenter->code)
           <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
         @else
           <option value="{{ $workCenter->code }}">{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
