@@ -10,18 +10,6 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    private $flowProcess;
-    private $order;
-    private $jobTypes;
-    private $tool;
-
-    function __construct() {
-        $this->flowProcess = new FlowProcess;
-        $this->order = new Order;
-        $this->jobTypes = JobType::all();
-        $this->tool = new Tool;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +24,7 @@ class OrderController extends Controller
     {
         if (auth()->user()->position == 'marketing' || auth()->user()->position == 'superadmin') {            
             return view('orders.create', [
-                'jobTypes' => $this->jobTypes,
+                'jobTypes' => JobType::all(),
             ]);            
         } else {
             abort(403);
@@ -74,14 +62,14 @@ class OrderController extends Controller
                    
             if(isset($request->tool_code)) {
                 $validatedData['tool_code'] = strtoupper($request->tool_code);
-                $noDrawingFromDB = $this->tool->getDrawingNumber(
+                $noDrawingFromDB = Tool::getDrawingNumber(
                                         $validatedData['tool_code'], 
                                         $validatedData['cust_code']);                
                 (isset($noDrawingFromDB)) ? $noDrawingFromDB = $noDrawingFromDB->drawing : false;
-                $validatedData['no_drawing'] = ($request->no_drawing) ?? $noDrawingFromDB;
+                $validatedData['no_drawing'] = ($request->no_drawing) ? $noDrawingFromDB : null;
                 (isset($validatedData['no_drawing'])) ? $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']) : false;
             } elseif (isset($request->no_drawing)) {
-                $toolCodeFromDB = $this->tool->getByDrawing($request->no_drawing);
+                $toolCodeFromDB = Tool::getByDrawing($request->no_drawing);
                 (isset($toolCodeFromDB)) ? $toolCodeFromDB = $toolCodeFromDB->code : false;
                 $validatedData['tool_code'] = $toolCodeFromDB;
                 $validatedData['no_drawing'] = strtoupper($request->no_drawing);
@@ -96,15 +84,15 @@ class OrderController extends Controller
             $code = date('ymd');
     
             // ambil nomor SO terakhir
-            $lastSO = $this->order->latest()->first()->shop_order;
+            $lastSO = Order::latest()->first()->shop_order;
     
             // buat nomor SO
             $validatedData['shop_order'] = (substr($lastSO, 0, 6) == $code) ? ++$lastSO : $code . '001';            
     
-            $this->order->create($validatedData);
+            Order::create($validatedData);
 
-            if ($validatedData['no_drawing'] && $validatedData['tool_code']) {
-                $this->flowProcess->copyToOrder($validatedData['shop_order'], $validatedData['no_drawing']);
+            if (isset($validatedData['no_drawing']) && isset($validatedData['tool_code'])) {
+                FlowProcess::copyToOrder($validatedData['shop_order'], $validatedData['no_drawing']);
             }
 
             return back()->with('success', 'Pekerjaan berhasil diregistrasi');
@@ -130,7 +118,7 @@ class OrderController extends Controller
 
         return view('orders.detail', [
             'order' => $order,
-            'jobTypes' => $this->jobTypes,
+            'jobTypes' => JobType::all(),
             'masterFlowProcess' => $masterFlowProcess,
         ]);
     }
@@ -164,10 +152,10 @@ class OrderController extends Controller
 
         // membuat flow process local secara otomatis
         if ($validatedData['no_drawing']) {
-            $this->flowProcess->copyToOrder($order->shop_order, $validatedData['no_drawing']);
+            FlowProcess::copyToOrder($order->shop_order, $validatedData['no_drawing']);
         }
 
-        $this->order->getByShopOrder($order->shop_order)->update($validatedData);
+        Order::getByShopOrder($order->shop_order)->update($validatedData);
         return back()->with('success', 'Data berhasil diperbarui');
     }
 

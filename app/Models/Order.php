@@ -45,8 +45,8 @@ class Order extends Model
                         ->orWhere('job_type_code', strtoupper($filter));
     }
 
-    function getByShopOrder($shop_order) {
-        return $this->whereShop_order($shop_order)->first();
+    public static function getByShopOrder($shop_order) {
+        return self::whereShop_order($shop_order)->first();
     }
 
 }
