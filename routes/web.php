@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customer/contact/{id}/delete', [CustomerController::class, 'deleteContact']);
     Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code']);
 
+    Route::get('/order/print-label/{shop_order}', [OrderController::class, 'printLabel']);
     Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
 
     Route::get('/search', [SearchController::class, 'search']);

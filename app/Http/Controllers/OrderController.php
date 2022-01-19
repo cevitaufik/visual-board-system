@@ -59,15 +59,16 @@ class OrderController extends Controller
     
             $validatedData = $request->validate($rules);    
             $validatedData['cust_code'] = strtoupper($validatedData['cust_code']);
-                   
+                    
             if(isset($request->tool_code)) {
                 $validatedData['tool_code'] = strtoupper($request->tool_code);
                 $noDrawingFromDB = Tool::getDrawingNumber(
                                         $validatedData['tool_code'], 
                                         $validatedData['cust_code']);                
                 (isset($noDrawingFromDB)) ? $noDrawingFromDB = $noDrawingFromDB->drawing : false;
-                $validatedData['no_drawing'] = ($request->no_drawing) ? $noDrawingFromDB : null;
-                (isset($validatedData['no_drawing'])) ? $validatedData['no_drawing'] = strtoupper($validatedData['no_drawing']) : false;
+
+                $validatedData['no_drawing'] = (isset($request->no_drawing)) ? strtoupper($request->no_drawing) : $noDrawingFromDB;
+
             } elseif (isset($request->no_drawing)) {
                 $toolCodeFromDB = Tool::getByDrawing($request->no_drawing);
                 (isset($toolCodeFromDB)) ? $toolCodeFromDB = $toolCodeFromDB->code : false;
@@ -168,5 +169,25 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function printLabel($shop_order) {
+        $order = Order::getByShopOrder($shop_order);
+        $flow_process = unserialize($order->flow_process);
+        $labels = [];
+
+        if (count($flow_process) > 1) {
+            foreach ($flow_process as $key => $proces) {
+                array_push($labels, "$shop_order-$key");
+            }
+        } else {
+            $labels[] = $shop_order;
+        }
+
+        return view('orders.print-label', [
+            'labels' => $labels, 
+            'cust_code' => $order->cust_code,
+            'due_date' => date('d-M-Y', strtotime($order->due_date))
+        ]);
     }
 }

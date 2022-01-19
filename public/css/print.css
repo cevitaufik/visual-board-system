@@ -82,7 +82,6 @@
   grid-area: qr-code;
   width: 30mm;
   height: 30mm;
-  border: 1px solid black;
 }
 
 .sub-header {
