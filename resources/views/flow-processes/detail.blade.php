@@ -41,7 +41,7 @@
 
           @foreach ($processes as $subprocess)
 
-            <div data-sp="{{ $loop->iteration }}" id="subprocess-{{ $loop->iteration }}" class="subprocess border-bottom">
+            <div data-sp="{{ $loop->index }}" id="subprocess-{{ $loop->index }}" class="subprocess border-bottom">
 
               @foreach ($subprocess as $process)
                   
@@ -49,18 +49,18 @@
                   <div class="col-1 align-self-center text-center p-1">
                     <span class="number-subprocess">
                       @if ($loop->first)
-                        {{ $loop->parent->iteration }}
+                        {{ $loop->parent->index }}
                       @endif
                     </span>
                   </div>
         
                   <div class="col-1 align-self-center text-center p-1">
-                    <input type="hidden" id="op_number" name="flow[{{ $loop->parent->iteration }}][{{ $process['op_number'] }}][op_number]" value="{{ $process['op_number'] }}">
+                    <input type="hidden" id="op_number" name="flow[{{ $loop->parent->index }}][{{ $process['op_number'] }}][op_number]" value="{{ $process['op_number'] }}">
                     <span class="number-row">{{ $process['op_number'] }}</span>
                   </div>
         
                   <div class="col-2 align-self-center p-1">
-                    <select id="work_center" name="flow[{{ $loop->parent->iteration }}][{{ $process['op_number'] }}][work_center]" class="form-select">
+                    <select id="work_center" name="flow[{{ $loop->parent->index }}][{{ $process['op_number'] }}][work_center]" class="form-select">
                       @foreach ($workCenters as $workCenter)
                         @if ($process['work_center'] == $workCenter->code)
                           <option value="{{ $workCenter->code }}" selected>{{ $workCenter->code . ' - ' . $workCenter->description }}</option>
@@ -72,15 +72,15 @@
                   </div>
         
                   <div class="col align-self-center p-1">
-                    <input type="text" class="form-control" id="description" name="flow[{{ $loop->parent->iteration }}][{{ $process['op_number'] }}][description]" value="{{ $process['description'] }}">
+                    <input type="text" class="form-control" id="description" name="flow[{{ $loop->parent->index }}][{{ $process['op_number'] }}][description]" value="{{ $process['description'] }}">
                   </div>
         
                   <div class="col-2 align-self-center p-1">
-                    <input type="number" class="form-control" id="estimation" name="flow[{{ $loop->parent->iteration }}][{{ $process['op_number'] }}][estimation]" value="{{ $process['estimation'] }}" required>
+                    <input type="number" class="form-control" id="estimation" name="flow[{{ $loop->parent->index }}][{{ $process['op_number'] }}][estimation]" value="{{ $process['estimation'] }}" required>
                   </div>
         
                   <div class="col-2 align-self-center text-center p-1">
-                    <span class="badge bg-success add-btn" onclick="addRow({{ $loop->parent->iteration }}, {{ $process['op_number'] }})">
+                    <span class="badge bg-success add-btn" onclick="addRow({{ $loop->parent->index }}, {{ $process['op_number'] }})">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-plus-square my-hover" viewBox="0 0 16 16">
                         <path
@@ -89,14 +89,14 @@
                           d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                       </svg>
                     </span>
-                    <span class="badge bg-warning insert-btn" onclick="insertRowBefore({{ $loop->parent->iteration }}, {{ $process['op_number'] }}">
+                    <span class="badge bg-warning insert-btn" onclick="insertRowBefore({{ $loop->parent->index }}, {{ $process['op_number'] }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-arrow-up-square my-hover" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                           d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
                       </svg>
                     </span>
-                    <span class="badge bg-danger delete-btn" onclick="deleteRow({{ $loop->parent->iteration }}, {{ $process['op_number'] }})">
+                    <span class="badge bg-danger delete-btn" onclick="deleteRow({{ $loop->parent->index }}, {{ $process['op_number'] }})">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-x-square my-hover" viewBox="0 0 16 16">
                         <path

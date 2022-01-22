@@ -1,0 +1,670 @@
+{
+  "rootTopicKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+  "editorRootTopicKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+  "focusKey": "d08a71fe-329d-4686-8ac0-33c64a021e44",
+  "extData": {
+    "TOPIC_REFERENCE": {
+      "reference": {}
+    },
+    "TAGS": {
+      "tags": {
+        "rencana": {
+          "name": "rencana",
+          "style": "{\"backgroundColor\":\"#7ed321\",\"color\":\"black\"}",
+          "topicKeys": [
+            "2520b9e4-9c69-4a14-8bce-eaaa07f34658",
+            "26cc28d5-9ab2-4ee7-8535-fa0da038c10f",
+            "643ef798-e255-4ea9-b97d-e993b2f5ce58",
+            "eeba54fa-b411-450e-9683-5e352ed0c721",
+            "6aa634c0-4584-4d1d-ba75-8ac80014d087",
+            "d08a71fe-329d-4686-8ac0-33c64a021e44",
+            "2183f04f-0cff-4019-9139-e2daae583192",
+            "b15ab340-62af-424a-be3b-2b80dab217a2",
+            "cdebfb92-8aaa-4765-9162-9465bde27ebd",
+            "3df83d68-7110-4337-9cf5-69790a3dc416"
+          ]
+        }
+      }
+    }
+  },
+  "topics": [
+    {
+      "key": "023eec3c-fd44-469c-ba18-2dc67eeb38bd",
+      "parentKey": "b8d520f6-e8b5-4773-b0c3-0ab2888194d6",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "registrasi shop order"
+        }
+      ]
+    },
+    {
+      "key": "a3eda3ac-7289-498b-9575-03104e76476e",
+      "parentKey": "5f7262b4-7692-445a-889c-7205966481ef",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "work center"
+        }
+      ]
+    },
+    {
+      "key": "43c8d5cc-6a64-4e80-bdfa-a5563a538331",
+      "parentKey": "643ef798-e255-4ea9-b97d-e993b2f5ce58",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "kembali ke halaman scan qr"
+        }
+      ]
+    },
+    {
+      "key": "c0c970cf-094a-4a86-a974-3e700c8f78a8",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "inventory"
+        }
+      ]
+    },
+    {
+      "key": "023abe5f-2fbb-40be-a5a2-41eaf4e37a93",
+      "parentKey": "d735c891-0824-4069-a473-cd430870f5b5",
+      "subKeys": [
+        "c22408c7-0d9f-4813-a3a3-13c34603b258",
+        "26c36870-4eca-43ab-89b0-9f30fd7863bf"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "proses sesuai flow proses"
+        }
+      ]
+    },
+    {
+      "key": "6aa634c0-4584-4d1d-ba75-8ac80014d087",
+      "parentKey": "26c36870-4eca-43ab-89b0-9f30fd7863bf",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "NG sebagian"
+        }
+      ]
+    },
+    {
+      "key": "d08a71fe-329d-4686-8ac0-33c64a021e44",
+      "parentKey": "d44bcce0-9310-44f5-94cd-dd7def398703",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "tambah keterangan status (engineering, produksi, logistik..)"
+        }
+      ]
+    },
+    {
+      "key": "3df83d68-7110-4337-9cf5-69790a3dc416",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [
+        "db436b96-72f5-44a3-a52b-0c847c68df3e",
+        "f9149089-625b-4d6d-ad40-32cb0e471278",
+        "8a2b594b-dc02-46d8-a68e-0fe1d8a8b389",
+        "db730a1d-9a11-46ea-9c19-99d69bf49959"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "utility"
+        }
+      ]
+    },
+    {
+      "key": "899ae2ed-65ad-426d-9f62-be6b20145ac8",
+      "parentKey": "2520b9e4-9c69-4a14-8bce-eaaa07f34658",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "start"
+        }
+      ]
+    },
+    {
+      "key": "7ecd1f3c-5d74-444f-bb14-cc35d3324554",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "dashboard"
+        }
+      ]
+    },
+    {
+      "key": "eeba54fa-b411-450e-9683-5e352ed0c721",
+      "parentKey": "26c36870-4eca-43ab-89b0-9f30fd7863bf",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "NG total"
+        }
+      ]
+    },
+    {
+      "key": "643ef798-e255-4ea9-b97d-e993b2f5ce58",
+      "parentKey": "23244025-30fe-406a-b211-2143c3a90da5",
+      "subKeys": [
+        "43c8d5cc-6a64-4e80-bdfa-a5563a538331"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "SO beserta subprocess ditemukan"
+        }
+      ]
+    },
+    {
+      "key": "d5766e2c-306c-4e01-9361-281a0074d306",
+      "parentKey": "c3823c05-4321-43d8-a1ec-e3ab3b29952d",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "daftar produk"
+        }
+      ]
+    },
+    {
+      "key": "23244025-30fe-406a-b211-2143c3a90da5",
+      "parentKey": "5f7262b4-7692-445a-889c-7205966481ef",
+      "subKeys": [
+        "d735c891-0824-4069-a473-cd430870f5b5",
+        "180a07d5-1b64-4557-8a5f-c149b48006f0",
+        "643ef798-e255-4ea9-b97d-e993b2f5ce58"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "jobcard"
+        }
+      ]
+    },
+    {
+      "key": "d735c891-0824-4069-a473-cd430870f5b5",
+      "parentKey": "23244025-30fe-406a-b211-2143c3a90da5",
+      "subKeys": [
+        "023abe5f-2fbb-40be-a5a2-41eaf4e37a93",
+        "2520b9e4-9c69-4a14-8bce-eaaa07f34658"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "SO beserta subprocess ditemukan"
+        }
+      ]
+    },
+    {
+      "key": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "parentKey": null,
+      "subKeys": [
+        "5f7262b4-7692-445a-889c-7205966481ef",
+        "b8d520f6-e8b5-4773-b0c3-0ab2888194d6",
+        "c3823c05-4321-43d8-a1ec-e3ab3b29952d",
+        "3df83d68-7110-4337-9cf5-69790a3dc416",
+        "7ecd1f3c-5d74-444f-bb14-cc35d3324554",
+        "c0c970cf-094a-4a86-a974-3e700c8f78a8",
+        "77da3d20-5b22-425e-ac6e-82171ff1190d"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "Askara"
+        }
+      ]
+    },
+    {
+      "key": "b15ab340-62af-424a-be3b-2b80dab217a2",
+      "parentKey": "d44bcce0-9310-44f5-94cd-dd7def398703",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "tambah nama customer"
+        }
+      ]
+    },
+    {
+      "key": "d17cac1f-0c87-4a11-8864-afd12cd194d8",
+      "parentKey": "26c36870-4eca-43ab-89b0-9f30fd7863bf",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "oke"
+        }
+      ]
+    },
+    {
+      "key": "92c943a1-339a-46ad-bc78-1965360e4081",
+      "parentKey": "2520b9e4-9c69-4a14-8bce-eaaa07f34658",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "end"
+        }
+      ]
+    },
+    {
+      "key": "26cc28d5-9ab2-4ee7-8535-fa0da038c10f",
+      "parentKey": "180a07d5-1b64-4557-8a5f-c149b48006f0",
+      "subKeys": [
+        "c30f5124-5632-4d07-9d6c-17f71569fee4",
+        "6b1ad98c-5d1a-4f83-985b-48d367f359d4"
+      ],
+      "collapse": true,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "tambah proses baru"
+        }
+      ]
+    },
+    {
+      "key": "db730a1d-9a11-46ea-9c19-99d69bf49959",
+      "parentKey": "3df83d68-7110-4337-9cf5-69790a3dc416",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "daftar consumable parts"
+        }
+      ]
+    },
+    {
+      "key": "c30f5124-5632-4d07-9d6c-17f71569fee4",
+      "parentKey": "26cc28d5-9ab2-4ee7-8535-fa0da038c10f",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "start"
+        }
+      ]
+    },
+    {
+      "key": "2183f04f-0cff-4019-9139-e2daae583192",
+      "parentKey": "d44bcce0-9310-44f5-94cd-dd7def398703",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "lihat kontak customer"
+        }
+      ]
+    },
+    {
+      "key": "cdebfb92-8aaa-4765-9162-9465bde27ebd",
+      "parentKey": "c3823c05-4321-43d8-a1ec-e3ab3b29952d",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "tambah produk templete yang bisa digunakan oleh semua customer"
+        }
+      ]
+    },
+    {
+      "key": "2520b9e4-9c69-4a14-8bce-eaaa07f34658",
+      "parentKey": "d735c891-0824-4069-a473-cd430870f5b5",
+      "subKeys": [
+        "899ae2ed-65ad-426d-9f62-be6b20145ac8",
+        "92c943a1-339a-46ad-bc78-1965360e4081"
+      ],
+      "collapse": true,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "tambah proses baru"
+        },
+        {
+          "type": "DESC",
+          "data": ""
+        }
+      ]
+    },
+    {
+      "key": "1d0e652d-f260-4b5c-91c9-3f35ae9a8d27",
+      "parentKey": "5f7262b4-7692-445a-889c-7205966481ef",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "tipe pekerjaan"
+        }
+      ]
+    },
+    {
+      "key": "6b1ad98c-5d1a-4f83-985b-48d367f359d4",
+      "parentKey": "26cc28d5-9ab2-4ee7-8535-fa0da038c10f",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "end"
+        }
+      ]
+    },
+    {
+      "key": "627b9061-eab3-4bc1-a8aa-1e607cca93f7",
+      "parentKey": "c3823c05-4321-43d8-a1ec-e3ab3b29952d",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "flow process"
+        }
+      ]
+    },
+    {
+      "key": "b8d520f6-e8b5-4773-b0c3-0ab2888194d6",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [
+        "d44bcce0-9310-44f5-94cd-dd7def398703",
+        "6845323d-14fa-4cb5-8955-3c46e7e4872e",
+        "023eec3c-fd44-469c-ba18-2dc67eeb38bd"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "order"
+        }
+      ]
+    },
+    {
+      "key": "180a07d5-1b64-4557-8a5f-c149b48006f0",
+      "parentKey": "23244025-30fe-406a-b211-2143c3a90da5",
+      "subKeys": [
+        "26cc28d5-9ab2-4ee7-8535-fa0da038c10f"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "SO / subprocess  sudah selesai"
+        }
+      ]
+    },
+    {
+      "key": "c22408c7-0d9f-4813-a3a3-13c34603b258",
+      "parentKey": "023abe5f-2fbb-40be-a5a2-41eaf4e37a93",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "start"
+        }
+      ]
+    },
+    {
+      "key": "77da3d20-5b22-425e-ac6e-82171ff1190d",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "logistic"
+        }
+      ]
+    },
+    {
+      "key": "5f7262b4-7692-445a-889c-7205966481ef",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [
+        "23244025-30fe-406a-b211-2143c3a90da5",
+        "1d0e652d-f260-4b5c-91c9-3f35ae9a8d27",
+        "a3eda3ac-7289-498b-9575-03104e76476e"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "produksi"
+        }
+      ]
+    },
+    {
+      "key": "c3823c05-4321-43d8-a1ec-e3ab3b29952d",
+      "parentKey": "23d84f0c-ca19-43eb-946e-7be5cb5d94ab",
+      "subKeys": [
+        "cdebfb92-8aaa-4765-9162-9465bde27ebd",
+        "d5766e2c-306c-4e01-9361-281a0074d306",
+        "627b9061-eab3-4bc1-a8aa-1e607cca93f7"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "produk"
+        }
+      ]
+    },
+    {
+      "key": "d44bcce0-9310-44f5-94cd-dd7def398703",
+      "parentKey": "b8d520f6-e8b5-4773-b0c3-0ab2888194d6",
+      "subKeys": [
+        "d08a71fe-329d-4686-8ac0-33c64a021e44",
+        "2183f04f-0cff-4019-9139-e2daae583192",
+        "b15ab340-62af-424a-be3b-2b80dab217a2"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "halaman order detail"
+        }
+      ]
+    },
+    {
+      "key": "6845323d-14fa-4cb5-8955-3c46e7e4872e",
+      "parentKey": "b8d520f6-e8b5-4773-b0c3-0ab2888194d6",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "customer"
+        }
+      ]
+    },
+    {
+      "key": "26c36870-4eca-43ab-89b0-9f30fd7863bf",
+      "parentKey": "023abe5f-2fbb-40be-a5a2-41eaf4e37a93",
+      "subKeys": [
+        "d17cac1f-0c87-4a11-8864-afd12cd194d8",
+        "eeba54fa-b411-450e-9683-5e352ed0c721",
+        "6aa634c0-4584-4d1d-ba75-8ac80014d087"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "end"
+        }
+      ]
+    },
+    {
+      "key": "db436b96-72f5-44a3-a52b-0c847c68df3e",
+      "parentKey": "3df83d68-7110-4337-9cf5-69790a3dc416",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "daftar mesin"
+        }
+      ]
+    },
+    {
+      "key": "f9149089-625b-4d6d-ad40-32cb0e471278",
+      "parentKey": "3df83d68-7110-4337-9cf5-69790a3dc416",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "histori maintenace"
+        }
+      ]
+    },
+    {
+      "key": "8a2b594b-dc02-46d8-a68e-0fe1d8a8b389",
+      "parentKey": "3df83d68-7110-4337-9cf5-69790a3dc416",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "jadwal maintenace"
+        }
+      ]
+    }
+  ],
+  "config": {
+    "readOnly": false,
+    "allowUndo": true,
+    "layoutDir": 2,
+    "theme": {
+      "name": "default",
+      "randomColor": true,
+      "background": "rgb(57,60,65)",
+      "highlightColor": "#50C9CE",
+      "marginH": 60,
+      "marginV": 20,
+      "contentStyle": {
+        "lineHeight": "1.5"
+      },
+      "linkStyle": {
+        "lineRadius": 5,
+        "lineType": "curve",
+        "lineWidth": "3px"
+      },
+      "rootTopic": {
+        "contentStyle": {
+          "fontSize": "34px",
+          "borderRadius": "35px",
+          "padding": "16px 18px 16px 18px"
+        },
+        "subLinkStyle": {
+          "lineType": "curve",
+          "lineWidth": "3px",
+          "lineColor": "rgb(113, 203, 45)"
+        }
+      },
+      "primaryTopic": {
+        "contentStyle": {
+          "borderWidth": "1px",
+          "borderStyle": "solid",
+          "borderRadius": "20px",
+          "fontSize": "17px",
+          "padding": "10px 15px 10px 15px"
+        },
+        "subLinkStyle": {
+          "lineType": "curve",
+          "lineWidth": "3px",
+          "lineColor": "rgb(113, 203, 45)"
+        }
+      },
+      "normalTopic": {
+        "contentStyle": {
+          "border": "1px solid #e8eaec",
+          "borderRadius": "20px",
+          "fontSize": "17px",
+          "padding": "4px 10px"
+        },
+        "subLinkStyle": {
+          "lineType": "curve",
+          "lineWidth": "3px",
+          "lineColor": "white"
+        }
+      }
+    }
+  },
+  "formatVersion": null
+}

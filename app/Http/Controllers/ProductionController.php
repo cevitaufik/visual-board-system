@@ -180,9 +180,15 @@ class ProductionController extends Controller
                         'subprocess' => $subprocess,
                     ]);
                 } else {
+                    $currentProcess = $flow_process[array_key_last($flow_process)];
                     return view('productions.jobcard', [
                         'title' => 'Jobcard',
-                        'errorMsg' => 'Proses sudah selesai',
+                        'finishMsg' => 'Proses sudah selesai',
+                        'currentProcess' => $currentProcess,
+                        'processes' => $flow_process,
+                        'shop_order' => $shop_order,
+                        'qty' => $dataOrder->quantity,
+                        'subprocess' => $subprocess,
                     ]);
                 }
         

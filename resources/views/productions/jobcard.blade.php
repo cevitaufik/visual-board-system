@@ -21,6 +21,10 @@
 
       <h1 class="text-center pb-4">{{ $shop_order }}</h1>
 
+      @if (($finishMsg) ?? false)
+        <h3 class="text-center pb-4 text-success">{{ $finishMsg }}</h3>
+      @endif
+
       <div class="row">
 
         <div class="col-md-4 mx-0 px-0">
@@ -39,38 +43,47 @@
                 @if ($process['op_number'] == $currentProcess['op_number']) 
                   selected
                 @endif                  
-                >
-      
-                {{ $process['op_number'] . ' - ' . $process['work_center']}}
-      
+                >      
+                {{ $process['op_number'] . ' - ' . $process['work_center']}}      
               </option>        
             @endforeach
           </select>
-        </div>          
+        </div>
 
       </div>
 
       <div class="row mt-3">
         <label for="description" class="form-lable">INSTRUKSI</label>
-        <textarea name="description" id="description" rows="3" class="form-control" disabled>{{ $currentProcess['description'] }}</textarea>
+        <textarea name="description" id="description" rows="5" class="form-control" disabled>{{ $currentProcess['description'] }}</textarea>
       </div>
 
       <div class="row mt-3">
         <label for="note" class="form-lable">CATATAN</label>
-        <textarea name="note" id="note" rows="3" class="form-control"></textarea>
+        <textarea name="note" id="note" rows="5" class="form-control"></textarea>
       </div>
 
       <div class="row mt-4">
 
         @if ($currentProcess['start'])
-          <button type="submit" class="btn btn-success w-100 fs-3" name="end" value="1">FINISH</button>
+          <button type="submit" class="btn btn-success w-100 fs-3" name="end" value="1" 
+            @if (isset($finishMsg)) disabled @endif>
+            FINISH
+          </button>
         @else
           <button type="submit" class="btn btn-success w-100 fs-3" name="start" value="1">START</button>
-        @endif        
+        @endif
+
+        <button class="btn btn-warning w-100 fs-3 mt-3">TAMBAH PROSES BARU</button>
       </div>
 
     </div>
   </form>
+
+  <div class="d-none" id="description-container">
+    @foreach ($processes as $process)
+      <p id="description-{{ $process['op_number'] }}">{{ $process['description'] }}</p>
+    @endforeach
+  </div>
 
 </div>
 
@@ -78,6 +91,6 @@
 
 
 
-<script src="/js/productions/main.js"></script>
+<script src="/js/productions/jobcard.js"></script>
     
 @endsection

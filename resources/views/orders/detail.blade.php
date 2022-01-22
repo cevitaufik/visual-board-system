@@ -263,7 +263,7 @@
                         </svg>
                       </td>
                       <td>
-                        <span>{{ ($loop->first) ? $loop->parent->iteration : '' }}</span>
+                        <span>{{ ($loop->first) ? $loop->parent->index : '' }}</span>
                       </td>
                       <td>
                         <span>{{ $process['op_number'] }}</span>
