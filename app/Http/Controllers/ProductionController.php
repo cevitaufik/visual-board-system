@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Production;
+use App\Models\WorkCenter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -178,6 +179,7 @@ class ProductionController extends Controller
                         'shop_order' => $shop_order,
                         'qty' => $dataOrder->quantity,
                         'subprocess' => $subprocess,
+                        'work_center' => WorkCenter::all(),
                     ]);
                 } else {
                     $currentProcess = $flow_process[array_key_last($flow_process)];
@@ -189,6 +191,7 @@ class ProductionController extends Controller
                         'shop_order' => $shop_order,
                         'qty' => $dataOrder->quantity,
                         'subprocess' => $subprocess,
+                        'work_center' => WorkCenter::all(),
                     ]);
                 }
         
