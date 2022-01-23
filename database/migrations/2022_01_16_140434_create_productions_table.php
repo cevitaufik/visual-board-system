@@ -17,14 +17,13 @@ class CreateProductionsTable extends Migration
             $table->id();
             $table->integer('no_shop_order');
             $table->integer('subprocess');
-            $table->integer('op');
+            $table->string('op');
             $table->integer('quantity');
-            $table->integer('additional')->nullable();
             $table->string('work_center');
             $table->integer('estimation');
             $table->text('description')->nullable();
             $table->dateTime('start')->nullable();
-            $table->dateTime('finish')->nullable();
+            $table->dateTime('end')->nullable();
             $table->string('processed_by');
             $table->text('note')->nullable();
             $table->timestamps();

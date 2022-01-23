@@ -10,17 +10,6 @@ use Illuminate\Http\Request;
 
 class ProductionController extends Controller
 {
-    private $production;
-    private $order;
-    private $carbon;
-
-    function __construct() {
-        $this->production = new Production;
-        $this->order = new Order;
-        $this->carbon = new Carbon;
-    }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -43,66 +32,103 @@ class ProductionController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    private function additionalProcess($shop_order, $subprocess, $op_number): array {
+        $flow_process = unserialize(Order::getByShopOrder($shop_order)->flow_process);
+
+        $arrayKeys = array_keys($flow_process[$subprocess]);
+        $arrayKeysFiltered = [];
+
+        foreach ($arrayKeys as $key) {
+            if (str_contains($key, $op_number)) {
+                array_push($arrayKeysFiltered, $key);
+            }
+        }
+
+        $lastOP = end($arrayKeysFiltered);
+
+        if (str_contains($lastOP, '-')) {
+            $index = stripos($lastOP, '-');
+            $lastOP = substr($lastOP, ++$index);
+            $lastOP = $op_number . '-' . ++$lastOP;
+        } else {
+            $lastOP = "$lastOP-1";
+        }
+        
+        $flow_process[$subprocess][$lastOP] = null;
+        ksort($flow_process[$subprocess]);
+
+        return ['new_key' => $lastOP, 'flow_process' => $flow_process];
+    }
+    
     public function store(Request $request)
     {
         $shop_order = substr($request->shop_order, 0, 9);
         $inputSubprocess = substr($request->shop_order, 10);
         $subprocess = ($inputSubprocess != '') ? $inputSubprocess : "0";
+        $orderData = Order::getByShopOrder($shop_order);
 
-        $orderData = $this->order->getByShopOrder($shop_order);
-        $flow_process = unserialize($orderData->flow_process);
-        $flow_process[$subprocess][$request->op_number]['note'] = $request->note;
-        $flow_process[$subprocess][$request->op_number]['processed_by'] = $request->processed_by;
-        $flow_process[$subprocess][$request->op_number]['note'] = $request->note;
+        $op_number = ($request->after_op_number) ?? $request->op_number;
 
-        $work_center = $flow_process[$subprocess][$request->op_number]['work_center'];
-        $estimation = $flow_process[$subprocess][$request->op_number]['estimation'];
-        $description = $flow_process[$subprocess][$request->op_number]['description'];
+        if (isset($request->after_op_number)) {
+            $data = $this->additionalProcess($shop_order, $subprocess, $op_number);
+            $flow_process = $data['flow_process'];
+            $op_number = $data['new_key'];
+
+            $flow_process[$subprocess][$op_number]['op_number'] = $op_number;
+            $flow_process[$subprocess][$op_number]['work_center'] = $request->work_center;
+            $flow_process[$subprocess][$op_number]['description'] = $request->description;
+            $flow_process[$subprocess][$op_number]['estimation'] = 0;
+            $flow_process[$subprocess][$op_number]['end'] = null;
+        } else {
+            $flow_process = unserialize($orderData->flow_process);
+        }
+
+        $flow_process[$subprocess][$op_number]['note'] = $request->note;
+        $flow_process[$subprocess][$op_number]['processed_by'] = $request->processed_by;
+        $flow_process[$subprocess][$op_number]['qty'] = $request->qty;        
+
+        $work_center = $flow_process[$subprocess][$op_number]['work_center'];
+        $estimation = $flow_process[$subprocess][$op_number]['estimation'];
+        $description = $flow_process[$subprocess][$op_number]['description'];
 
         if($request->end) {
-            $flow_process[$subprocess][$request->op_number]['end'] = $this->carbon->timestamp;
-            $flow_process[$subprocess][$request->op_number]['status'] = 'done';
+            $flow_process[$subprocess][$op_number]['end'] = Carbon::now()->timestamp;
+            $flow_process[$subprocess][$op_number]['status'] = 'done';
         } elseif ($request->start) {
-            $flow_process[$subprocess][$request->op_number]['start'] = $this->carbon->timestamp;
-            $flow_process[$subprocess][$request->op_number]['status'] = 'on process';
-        }        
+            $flow_process[$subprocess][$op_number]['start'] = Carbon::now()->timestamp;
+            $flow_process[$subprocess][$op_number]['status'] = 'on process';
+        }
 
-        $flow_process[$subprocess][$request->op_number]['qty'] = $request->qty;
         $flow_process = serialize($flow_process);
-
-        $this->order->getByShopOrder($shop_order)->update(['flow_process' => $flow_process]);
+        Order::getByShopOrder($shop_order)->update(['flow_process' => $flow_process]);
 
         $operation = [
             'no_shop_order' => $shop_order,
             'subprocess' => $subprocess,
-            'op' => $request->op_number,
-            // 'additional' => null,
             'work_center' => $work_center,
             'estimation' => $estimation,
             'description' => $description,
             'processed_by' => $request->processed_by,
             'quantity' =>  $request->qty,
+            'note' => $request->note,
         ];
 
+        // menyimpan data ke tabel productions
         if ($request->start) {
             $operation['start'] = date("Y-m-d H:i:s");
         }
 
         if ($request->end) {
-            $operation['finish'] = date("Y-m-d H:i:s");
+            $operation['end'] = date("Y-m-d H:i:s");
         }
 
-        if ($request->note) {
-            $operation['note'] = $request->note;
+        if ($request->after_op_number) {
+            $operation['op'] = $op_number;
+        } else {
+            $operation['op'] = $request->op_number;
         }
 
-        $this->production->create($operation);
+        Production::create($operation);
 
         return redirect('/productions');
 
@@ -158,7 +184,7 @@ class ProductionController extends Controller
     public function processForm($shop_order) {
         $inputSubprocess = substr($shop_order, 10);
         $shopOrder = substr($shop_order, 0, 9);
-        $dataOrder = $this->order->getByShopOrder($shopOrder);
+        $dataOrder = Order::getByShopOrder($shopOrder);
         $subprocess = ($inputSubprocess != '') ? $inputSubprocess : "0";
 
         if ($dataOrder) {
@@ -214,4 +240,11 @@ class ProductionController extends Controller
         }
         
     }
+
+    // private function additonalProcessChecker($shop_order, $op) {
+    //     $op_number = Production::whereNo_shop_order($shop_order)->whereOp($op)->latest()->first();
+    //     return $op_number->op;
+    // }
+
+    
 }

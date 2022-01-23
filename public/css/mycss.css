@@ -45,15 +45,19 @@
 }
 
 tbody tr:hover {
-   background-color: #dadada;
-   color: #101113;
- }
+  background-color: #dadada;
+  color: #101113;
+}
 
- .my-flowprocess-content {
-   list-style-type: none;
-   margin-left: 0;
-   padding-left: 0;
- }
+.my-flowprocess-content {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.max-content {
+  width: 60px;
+}
 
 
  /* search bar */

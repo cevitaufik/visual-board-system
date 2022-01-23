@@ -12,13 +12,14 @@ let bluePrint = document.getElementById('content-blue-print').innerHTML
 let contentContainer = document.getElementById('content-container')
 let secondBluePrint = document.getElementById('second-blue-print')
 
-document.getElementById('add-process').onclick = function (event) {
-  event.preventDefault()  
+// tambah proses baru
+function addProcess() {
   secondBluePrint.innerHTML = contentContainer.innerHTML 
   contentContainer.innerHTML = bluePrint
   contentContainer.classList.remove('d-none')
 }
 
+// kembali ke form sebelumnya
 function undoForm() {
   contentContainer.innerHTML = secondBluePrint.innerHTML
   contentContainer.classList.remove('d-none')

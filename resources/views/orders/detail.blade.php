@@ -265,7 +265,7 @@
                       <td>
                         <span>{{ ($loop->first) ? $loop->parent->index : '' }}</span>
                       </td>
-                      <td>
+                      <td class="max-content">
                         <span>{{ $process['op_number'] }}</span>
                       </td>
                       <td>

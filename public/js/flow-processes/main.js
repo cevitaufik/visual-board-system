@@ -59,7 +59,6 @@ function newElement(numberRow, subprocess) {
       </div>
 
       <div class="col-1 align-self-center text-center p-1">
-        <input type="hidden" id="id" name="flow[${subprocess}][${numberRow}][id]" value="new">
         <input type="hidden" id="op_number" name="flow[${subprocess}][${numberRow}][op_number]" value="${numberRow}">
         <span class="number-row">${numberRow}</span>
       </div>

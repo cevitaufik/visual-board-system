@@ -19,14 +19,16 @@
 
     <div class="col-md-6 my-bg-element p-5 rounded mt-5">
 
-      <h1 class="text-center pb-4">{{ $shop_order }}</h1>
-
-      @if (($finishMsg) ?? false)
-        <h3 class="text-center pb-4 text-success">{{ $finishMsg }}</h3>
-      @endif
+      <h1 class="text-center pb-4">{{ $shop_order }}</h1>      
 
       <div id="content-container">
         <div class="row">
+
+          @if (($finishMsg) ?? false)
+            <div class="row">
+              <h3 class="text-center pb-4 text-success">{{ $finishMsg }}</h3>
+            </div>
+          @endif
 
           <div class="col-md-4 mx-0 px-0">
             <label for="qty" class="form-lable ps-2">QUANTITY</label>
@@ -74,7 +76,7 @@
             <button type="submit" class="btn btn-success w-100 fs-3" name="start" value="1">START</button>
           @endif
 
-          <button class="btn btn-warning w-100 fs-3 mt-3" id="add-process">TAMBAH PROSES BARU</button>
+          <span class="btn btn-warning w-100 fs-3 mt-3" onclick="addProcess()">TAMBAH PROSES BARU</span>
         </div>
       </div>
 
@@ -90,21 +92,25 @@
   <div id="content-blue-print" class="d-none">
     <div class="row">
 
+      <div class="row text-center mb-2">
+        <h3>Tambah process</h3>
+      </div>
+
       <div class="col-md-4 mx-0 px-0">
         <label for="qty" class="form-lable ps-2">QUANTITY</label>
         <input type="number" name="qty" id="qty" class="form-control" value="{{ $qty }}">
       </div>
 
       <div class="col-md-4 mx-0 px-0 ps-md-1 mt-3 mt-md-0">
-        <label for="op_number" class="form-lable ps-2">SETELAH OP</label>
-        <input type="number" name="op_number" id="op_number" class="form-control">
+        <label for="after_op_number" class="form-lable ps-2">SETELAH OP</label>
+        <input type="number" name="after_op_number" id="after_op_number" class="form-control">
       </div>
 
       <div class="col-md-4 mx-0 px-0 ps-md-1 mt-3 mt-md-0">
         <label for="work_center" class="form-lable ps-2">WORK CENTER</label>
         <select class="form-select" id="work_center" name="work_center">
           @foreach ($work_center as $wc)
-            <option value="{{ $wc->code }}">{{ $wc->code }}</option>        
+            <option value="{{ $wc->code }}">{{ $wc->code }}</option>
           @endforeach
         </select>
       </div>
