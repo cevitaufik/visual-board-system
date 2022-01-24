@@ -29,6 +29,11 @@
             <span>Daftar pengguna</span>
           </a>
         </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Kontribusi</span>
+          </a>
+        </li>
       </ul>
     </li>
 
@@ -53,6 +58,11 @@
         <li>
           <a href="/order/create" class="nav-link">
             <span>Registrasi shop order</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Kalender</span>
           </a>
         </li>
       </ul>
@@ -85,6 +95,11 @@
           <a href="/productions" class="nav-link">
             <span>Job card</span>
           </a>
+        </li>        
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Heat map</span>
+          </a>
         </li>
       </ul>
     </li>
@@ -111,24 +126,9 @@
             <span>Flow proses</span>
           </a>
         </li>
-      </ul>
-    </li>
-
-    {{-- inventory --}}
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
-          <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434L7.752.066ZM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567L4.25 7.504ZM7.5 9.933l-2.75 1.571v3.134l2.75-1.571V9.933Zm1 3.134 2.75 1.571v-3.134L8.5 9.933v3.134Zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567-2.742 1.567Zm2.242-2.433V3.504L8.5 5.076V8.21l2.75-1.572ZM7.5 8.21V5.076L4.75 3.504v3.134L7.5 8.21ZM5.258 2.643 8 4.21l2.742-1.567L8 1.076 5.258 2.643ZM15 9.933l-2.75 1.571v3.134L15 13.067V9.933ZM3.75 14.638v-3.134L1 9.933v3.134l2.75 1.571Z"/>
-        </svg>
-        <span>Inventory</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down ms-auto" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-        </svg>
-      </a>
-      <ul id="inventory-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="#" class="nav-link">
-            <span>Menu</span>
+            <span class="text-warning">Trial</span>
           </a>
         </li>
       </ul>
@@ -148,7 +148,68 @@
       <ul id="logistic-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a href="#" class="nav-link">
-            <span>Menu 1</span>
+            <span class="text-warning">Jadwal pengiriman</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    {{-- inventory --}}
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
+          <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434L7.752.066ZM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567L4.25 7.504ZM7.5 9.933l-2.75 1.571v3.134l2.75-1.571V9.933Zm1 3.134 2.75 1.571v-3.134L8.5 9.933v3.134Zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567-2.742 1.567Zm2.242-2.433V3.504L8.5 5.076V8.21l2.75-1.572ZM7.5 8.21V5.076L4.75 3.504v3.134L7.5 8.21ZM5.258 2.643 8 4.21l2.742-1.567L8 1.076 5.258 2.643ZM15 9.933l-2.75 1.571v3.134L15 13.067V9.933ZM3.75 14.638v-3.134L1 9.933v3.134l2.75 1.571Z"/>
+        </svg>
+        <span>Inventory</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down ms-auto" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </a>
+      <ul id="inventory-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Part standard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Barang jadi</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Kebutuhan produksi</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Material</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    {{-- utility --}}
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#utility-nav" data-bs-toggle="collapse" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+          <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"/>
+        </svg>
+        <span>Utility</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down ms-auto" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </a>
+      <ul id="utility-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Daftar mesin</span>
+            {{-- menampilkan daftar mesin beserta aksessori / pic / tipe oli / riwayat maintenance --}}
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Jadwal maintenance</span>
           </a>
         </li>
       </ul>

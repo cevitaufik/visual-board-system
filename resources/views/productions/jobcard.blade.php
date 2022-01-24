@@ -37,7 +37,7 @@
 
 
           <div class="col-md-8 mx-0 px-0 ps-md-1 mt-3 mt-md-0">
-            <label for="op_number" class="form-lable ps-2">OP - WORK CENTER</label>
+            <label for="op_number" class="form-lable ps-2">OP - WORKC. - STATUS - OPERATOR</label>
             <select class="form-select" id="op_number" name="op_number">
               @foreach ($processes as $process)
                 <option 
@@ -47,7 +47,12 @@
                     selected
                   @endif                  
                   >      
-                  {{ $process['op_number'] . ' - ' . $process['work_center']}}      
+                  {{ $process['op_number'] . ' - ' . $process['work_center']}}
+                  @if (isset($process['start']) && !isset($process['end']))
+                    - ON PROCESS - {{ $process['processed_by'] }}
+                  @elseif (isset($process['end']))
+                    - FINISH - {{ $process['processed_by'] }}
+                  @endif
                 </option>        
               @endforeach
             </select>
@@ -62,19 +67,21 @@
 
         <div class="row mt-3">
           <label for="note" class="form-lable">CATATAN</label>
-          <textarea name="note" id="note" rows="5" class="form-control"></textarea>
+          <textarea name="note" id="note" rows="3" class="form-control"></textarea>
         </div>
 
         <div class="row mt-4">
 
-          @if ($currentProcess['start'])
-            <button type="submit" class="btn btn-success w-100 fs-3" name="end" value="1" 
-              @if (isset($finishMsg)) disabled @endif>
-              FINISH
-            </button>
-          @else
-            <button type="submit" class="btn btn-success w-100 fs-3" name="start" value="1">START</button>
-          @endif
+          <span id="btn-container" class="m-0 p-0">
+            @if ($currentProcess['start'])
+              <button type="submit" class="btn btn-success w-100 fs-3" name="end" value="1" 
+                @if (isset($finishMsg)) disabled @endif>
+                FINISH
+              </button>
+            @else
+              <button type="submit" class="btn btn-success w-100 fs-3" name="start" value="1">START</button>
+            @endif
+          </span>
 
           <span class="btn btn-warning w-100 fs-3 mt-3" onclick="addProcess()">TAMBAH PROSES BARU</span>
         </div>
@@ -86,6 +93,21 @@
   <div class="d-none" id="description-container">
     @foreach ($processes as $process)
       <p id="description-{{ $process['op_number'] }}">{{ $process['description'] }}</p>
+    @endforeach
+  </div>
+
+  <div class="d-none">
+    @foreach ($processes as $process)
+
+      @if ($currentProcess['start'])
+        <button type="submit" class="btn btn-success w-100 fs-3" name="end" value="1" id="btn-op-{{ $process['op_number'] }}" 
+          @if ($process['end']) disabled @endif>
+          FINISH
+        </button>
+      @else
+        <button type="submit" class="btn btn-success w-100 fs-3" name="start" value="1" id="btn-op-{{ $process['op_number'] }}">START</button>
+      @endif
+
     @endforeach
   </div>
 

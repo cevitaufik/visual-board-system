@@ -10,11 +10,9 @@ use Illuminate\Http\Request;
 
 class ProductionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private string $jobcardPage = 'productions.jobcard';
+    
+    
     public function index()
     {
         return view('productions.index', [
@@ -59,6 +57,7 @@ class ProductionController extends Controller
 
         return ['new_key' => $lastOP, 'flow_process' => $flow_process];
     }
+
     
     public function store(Request $request)
     {
@@ -122,11 +121,7 @@ class ProductionController extends Controller
             $operation['end'] = date("Y-m-d H:i:s");
         }
 
-        if ($request->after_op_number) {
-            $operation['op'] = $op_number;
-        } else {
-            $operation['op'] = $request->op_number;
-        }
+        $operation['op'] = ($request->after_op_number) ? $operation['op'] = $op_number : $operation['op'] = $request->op_number;
 
         Production::create($operation);
 
@@ -179,8 +174,7 @@ class ProductionController extends Controller
         //
     }
 
-    // 220116004-7
-
+    
     public function processForm($shop_order) {
         $inputSubprocess = substr($shop_order, 10);
         $shopOrder = substr($shop_order, 0, 9);
@@ -188,51 +182,71 @@ class ProductionController extends Controller
         $subprocess = ($inputSubprocess != '') ? $inputSubprocess : "0";
 
         if ($dataOrder) {
-            if (count(unserialize($dataOrder->flow_process)) >= $subprocess) {
-                $flow_process = unserialize($dataOrder->flow_process)[$subprocess];
-                foreach ($flow_process as $index => $process) {
-                    if ($process['status'] == 'open' || $process['status'] == 'on process') {
-                        $currentProcess = $flow_process[$index];
-                        break;
-                    }
-                }
+            if ($dataOrder->flow_process) {
+                $flow_process = unserialize($dataOrder->flow_process);
 
-                if (isset($currentProcess)) {
-                    return view('productions.jobcard', [
-                        'title' => 'Jobcard - ' . $shopOrder,
-                        'currentProcess' => $currentProcess,
-                        'processes' => $flow_process,
-                        'shop_order' => $shop_order,
-                        'qty' => $dataOrder->quantity,
-                        'subprocess' => $subprocess,
-                        'work_center' => WorkCenter::all(),
-                    ]);
+                if (count($flow_process) >= $subprocess) {
+                    if (isset($flow_process[$subprocess])) {
+                        $flow_process = $flow_process[$subprocess];
+                        foreach ($flow_process as $index => $process) {
+                            if ($process['status'] == 'open' || $process['status'] == 'on process') {
+                                $currentProcess = $flow_process[$index];
+                                break;
+                            }
+                        }
+
+                        if (isset($currentProcess)) {
+                            return view($this->jobcardPage, [
+                                'title' => 'Jobcard - ' . $shopOrder,
+                                'currentProcess' => $currentProcess,
+                                'processes' => $flow_process,
+                                'shop_order' => $shop_order,
+                                'qty' => $dataOrder->quantity,
+                                'subprocess' => $subprocess,
+                                'work_center' => WorkCenter::all(),
+                            ]);
+                        } else {
+                            $currentProcess = $flow_process[array_key_last($flow_process)];
+                            return view($this->jobcardPage, [
+                                'title' => 'Jobcard',
+                                'finishMsg' => 'Proses sudah selesai',
+                                'currentProcess' => $currentProcess,
+                                'processes' => $flow_process,
+                                'shop_order' => $shop_order,
+                                'qty' => $dataOrder->quantity,
+                                'subprocess' => $subprocess,
+                                'work_center' => WorkCenter::all(),
+                            ]);
+                        }
+
+                    } else {
+                        return view($this->jobcardPage, [
+                            'title' => 'Jobcard',
+                            'errorMsg' => 'Subprocess tidak ditemukan',
+                        ]);
+                    }
+
                 } else {
-                    $currentProcess = $flow_process[array_key_last($flow_process)];
-                    return view('productions.jobcard', [
+
+                    return view($this->jobcardPage, [
                         'title' => 'Jobcard',
-                        'finishMsg' => 'Proses sudah selesai',
-                        'currentProcess' => $currentProcess,
-                        'processes' => $flow_process,
-                        'shop_order' => $shop_order,
-                        'qty' => $dataOrder->quantity,
-                        'subprocess' => $subprocess,
-                        'work_center' => WorkCenter::all(),
+                        'errorMsg' => 'Subprocess tidak ditemukan',
                     ]);
+
                 }
         
                 
             } else { 
                 
-                return view('productions.jobcard', [
+                return view($this->jobcardPage, [
                     'title' => 'Jobcard',
-                    'errorMsg' => 'Nomor SO tidak ditemukan',
+                    'errorMsg' => 'Belum ada flow process',
                 ]);
     
             }
         } else { 
                 
-            return view('productions.jobcard', [
+            return view($this->jobcardPage, [
                 'title' => 'Jobcard',
                 'errorMsg' => 'Nomor SO tidak ditemukan',
             ]);
@@ -240,11 +254,5 @@ class ProductionController extends Controller
         }
         
     }
-
-    // private function additonalProcessChecker($shop_order, $op) {
-    //     $op_number = Production::whereNo_shop_order($shop_order)->whereOp($op)->latest()->first();
-    //     return $op_number->op;
-    // }
-
     
 }
