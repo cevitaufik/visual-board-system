@@ -35,11 +35,14 @@
           <h3>{{ $user->position }}</h3>
           <p>
             @if ($user->status)
-            Aktif
+              Aktif
             @else
-            Nonaktif
+              Nonaktif
             @endif
           </p>
+
+          <h6>Kontribusi</h6>
+          <div id="contributions"></div>
         </div>
       </div>
 
@@ -361,6 +364,8 @@
     </div>
   </div>
 
+  <script src="/js/users/profile.js"></script>
+
   <script>
     let err = '{{ session()->has('errors') }}'
       $(document).ready(function() {
@@ -373,7 +378,10 @@
       $('#modal').modal('show')
     }
 
+    contribution('{{ auth()->user()->username }}')
+
   </script>
+  
 </section>
 
 @endsection

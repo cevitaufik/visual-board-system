@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Analytics\UserAnalytic;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -222,5 +223,16 @@ class UserController extends Controller
         } else {
             return redirect()->back()->with('failed', 'Poto profil gagal dihapus.');
         }
+    }
+
+    // public function contributions($username) {
+    //     $data = UserAnalytic::contributions($username);
+    //     return response()->json($data);
+    // }
+
+    public function contribution($username) {
+        $data = UserAnalytic($username);
+
+        return response()->json($data);
     }
 }

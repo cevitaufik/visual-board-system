@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/user/profile-picture', [UserController::class, 'uploadImg']);
     Route::get('/user/delete-profile-picture/{username}', [UserController::class, 'deleteImg']);
     Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword']);
+    Route::get('/user/contributions/{user:username}', [UserController::class, 'contribution']);
     Route::resource('user', UserController::class)->scoped(['user' => 'username']);
 
     Route::resource('/job-type', JobTypeController::class);
