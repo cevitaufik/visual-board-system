@@ -32,10 +32,6 @@ function createCell(inputDate, contribution, week) {
   cell.setAttribute('data-bs-toggle', 'tooltip')
   cell.setAttribute('data-bs-placement', 'top')
   cell.setAttribute('title', `${inputDate}: ${contribution}`)
-
-  console.log(`w-${week}`);
-  console.log(`d-${day}`);
-  console.log(document.querySelector(`#w-${week} .d-${day}`))
   document.querySelector(`#w-${week} .d-${day}`).append(cell)
 }
 
