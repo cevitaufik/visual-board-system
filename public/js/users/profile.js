@@ -1,59 +1,80 @@
-function createWeek(week) {
-  let row = document.createElement('div')
-  row.id = `week-${week}`
-  row.classList.add('d-flex', 'flex-row', 'mb-1')
-  document.getElementById('contributions').append(row)
+function createTR(week) {
+  let row = document.createElement('tr')
+  row.id = `w-${week}`
+
+  // 1 = senin, 2 = selasa, 0 = minggu
+  let day = [1, 2, 3, 4, 5, 6, 0]
+  day.forEach(d => {
+    let td = document.createElement('td')
+    td.classList.add(`d-${d}`)
+    row.append(td)
+  })
+
+  document.getElementById('contributions-table').append(row)
 }
 
-function createDay(data) {
+function createCell(inputDate, contribution, week) {
+  let day = new Date(inputDate)
+  day = day.getDay()
+
   let color
 
-  if (data == 0) {
+  if (contribution == 0) {
     color = 'rgba(230, 232, 230, 0.25)'
   } else {
-    color = `rgba(19, 255, 0, ${(data / 10 >= 0.25) ? data / 10 : 0.25 })`
+    color = `rgba(19, 255, 0, ${(contribution / 10 >= 0.25) ? contribution / 10 : 0.25 })`
   }
 
   let cell = document.createElement('div')
-  cell.style.width = '10px'
-  cell.style.height = '10px'
+  cell.style.width = '15px'
+  cell.style.height = '15px'
   cell.style.backgroundColor = color
-  cell.classList.add('ms-1')
   cell.setAttribute('data-bs-toggle', 'tooltip')
   cell.setAttribute('data-bs-placement', 'top')
-  cell.setAttribute('title', `${data}`)
-  return cell
+  cell.setAttribute('title', `${inputDate}: ${contribution}`)
 
+  console.log(`w-${week}`);
+  console.log(`d-${day}`);
+  console.log(document.querySelector(`#w-${week} .d-${day}`))
+  document.querySelector(`#w-${week} .d-${day}`).append(cell)
 }
 
 function contribution(username) {
-  fetch(`/user/contributions/superadmin`)
+  fetch(`/user/contributions/${username}`)
     .then(response => response.json())
     .then(data => {
+      
+      let contributions = []
+
+      for (let [key, value] of Object.entries(data)) {
+        contributions.push([key, value])
+      }
 
       let week = 1
-      data.forEach((data, index) => {
+      contributions.forEach((data, index) => {
+
+        let day = new Date(data[0])
+        day = day.getDay()
 
         if (index == 0) {
           
-          createWeek(week)
-          let cell = createDay(data)
-          document.getElementById(`week-${week}`).append(cell)
+          createTR(week)
+          createCell(data[0], data[1], week)
 
-        } else if (index % 7 == 0) {
-          
+        } else if (day == 0) {
+
           week += 1
-          createWeek(week)
-          let cell = createDay(data)
-          document.getElementById(`week-${week}`).append(cell)
-          
+          createTR(week)
+          createCell(data[0], data[1], week)
+
         } else {
-          let cell = createDay(data)
-          document.getElementById(`week-${week}`).append(cell)
+
+          createCell(data[0], data[1], week)
+
         }
 
       });
+
     })
 
-  console.log(username);
 }

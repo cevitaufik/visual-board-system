@@ -43,6 +43,19 @@
 
           <h6>Kontribusi</h6>
           <div id="contributions"></div>
+          <table id="contributions-table">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">S</th>
+                <th scope="col">S</th>
+                <th scope="col">R</th>
+                <th scope="col">K</th>
+                <th scope="col">J</th>
+                <th scope="col">S</th>
+                <th scope="col">M</th>
+              </tr>
+            </thead>
+          </table>
         </div>
       </div>
 
@@ -204,7 +217,7 @@
                   <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="username" type="text" class="form-control @error('username') is-invalid @enderror"
-                      id="username" value="{{ old('username', $user->username) }}">
+                      id="username" value="{{ old('username', $user->username) }}" disabled>
                     @error('username')
                     <div class="invalid-feedback">
                       {{ $message }}
@@ -378,7 +391,7 @@
       $('#modal').modal('show')
     }
 
-    contribution('{{ auth()->user()->username }}')
+    contribution('{{ $user->username }}')
 
   </script>
   

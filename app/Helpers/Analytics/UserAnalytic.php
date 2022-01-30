@@ -4,13 +4,33 @@ use App\Models\Production;
 
 if (!function_exists("userAnalytic")) {
   function userAnalytic($username) {
-    $output = Production::whereProcessed_by($username)
+    $data = Production::whereProcessed_by($username)
                           ->where('end', '<>', null)
                           ->orderBy('created_at', 'desc')
+                          ->limit(100)
                           ->get(['end']);
 
-    return date('d-M-Y', strtotime($output->first()->end));
-    // return gettype($output->first()->end);
-    // return [1,3, 20, 10, 4, 18, 1,3, 20, 10, 4, 18, 0, 0, 0];
+    $outputsDate = [];
+    foreach ($data as $output) {
+      array_push($outputsDate, date('d-M-Y', strtotime($output->end)));
+    }
+
+    $outputsDate = array_count_values($outputsDate);
+
+    $hundredDays = [];
+    for ($i = 0; $i < 100; $i++) {
+      array_push($hundredDays, date('d-M-Y', strtotime(now()->subDay($i))));
+    }
+
+    $outputs = [];
+    foreach ($hundredDays as $day) {
+      $outputs[$day] = 0;
+    }
+
+    foreach ($outputsDate as $key => $val) {
+      $outputs["$key"] = $val;
+    }
+
+    return $outputs;
   }
 }
