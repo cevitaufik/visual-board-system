@@ -265,7 +265,7 @@ class ProductionController extends Controller
 
     public function exportExcel()
 	{
-		return Excel::download(new ProductionExport, 'production.xlsx');
+		return Excel::download(new ProductionExport, "production " . date('Y-m-d H-i-s') . ".xlsx");
 	}
     
 }
