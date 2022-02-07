@@ -58,7 +58,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/user/profile-picture', [UserController::class, 'uploadImg']);
     Route::get('/user/delete-profile-picture/{username}', [UserController::class, 'deleteImg']);
     Route::put('/user/{user:username}/update-password', [UserController::class, 'updatePassword']);
-    Route::get('/user/contributions/{user:username}', [UserController::class, 'contribution']);
+    Route::get('/user/contributions/{user:username}', [UserController::class, 'userContributions']);
+    Route::get('/user/contributions', [UserController::class, 'contributions']);
     Route::resource('user', UserController::class)->scoped(['user' => 'username']);
 
     Route::resource('/job-type', JobTypeController::class);
@@ -99,5 +100,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/search', [SearchController::class, 'search']);
 
     Route::get('/productions/process/{shop_order}', [ProductionController::class, 'processForm']);
+    Route::get('/productions/export-excel', [ProductionController::class, 'exportExcel']);
     Route::resource('/productions', ProductionController::class);
 });

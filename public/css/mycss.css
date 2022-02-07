@@ -49,6 +49,11 @@ tbody tr:hover {
   color: #101113;
 }
 
+tbody tr:hover a {
+  background-color: #dadada;
+  color: #101113;
+}
+
 .my-flowprocess-content {
   list-style-type: none;
   margin-left: 0;

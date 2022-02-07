@@ -1,10 +1,11 @@
 <?php
 
 use App\Models\Production;
+use App\Models\User;
 
-if (!function_exists("userAnalytic")) {
-  function userAnalytic($username) {
-    $data = Production::whereProcessed_by($username)
+if (!function_exists("userContributions")) {
+  function userContributions($username) {
+    $data = Production::whereEnd_by($username)
                           ->where('end', '<>', null)
                           ->orderBy('created_at', 'desc')
                           ->limit(100)
@@ -33,4 +34,21 @@ if (!function_exists("userAnalytic")) {
 
     return $outputs;
   }
+}
+
+if (!function_exists("contributions")) {
+  function contributions() {
+    $users = User::all(['username']);
+    $dataOutput = Production::all();
+
+    $contributions = [];
+
+    foreach ($users as $user) {
+      $contributions[$user->username] = $dataOutput->where('end_by', $user->username)->count();
+    }
+
+    arsort($contributions);
+
+    return $contributions;
+  }  
 }

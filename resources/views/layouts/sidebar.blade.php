@@ -30,7 +30,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link">
+          <a href="/user/contributions" class="nav-link">
             <span class="text-warning">Kontribusi</span>
           </a>
         </li>
@@ -95,7 +95,17 @@
           <a href="/productions" class="nav-link">
             <span>Job card</span>
           </a>
-        </li>        
+        </li>
+        <li>
+          <a href="/productions/export-excel" class="nav-link">
+            <span>Export excel</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <span class="text-warning">Kalender</span>
+          </a>
+        </li>
         <li>
           <a href="#" class="nav-link">
             <span class="text-warning">Heat map</span>

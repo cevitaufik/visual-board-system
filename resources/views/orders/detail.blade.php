@@ -278,7 +278,9 @@
                         <span>{{ $process['estimation'] }}</span>
                       </td>
                       <td>
-                        <span>{{ $process['processed_by'] }}</span>
+                        @if ($process['processed_by'])
+                          <span><a href="/user/{{ $process['processed_by'] }}">{{ $process['processed_by'] }}</a></span>
+                        @endif
                       </td>
                       <td>
                         <span>{{ ($process['end']) ? round(($process['end'] - $process['start']) / 60, 0) : '' }}</span>

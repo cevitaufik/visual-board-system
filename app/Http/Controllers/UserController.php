@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Analytics\UserAnalytic;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -225,13 +224,12 @@ class UserController extends Controller
         }
     }
 
-    // public function contributions($username) {
-    //     $data = UserAnalytic::contributions($username);
-    //     return response()->json($data);
-    // }
+    public function contributions() {
+       return view('users.users-contribution', ['contributions' => contributions()]);
+    }
 
-    public function contribution($username) {
-        $data = UserAnalytic($username);
+    public function userContributions($username) {
+        $data = userContributions($username);
 
         return response()->json($data);
     }

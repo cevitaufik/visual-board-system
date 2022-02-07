@@ -7,6 +7,7 @@ use App\Models\FlowProcess;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\JobType;
+use App\Models\Production;
 use App\Models\Tool;
 use App\Models\WorkCenter;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Production::factory(50)->create();
         
         // ===============================================================================
         // user seed

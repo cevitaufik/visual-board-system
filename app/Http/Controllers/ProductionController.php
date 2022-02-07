@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductionExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Order;
 use App\Models\Production;
 use App\Models\WorkCenter;
@@ -107,23 +109,29 @@ class ProductionController extends Controller
             'work_center' => $work_center,
             'estimation' => $estimation,
             'description' => $description,
-            'processed_by' => $request->processed_by,
-            'quantity' =>  $request->qty,
             'note' => $request->note,
         ];
 
         // menyimpan data ke tabel productions
+        $operation['op'] = $op_number;
+
         if ($request->start) {
             $operation['start'] = date("Y-m-d H:i:s");
+            $operation['start_by'] = $request->processed_by;
+            $operation['quantity_start'] = $request->qty;
+            Production::create($operation);
         }
 
         if ($request->end) {
-            $operation['end'] = date("Y-m-d H:i:s");
+            Production::whereNo_shop_order($shop_order)
+                        ->whereSubprocess($subprocess)
+                        ->whereOp($op_number)
+                        ->update([
+                            'end' => date("Y-m-d H:i:s"),
+                            'quantity_end' => $request->qty,
+                            'end_by' => $request->processed_by,
+                        ]);
         }
-
-        $operation['op'] = ($request->after_op_number) ? $operation['op'] = $op_number : $operation['op'] = $request->op_number;
-
-        Production::create($operation);
 
         return redirect('/productions');
 
@@ -254,5 +262,10 @@ class ProductionController extends Controller
         }
         
     }
+
+    public function exportExcel()
+	{
+		return Excel::download(new ProductionExport, 'production.xlsx');
+	}
     
 }
