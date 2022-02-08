@@ -13,37 +13,9 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('job_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->string('description');
-            $table->timestamps();
-        });
-
-        Schema::create('tools', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('cust_code');
-            $table->string('code');
-            $table->string('description')->nullable();
-            $table->string('drawing')->unique();
-            $table->string('status')->nullable();
-            $table->string('note')->nullable();
-            $table->string('dwg_production')->nullable();
-            $table->string('dwg_customer')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('flow_processes', function (Blueprint $table) {
-            $table->id();
-            $table->string('no_drawing');
-            $table->text('process');
-            $table->timestamps();
-
-            // membuat composite key
-            // $table->unique(['no_drawing', 'op_number'], 'process_unique');
-
-            $table->foreign('no_drawing')->references('drawing')->on('tools')->onDelete('cascade')->onUpdate('cascade');
-        });
+        CreateJobTypesTable::createTable();
+        CreateToolsTable::crecreateTable();
+        CreateFlowProcessesTable::createTable();
 
         Schema::create('orders', function (Blueprint $table) {
             $table->id();

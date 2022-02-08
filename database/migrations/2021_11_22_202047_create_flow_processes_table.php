@@ -28,4 +28,15 @@ class CreateFlowProcessesTable extends Migration
     {
         // Schema::dropIfExists('flow_processes');
     }
+
+    public static function createTable() {
+        Schema::create('flow_processes', function (Blueprint $table) {
+            $table->id();
+            $table->string('no_drawing');
+            $table->text('process');
+            $table->timestamps();
+            $table->foreign('no_drawing')->references('drawing')->on('tools')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+    }
 }
