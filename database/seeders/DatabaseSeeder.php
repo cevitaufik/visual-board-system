@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
                             [
                                 'username' => 'marketing',
                                 'position' => 'marketing',
-                                'profile_img' => 'profile_image/marketing.jpg',
+                                'profile_img' => 'profile_image/marketing.png',
                             ];
                             break;
                         case 3:
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
                             [
                                 'username' => 'ppic',
                                 'position' => 'ppic',
-                                'profile_img' => 'profile_image/ppic.jpg',
+                                'profile_img' => 'profile_image/ppic.png',
                             ];
                             break;
                         case 4:
@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
                             [
                                 'username' => 'operator',
                                 'position' => 'operator',
+                                'profile_img' => 'profile_image/operator.jpg',
                             ];
                             break;
                         default:
