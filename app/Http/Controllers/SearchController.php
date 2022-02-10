@@ -6,7 +6,6 @@ use App\Models\Customer;
 use App\Models\JobType;
 use App\Models\Order;
 use App\Models\Tool;
-use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
@@ -14,7 +13,7 @@ class SearchController extends Controller
     private string $keyword;
 
     function __construct(){
-        $this->filter = request('filter');
+        $this->filter = (request('filter')) ?? 'order';
         $this->keyword = (request('keyword')) ?? '';
     }
 
