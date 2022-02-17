@@ -1,0 +1,67 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"Askara API",
+      "description": "Sebuah software yang digunakan untuk mengatur pekerjaan, memonitor pekerjaan yang sedang berjalan, memonitor stock, dll",
+      "contact": {
+        "name": "Cevi taufik",
+        "url": "https://cevitaufik.my.id",
+        "email": "cevitaufik@gmail.com"
+      },
+      "version": "1.0"
+    },
+    "servers": [
+      {
+        "url":"http://visual-board-system.test",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/login" : {
+        "get":{
+          "description": "Halaman login, halaman yang pertama kali di akses oleh user.",
+          "responses": {
+            "200":{
+              "description": "OK"
+            }
+          }
+        },
+        "post":{
+          "description": "Melakukan login",
+          "responses": {
+            "200":{
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/register": {
+        "get": {
+          "description": "Menampilkan halaman regustrasi user",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        },
+        "post":{
+          "description": "Melakukan registrasi",
+          "responses": {
+            "200":{
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/logout": {
+        "get": {
+          "description": "Melakukan logout",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      }
+    }
+  }
