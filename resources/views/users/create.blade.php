@@ -95,30 +95,43 @@
           <option class="text-black" @if (old('position')=='sales' ) selected @endif value="sales">Sales</option>
         </select>
       </div>
+
       <div>
-        <p class="mb-1">Tambahan hak akses</p>
+        <h4 class="mb-1 text-center mt-2 border-top pt-2">Hak akses</h4>
+        <h5>Pengguna</h5>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="opm" id="opm" name="access[0]" 
-          @if (old('access.0') == 'opm' ) checked @endif>
-          <label class="form-check-label" for="opm">
-            Monitoring pekerjaan
+          <input class="form-check-input" type="checkbox" value="user-viewAny" id="user-viewAny" name="role[0]" 
+          @if (old('role.0') == 'user-viewAny' ) checked @endif>
+          <label class="form-check-label" for="user-viewAny">
+            Melihat daftar pengguna
           </label>
         </div>
+
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="utility" id="utility" name="access[1]" 
-          @if (old('access.1') == 'utility' ) checked @endif>
-          <label class="form-check-label" for="utility">
-            Utility
+          <input class="form-check-input" type="checkbox" value="user-create" id="user-create" name="role[1]" 
+          @if (old('role.1') == 'user-create' ) checked @endif>
+          <label class="form-check-label" for="user-create">
+            Membuat akun pengguna baru
           </label>
         </div>
+
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="stock part standar" id="stockPartStandar"
-            name="access[2]" @if (old('access.2') == 'stock part standar' ) checked @endif>
-          <label class="form-check-label" for="stockPartStandar">
-            Stock part standar
+          <input class="form-check-input" type="checkbox" value="user-update" id="user-update" name="role[2]" 
+          @if (old('role.2') == 'user-update' ) checked @endif>
+          <label class="form-check-label" for="user-update">
+            Memperbarui data pengguna
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="user-delete" id="user-delete" name="role[3]" 
+          @if (old('role.3') == 'user-delete' ) checked @endif>
+          <label class="form-check-label" for="user-delete">
+            Menghapus pengguna
           </label>
         </div>
       </div>
+
       <div class="col-12">
         <button type="submit" class="btn btn-primary d-block ms-auto px-5">Buat</button>
       </div>

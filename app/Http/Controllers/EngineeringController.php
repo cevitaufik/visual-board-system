@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Engineering;
 use App\Models\Order;
+use App\Models\JobType;
+use App\Models\Engineering;
 use Illuminate\Http\Request;
 
 class EngineeringController extends Controller
@@ -19,9 +20,10 @@ class EngineeringController extends Controller
 
             return view('dashboard', [
                 'orders' => Order::where('current_process', '=', 'eng')
-                ->orWhere('current_process', '=', null)
-                ->latest()
-                ->get(),
+                                ->orWhere('current_process', '=', null)
+                                ->latest()
+                                ->get(),
+                'jobTypes' => JobType::all(['code']),
             ]);
             
         } else {

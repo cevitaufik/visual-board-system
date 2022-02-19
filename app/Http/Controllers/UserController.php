@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     public function index()
     {
-        if(auth()->user()->position != 'superadmin') {
-            $route = '/user/' . auth()->user()->username;
-            return redirect($route);
+        if(! Gate::allows('view-all-users')) {
+            return redirect('/' . auth()->user()->position);
         }
 
         return view('users.index', [
@@ -24,9 +24,8 @@ class UserController extends Controller
 
     public function create()
     {
-        if(auth()->user()->position != 'superadmin') {
-            $route = '/user/' . auth()->user()->username;
-            return redirect($route);
+        if(! Gate::allows('create-users')) {
+            return redirect('/' . auth()->user()->position);
         }
 
         return view('users.create');
@@ -53,7 +52,13 @@ class UserController extends Controller
         }
 
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['access'] = $request['access'];
+        
+        if ($request['role']) {
+            $validatedData['role'] = implode(',', $request['role']);
+        } else {
+            $validatedData['role'] = null;
+        }
+
         User::create($validatedData);
 
         return redirect('/user')->with('success', 'Registrasi berhasil');
@@ -68,9 +73,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        if(auth()->user()->position != 'superadmin') {
-            $route = '/user/' . auth()->user()->username;
-            return redirect($route);
+        if(! Gate::allows('update-users')) {
+            return redirect('/' . auth()->user()->position);
         }
         
         return view('users.edit', [
@@ -102,7 +106,12 @@ class UserController extends Controller
         }
 
         $validatedData = $request->validate($rules);
-        $validatedData['access'] = $request['access'];
+
+        if ($request['role']) {
+            $validatedData['role'] = implode(',', $request['role']);
+        } else {
+            $validatedData['role'] = null;
+        }
         
         (isset($request['status'])) ? $validatedData['status'] = $request['status'] : $validatedData['status'] = 0;
 
@@ -130,6 +139,9 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if(! Gate::allows('update-users')) {
+            return redirect('/' . auth()->user()->position);
+        }
         User::destroy($user->id);
         return redirect('/user');
     }
