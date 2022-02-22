@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EngineeringController;
 use App\Http\Controllers\FlowProcessController;
 use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\MarketingController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -115,4 +116,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/productions/process/{shop_order}', [ProductionController::class, 'processForm']);
     Route::get('/productions/export-excel', [ProductionController::class, 'exportExcel']);
     Route::resource('/productions', ProductionController::class);
+
+    Route::controller(MailController::class)->group(function() {
+        Route::get('/send-email', 'confirmation');
+        // el;6CybZZG9~
+    });
 });
