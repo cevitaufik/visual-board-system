@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Mail;
 class MailController extends Controller
 {
     public function confirmation() {
-        $detailS = [
+        $message = [
             'title' => 'Email konfirmasi',
-            'body' => 'ini adalah email konfirmasi'
+            'body' => 'Ini adalah email konfirmasi.'
         ];
 
-        Mail::to('cevitaufik@gmail.com')->send(new SystemMail($detailS));
+        Mail::to('cevitaufik@gmail.com')->queue(new SystemMail($message));
+        // return new SystemMail($message);
     }
 }

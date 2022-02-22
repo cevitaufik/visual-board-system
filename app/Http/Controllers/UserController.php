@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -190,7 +191,13 @@ class UserController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
         User::create($validatedData);
 
-        return redirect('/login')->with('success', 'Registrasi berhasil');
+        $user = User::whereUsername($request->username)->latest()->first();
+        event(new Registered($user));
+
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect('/' . auth()->user()->position)->with('success', 'Registrasi berhasil silahkan verifikasi email Anda, dengan mengklik tautan yang kami kirim ke alamat email Anda.');
+        }
     }
 
     public function updatePassword(Request $request, User $user) {

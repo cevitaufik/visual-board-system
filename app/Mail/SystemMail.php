@@ -11,16 +11,16 @@ class SystemMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $detailS;
+    public $message;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($detailS)
+    public function __construct($message)
     {
-        $this->detailS = $detailS;
+        $this->message = $message;
     }
 
     /**
@@ -30,6 +30,6 @@ class SystemMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.confirmation', ['details' => $this->detailS]);
+        return $this->view('emails.confirmation', ['msg' => $this->message]);
     }
 }

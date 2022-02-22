@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\EngineeringController;
-use App\Http\Controllers\FlowProcessController;
-use App\Http\Controllers\JobTypeController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\MarketingController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductionController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MarketingController;
+use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\WorkCenterController;
+use App\Http\Controllers\EngineeringController;
+use App\Http\Controllers\FlowProcessController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,6 +120,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(MailController::class)->group(function() {
         Route::get('/send-email', 'confirmation');
-        // el;6CybZZG9~
     });
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
