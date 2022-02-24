@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MailController;
@@ -40,15 +41,6 @@ Route::get('/user/superadmin', function(){
     ]);
 });
 
-Route::controller(UserController::class)->group(function () {
-    Route::get('/login', 'login')->name('login')->middleware('guest');
-    Route::post('/login', 'authenticate');
-
-    Route::get('/register', 'register')->middleware('guest');
-    Route::post('/register', 'userRegister');
-    Route::get('/logout', 'logout');
-});
-
 Route::controller(TestController::class)->group(function () {
     Route::get('/scan', 'index');
     Route::get('/qr', 'qrIndex');
@@ -64,7 +56,6 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::patch('/user/profile-picture', 'uploadImg');
         Route::get('/user/delete-profile-picture/{username}', 'deleteImg');
-        Route::put('/user/{user:username}/update-password', 'updatePassword');
         Route::get('/user/contributions/{user:username}', 'userContributions');
         Route::get('/user/contributions', 'contributions');
     });
@@ -123,12 +114,24 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
+Route::controller(AuthController::class)->group(function() {
+    Route::get('/forgot-password', 'forgotPasswordForm')->middleware('guest')->name('password.request');
+    Route::post('/forgot-password', 'forgotPassword')->middleware('guest')->name('password.email');
+    Route::get('/reset-password/{token}', 'resetPasswordForm');
+    Route::post('/reset-password', 'resetPassword');
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
- 
-    return redirect('/home');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+    // verifikasi alamat email
+    Route::get('/email/verify', 'emailVerify')->middleware('auth')->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', 'emailVerificationRequest')
+            ->middleware(['auth', 'signed'])->name('verification.verify');
+
+    Route::get('/login', 'login')->name('login')->middleware('guest');
+    Route::post('/login', 'authenticate');
+    Route::get('/logout', 'logout');
+
+    Route::get('/register', 'registerForm')->middleware('guest');
+    Route::post('/register', 'register');
+
+    Route::put('/user/{user:username}/update-password', 'updatePassword');
+
+});

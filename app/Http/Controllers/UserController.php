@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -147,74 +145,6 @@ class UserController extends Controller
         return redirect('/user');
     }
 
-    public function login() {
-        return view('users.login');
-    }
-
-    public function authenticate(Request $request) {
-
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
-        ]);
-
-        $remember = $request['remember'] ? true : false;
-
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            $route = '/' . auth()->user()->position;
-            return redirect($route);
-        }
-
-        return redirect('/login')->with('failed', 'Login gagal');
-    }
-
-    public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
-    }
-
-    public function register() {
-        return view('users.register');
-    }
-
-    public function userRegister(Request $request) {
-        $validatedData = $request->validate([
-            'name' => ['required', 'max:255'],
-            'username' => ['required', 'min:4', 'max:255', 'unique:users'],
-            'email' => ['required', 'email:dns', 'unique:users'],
-            'password' => ['required', 'min:5', 'max:255', 'confirmed']
-        ]);
-
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        User::create($validatedData);
-
-        $user = User::whereUsername($request->username)->latest()->first();
-        event(new Registered($user));
-
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            $request->session()->regenerate();
-            return redirect('/' . auth()->user()->position)->with('success', 'Registrasi berhasil silahkan verifikasi email Anda, dengan mengklik tautan yang kami kirim ke alamat email Anda.');
-        }
-    }
-
-    public function updatePassword(Request $request, User $user) {
-        $route = '/user/' . auth()->user()->username;
-        if (Hash::check($request->currentPassword, auth()->user()->password)) {
-            $validatedData = $request->validate([
-                'password' => ['required', 'min:5', 'max:255', 'confirmed']
-            ]);
-            
-            $validatedData['password'] = Hash::make($validatedData['password']);
-            User::where('id', $user->id)->update($validatedData);
-
-            return redirect($route)->with('success', 'Password berhasil diperbarui');
-        } else {
-            return redirect($route)->with('failed', 'Password gagal diperbarui');
-        }        
-    }
 
     public function uploadImg(Request $request) {
         $rules = [
