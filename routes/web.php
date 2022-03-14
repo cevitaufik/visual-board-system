@@ -17,6 +17,7 @@ use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\WorkCenterController;
 use App\Http\Controllers\EngineeringController;
 use App\Http\Controllers\FlowProcessController;
+use App\Http\Controllers\TelegramController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -134,4 +135,12 @@ Route::controller(AuthController::class)->group(function() {
 
     Route::put('/user/{user:username}/update-password', 'updatePassword');
 
+});
+
+
+Route::controller(TelegramController::class)->group(function () {
+    Route::get('/telegram/messages', 'messages');
+    Route::get('/telegram/sendMessage/{id}', 'sendMessage');
+
+    Route::post('/bf9yXfMVxc43Z5TVF54kcujAJG4sRQ7JTG5udmCw3Ts3mrEwqHBCM8Mx6kFzTQcj/webhook', 'webhook');
 });

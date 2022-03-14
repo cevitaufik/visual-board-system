@@ -9,6 +9,7 @@
         "ext-gd": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "irazasyed/telegram-bot-sdk": "^3.5",
         "itsgoingd/clockwork": "^5.1",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.11",

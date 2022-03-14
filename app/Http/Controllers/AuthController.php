@@ -72,9 +72,12 @@ class AuthController extends Controller
 
         Mail::to($request->email)->queue(new PasswordResetMail($message));
 
-        dd($message);
-
-        return 'sukses';
+        // berbaiki returnnya !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // berbaiki returnnya !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // berbaiki returnnya !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // berbaiki returnnya !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // berbaiki returnnya !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return 'Sukses. silahkan cek email anda.';
     }
 
 
@@ -108,7 +111,8 @@ class AuthController extends Controller
     public function emailVerificationRequest(EmailVerificationRequest $request) {
         $request->fulfill();
  
-        return redirect('/');
+        return redirect('/user/' . auth()->user()->username)
+                ->with('success', 'Email anda berhasil di verifikasi.');
     }
 
 
