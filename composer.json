@@ -32,7 +32,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Analytics/UserAnalytic.php"
+            "app/Helpers/Analytics/UserAnalytic.php",
+            "app/Helpers/Telegram/Commands.php"
         ]
     },
     "autoload-dev": {

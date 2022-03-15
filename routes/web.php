@@ -141,6 +141,8 @@ Route::controller(AuthController::class)->group(function() {
 Route::controller(TelegramController::class)->group(function () {
     Route::get('/telegram/messages', 'messages');
     Route::get('/telegram/sendMessage/{id}', 'sendMessage');
+    Route::get('/telegram/set-webhook', 'setWebhook');
+    Route::get('/telegram/remove-webhook', 'removeWebhook');
 
-    Route::post('/bf9yXfMVxc43Z5TVF54kcujAJG4sRQ7JTG5udmCw3Ts3mrEwqHBCM8Mx6kFzTQcj/webhook', 'webhook');
+    Route::post('/telegram/{token}/webhook', 'autoResponse');
 });
