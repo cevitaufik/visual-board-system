@@ -140,7 +140,7 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(TelegramController::class)->group(function () {
     Route::get('/telegram/messages', 'messages');
-    Route::get('/telegram/sendMessage/{id}', 'sendMessage');
+    Route::get('/telegram/send-message/{id}', 'sendMessage');
     Route::get('/telegram/set-webhook', 'setWebhook');
     Route::get('/telegram/remove-webhook', 'removeWebhook');
 

@@ -59,8 +59,8 @@ class TelegramController extends Controller
     // membuat webhook
     public function setWebhook() {
         $this->telegram->setWebhook([
-            // 'url' =>  env('APP_URL') . '/telegram/bf9yXfMVxc43Z5TVF54kcujAJG4sRQ7JTG5udmCw3Ts3mrEwqHBCM8Mx6kFzTQcj/webhook'
-            'url' =>  env('URL_NGROK') . '/telegram/bf9yXfMVxc43Z5TVF54kcujAJG4sRQ7JTG5udmCw3Ts3mrEwqHBCM8Mx6kFzTQcj/webhook'
+            'url' =>  env('APP_URL') . '/telegram/bf9yXfMVxc43Z5TVF54kcujAJG4sRQ7JTG5udmCw3Ts3mrEwqHBCM8Mx6kFzTQcj/webhook'
+            // 'url' =>  env('URL_NGROK') . '/telegram/bf9yXfMVxc43Z5TVF54kcujAJG4sRQ7JTG5udmCw3Ts3mrEwqHBCM8Mx6kFzTQcj/webhook'
         ]);
 
         return ['message' => 'Webhook telah di setting'];
@@ -74,16 +74,44 @@ class TelegramController extends Controller
 
     // penjawab otomatis
     public function autoResponse($token, Request $request) {
-
         $id = $request['message']['from']['id'];
-        $text = substr($request['message']['text'], 1);
-        $textExploded = explode(' ', $text);
+        $text = $request['message']['text'];
+        $message_id = $request['message']['message_id'];
 
-        $reply = new TelegramCommands($textExploded[0], $textExploded[1]);
+        if($text[0] == '/') {
+            $text = substr($text, 1);
+            $textExploded = explode(' ', $text);
 
+            if (isset($textExploded[1])) {
+                $reply = new TelegramCommands($textExploded[0], $textExploded[1]);
+                $this->sendMsg($id, $reply->text(), $message_id);
+            } else if (!isset($textExploded[1]) && $textExploded[0] == 'help') {
+                $reply = new TelegramCommands($textExploded[0], '');
+                $this->sendMsg($id, $reply->text(), $message_id);
+            } else {
+                $text = 'Perintah tidak ditemukan. Gunakan perintah /help untuk melihat daftar perintah.';
+                $this->sendMsg($id, $text, $message_id);
+            }
+
+        } else {
+            $text = 'Perintah tidak dikenal. Awali perintah dengan tanda "/" diikuti dengan kata kunci perintahnya. Gunakan perintah /help untuk melihat daftar perintah.';
+            $this->sendMsg($id, $text, $message_id);
+        }
+
+        // jalankan script dibawah dan matikan script diats jika terjadi error
+        // $this->telegram->sendMessage([
+        //     'chat_id' => $id, 
+        //     'text' => 'Perintah tidak dikenal. Awali perintah dengan tanda "/" diikuti dengan kata kunci perintahnya.',
+        //     'reply_to_message_id' => $message_id,
+        // ]);
+    }
+
+    private function sendMsg($id, $text, $msgId) {
         $this->telegram->sendMessage([
-                    'chat_id' => $id, 
-                    'text' => $reply->text(),
-                ]);
+            'chat_id' => $id, 
+            'text' => $text,
+            'reply_to_message_id' => $msgId,
+            // 'parse_mode' => 'MarkdownV2',
+        ]);
     }
 }
