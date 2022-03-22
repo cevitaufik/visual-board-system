@@ -10,6 +10,8 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    // function userHasRole() ada pada folder app/Helpers/Auth/Policies.php
+
     /**
      * Determine whether the user can view any models.
      *
@@ -18,7 +20,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return Str::contains($user->role, 'user-viewAny');
+        return userHasRole($user, 'user-viewAny');
     }
 
     /**
@@ -41,7 +43,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return Str::contains($user->role, 'user-create');
+        return userHasRole($user, 'user-create');
     }
 
     /**
@@ -53,7 +55,7 @@ class UserPolicy
      */
     public function update(User $user)
     {
-        return Str::contains($user->role, 'user-update');
+        return userHasRole($user, 'user-update');
     }
 
     /**
@@ -65,7 +67,7 @@ class UserPolicy
      */
     public function delete(User $user)
     {
-        return Str::contains($user->role, 'user-delete');
+        return userHasRole($user, 'user-delete');
     }
 
 }

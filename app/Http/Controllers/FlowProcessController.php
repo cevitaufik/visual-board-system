@@ -150,7 +150,7 @@ class FlowProcessController extends Controller
     }
 
     public function print($shop_order) {
-        return view('flow-processes.print', ['order' => Order::getByShopOrder($shop_order)]);
+        return view('flow-processes.print-wo', ['order' => Order::getByShopOrder($shop_order)]);
     }
 
 
@@ -158,6 +158,22 @@ class FlowProcessController extends Controller
         Order::getByShopOrder($shop_order)->update(['flow_process' => null]);
         return back()->with('success', 'Flow proses berhasil di hapus.');
     }
+
+
+    public function bulkPrintWO(Request $request) {
+
+        $shopOrders = rtrim($request->shop_orders, ',');
+        $shopOrders = explode(',', $shopOrders);
+
+        $orders = Order::all();
+        $flow_process = [];
+
+        foreach ($shopOrders as $so) {
+            array_push($flow_process, $orders->where('shop_order', $so)->first());
+        }
+
+        return view('flow-processes.print', ['orders' => $flow_process]);
+    }    
 }
 
 // $data = [

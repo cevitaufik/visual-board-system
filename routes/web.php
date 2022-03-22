@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/flow-process/copy/{shop_order}', 'copyFlowProcessFromMaster');
         Route::get('/flow-process/print/{shop_order}', 'print');
         Route::get('/flow-process/delete/{shop_order}', 'deleteFlowProcess');
+        Route::post('/flow-process/bulk-print-wo', 'bulkPrintWO');        
     });
     
     Route::resource('/flow-process', FlowProcessController::class);
@@ -101,8 +102,11 @@ Route::middleware(['auth'])->group(function () {
     
     Route::resource('/customer', CustomerController::class)->scoped(['customer' => 'code']);
 
-    Route::get('/order/print-label/{shop_order}', [OrderController::class, 'printLabel']);
-    Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/order/print-label/{shop_order}', 'printLabel');
+        Route::post('/order/bulk-print-label', 'bulkPrintLabel');        
+    });
+    Route::resource('/order', OrderController::class)->scoped(['order' => 'shop_order']);    
 
     Route::get('/search', [SearchController::class, 'search']);
 

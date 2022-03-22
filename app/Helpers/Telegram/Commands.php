@@ -49,7 +49,7 @@ class TelegramCommands {
     $response = '';
 
     foreach ($this->commands as $command => $description) {
-      $response .= '/' . $command . ' - ' . $description . PHP_EOL;
+      $response .= '/<b>' . $command . '</b> - ' . $description . PHP_EOL;
     }
 
     $response .= PHP_EOL;

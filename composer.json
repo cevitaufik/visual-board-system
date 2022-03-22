@@ -33,7 +33,8 @@
         },
         "files": [
             "app/Helpers/Analytics/UserAnalytic.php",
-            "app/Helpers/Telegram/Commands.php"
+            "app/Helpers/Telegram/Commands.php",
+            "app/Helpers/Auth/Policies.php"
         ]
     },
     "autoload-dev": {

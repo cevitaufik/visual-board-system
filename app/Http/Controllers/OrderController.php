@@ -190,4 +190,37 @@ class OrderController extends Controller
             'due_date' => date('d-M-Y', strtotime($order->due_date))
         ]);
     }
+
+
+    public function bulkPrintLabel(Request $request) {
+        
+        $shopOrders = rtrim($request->shop_orders, ',');
+        $shopOrders = explode(',', $shopOrders);
+        $orders = Order::all();
+        $labels = [];
+
+        foreach ($shopOrders as $so) {
+            $order = $orders->where('shop_order', $so)->first();
+            $flow_process = unserialize($order->flow_process);
+            $label = [];
+
+            if (count($flow_process) > 1) {
+                foreach ($flow_process as $key => $proces) {
+                    $label['shop_order'] = "$so-$key";
+                    $label['cust_code'] = $order->cust_code;
+                    $label['due_date'] = date('d-M-Y', strtotime($order->due_date));
+
+                    array_push($labels, $label);
+                }
+            } else {
+                $label['shop_order'] = $so;
+                $label['cust_code'] = $order->cust_code;
+                $label['due_date'] = date('d-M-Y', strtotime($order->due_date));
+
+                array_push($labels, $label);
+            }
+        }
+
+        return view('orders.bulk-print-label', ['labels' => $labels]);
+    }
 }

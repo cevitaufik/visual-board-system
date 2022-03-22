@@ -1,3 +1,17 @@
+@php
+  
+  $SOHasFlowProcess = '';
+
+  if($orders) {
+    foreach ($orders as $order) {
+      if ($order->flow_process) {
+        $SOHasFlowProcess .= $order->shop_order . ',';
+      }
+    }
+  }
+
+@endphp
+
 @extends('layouts.main')
 @section('main')
 @include('layouts.sidebar')
@@ -6,6 +20,27 @@
   <h1>Dashboard</h1>
   <input type="hidden" id="user-position" value="{{ auth()->user()->position }}">
 </div><!-- End Page Title -->
+
+<div class="row">
+  <div class="col">
+    <form action="/flow-process/bulk-print-wo" method="post">
+      @csrf
+      <input type="hidden" name="shop_orders" value="{{ $SOHasFlowProcess }}">
+      <button type="submit" class="btn btn-primary my-3" formtarget="_blank">
+        Bulk print WO
+      </button>
+    </form>
+  </div>
+  <div class="col">
+    <form action="/order/bulk-print-label" method="post">
+      @csrf
+      <input type="hidden" name="shop_orders" value="{{ $SOHasFlowProcess }}">
+      <button type="submit" class="btn btn-primary my-3" formtarget="_blank">
+        Bulk print label
+      </button>
+    </form>
+  </div>
+</div>
 
 <section class="section dashboard">
   <div class="row">
@@ -55,6 +90,7 @@
                       <th scope="col">Posisi</th>
                       <th scope="col">Status dwg.</th>
                       <th scope="col">Nomor drawing</th>
+                      <th scope="col">Flow process</th>
                     </tr>
                   </thead>
                   <tbody id="table-data">
@@ -84,6 +120,15 @@
                         @endif
                       </td>
                       <td>{{ $order->no_drawing }}</td>
+                      <td>
+                        @if ($order->flow_process)
+                          <span class="text-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                            </svg>
+                          </span>
+                        @endif
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>

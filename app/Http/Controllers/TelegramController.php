@@ -111,7 +111,7 @@ class TelegramController extends Controller
             'chat_id' => $id, 
             'text' => $text,
             'reply_to_message_id' => $msgId,
-            // 'parse_mode' => 'MarkdownV2',
+            'parse_mode' => 'html',
         ]);
     }
 }
